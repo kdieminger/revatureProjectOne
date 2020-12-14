@@ -12,8 +12,4 @@ This is Robert, and I enjoy hockey.
 
 
 This is Janine and I enjoy reading books.
-<<<<<<< HEAD
 My name is Kirsten, I enjoy playing video games and petting cats.
-=======
-Hello, Nilam here, I like to read
->>>>>>> 335cc6daedfa6fbd3caa72e777a30d603caf5ace
