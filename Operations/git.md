@@ -25,6 +25,7 @@ Clone remote repository to our local machine:
 * `git push origin {branchname}` - pushes commits to the branch.
 * `git checkout {branchname}` and `git checkout -b {branchname}`
 * `git pull origin {branchname}` - pulls commits from remote to local.
+* `git fetch` - checks remote repo for branches not present in local repo.
 
 ## Definitions
 ### Branches
@@ -38,9 +39,6 @@ Commits to the same file/lines from different branches or local repositories can
 This should do it.
 
 This should disappear when I switch back to master.
-<<<<<<< HEAD
 Trying to create another merge conflict.
-=======
 No, *it is I who creates conflict*
->>>>>>> 0aa3cf1e28c6dc2d797e6f32a4f2d6c7e07ea4d3
 Writing something in master.
