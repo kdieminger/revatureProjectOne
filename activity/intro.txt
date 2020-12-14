@@ -32,7 +32,7 @@ Tyler. I like Video Editing.
   origin/mchauhan
   origin/mthurlapati
   origin/nia
-  origin/nnguyen
+  origin/nnguyen Hi, my name is Nina, and I love playing video games.
   origin/rorr
   origin/rthompson
   origin/salman
