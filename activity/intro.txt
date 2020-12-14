@@ -8,7 +8,7 @@ This is Janine and I enjoy reading books.
 This is Robert, and I enjoy hockey.
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
-Hello, I'm Medbh, I don't like merge conflicts
+Hello, I'm Medbh, I like D&D, running, and cats.
 Tyler. I like Video Editing.
 
   origin/AN
@@ -39,5 +39,5 @@ Tyler. I like Video Editing.
   origin/salman2
   origin/tgatling
   origin/thorn Hi this is Tyler, I like video editing.
-  origin/twilliams
+  origin/twilliams Hello, my name is Tashika and I like to cook.
   origin/ywang
