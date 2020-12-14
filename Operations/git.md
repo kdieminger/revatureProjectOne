@@ -31,7 +31,10 @@ Clone remote repository to our local machine:
 A collection of commits in the repository. It tracks changes as a modification of a "base" branch.
 ### Commits
 A Commit is a group or subset of changes to the repository that can pushed or pulled from the remote repository and allows us to modify the repository.
+### Merge Conflict
+Commits to the same file/lines from different branches or local repositories can result in a merge conflict that has to be resolved manually.
 
+# Playground
 This should do it.
 
 This should disappear when I switch back to master.
