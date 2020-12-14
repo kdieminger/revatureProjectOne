@@ -14,7 +14,36 @@ This is Robert, and I enjoy hockey.
 
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
+Hello, I'm Medbh, I like D&D, running, and cats.
+Tyler. I like Video Editing.
 
-
-This is Salman
-Hello, I'm Medbh, I don't like merge conflicts
+  origin/AN
+  origin/Emily
+  origin/HEAD -> origin/master
+  origin/cenciso This is Cynthia, hello everyone! I like to exercise and read.
+  origin/cterry This is Cassandra aka Cassie. I like to sing and do skits.
+  origin/damini
+  origin/ddowning
+  origin/jdawson Hello I'm Jonathan. I like to travel. I would like to go to New Zealand.
+  origin/jgeraldizo
+  origin/jgraham
+  origin/jtater
+  origin/jwoo
+  origin/kclark
+  origin/kdieminger
+  origin/kwood Hello, I'm Kirsten. I enjoy video games and petting cats.
+  origin/lmoore
+  origin/maddie
+  origin/master
+  origin/mchauhan
+  origin/mthurlapati hi this is Madhavi. I love cooking
+  origin/nia
+  origin/nnguyen Hi, my name is Nina, and I love playing video games.
+  origin/rorr
+  origin/rthompson
+  origin/salman Hello Wrold
+  origin/salman2
+  origin/tgatling
+  origin/thorn Hi this is Tyler, I like video editing.
+  origin/twilliams Hello, my name is Tashika and I like to cook.
+  origin/ywang
