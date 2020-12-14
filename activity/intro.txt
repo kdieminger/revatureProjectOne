@@ -9,9 +9,7 @@ This is Robert, and I enjoy hockey.
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
 Hello, I'm Medbh, I don't like merge conflicts
-<<<<<<< HEAD
 Tyler. I like Video Editing.
-=======
 
   origin/AN
   origin/Emily
@@ -43,4 +41,3 @@ Tyler. I like Video Editing.
   origin/thorn Hi this is Tyler, I like video editing.
   origin/twilliams
   origin/ywang
->>>>>>> baaed3a630a2bcaf2b9089c854d600b62e24e413
