@@ -18,6 +18,13 @@ Clone remote repository to our local machine:
 `git clone http://gitlab.com/revature_batches/2012-dec14-react`
 
 ## Commands
-`git clone` - Creates a local copy of a remote repository
-`git status` - Displays information about the local repository, including changes you've made to it.
-`git add` - Adds a specific file to the change tracker. Any file I have made changes to, will have to be added to the commit. (assuming I want those changes to go to remote, of course.)
+* `git clone` - Creates a local copy of a remote repository
+* `git status` - Displays information about the local repository, including changes you've made to it.
+* `git add` - Adds a specific file to the change tracker. Any file I have made changes to, will have to be added to the commit. (assuming I want those changes to go to remote, of course.)
+* `git commit -m "a message about the commit"` - Save a packet of changes that can be sent to the remote repository.
+* `git push origin branchname` - pushes commits to the branch.
+
+## Definitions
+### Branches
+### Commits
+A Commit is a group or subset of changes to the repository that can pushed or pulled from the remote repository and allows us to modify the repository.
