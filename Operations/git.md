@@ -24,6 +24,7 @@ Clone remote repository to our local machine:
 * `git commit -m "a message about the commit"` - Save a packet of changes that can be sent to the remote repository.
 * `git push origin {branchname}` - pushes commits to the branch.
 * `git checkout {branchname}` and `git checkout -b {branchname}`
+* `git pull origin {branchname}` - pulls commits from remote to local.
 
 ## Definitions
 ### Branches
@@ -31,4 +32,11 @@ A collection of commits in the repository. It tracks changes as a modification o
 ### Commits
 A Commit is a group or subset of changes to the repository that can pushed or pulled from the remote repository and allows us to modify the repository.
 
+That message won't disappear anymore.
+
 This should disappear when I switch back to master.
+
+Hi, this is Richard
+
+
+I changed this file.
