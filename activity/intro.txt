@@ -25,7 +25,7 @@ Tyler. I like Video Editing.
   origin/jwoo
   origin/kclark
   origin/kdieminger
-  origin/kwood
+  origin/kwood Hello, I'm Kirsten. I enjoy video games and petting cats.
   origin/lmoore
   origin/maddie
   origin/master
