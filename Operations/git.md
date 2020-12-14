@@ -31,4 +31,8 @@ A collection of commits in the repository. It tracks changes as a modification o
 ### Commits
 A Commit is a group or subset of changes to the repository that can pushed or pulled from the remote repository and allows us to modify the repository.
 
+This should do it.
+
 This should disappear when I switch back to master.
+
+Writing something in master.
