@@ -38,5 +38,5 @@ Commits to the same file/lines from different branches or local repositories can
 This should do it.
 
 This should disappear when I switch back to master.
-
+No, *it is I who creates conflict*
 Writing something in master.
