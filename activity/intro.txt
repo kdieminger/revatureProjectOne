@@ -10,7 +10,6 @@ My name is Kathryn Clark. My hobbies are playing guitar and video games.
 This is Cynthia, hello everyone! I like to exercise and read.
 This is Janine and I enjoy reading books.
 This is Robert, and I enjoy hockey.
-Tyler. I like Video Editing.
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
 <<<<<<< HEAD
@@ -20,3 +19,15 @@ Hello, Nilam here, I like to read
 
 Hello, I'm Medbh, I don't like merge conflicts
 >>>>>>> bdcf32e4bd067a3b0790d77cd822edfb9ef498ff
+
+
+
+
+
+
+
+
+
+
+
+Tyler. I like Video Editing.
