@@ -11,8 +11,21 @@ Hello, my name is Jamie, and I like to paint.
 Hello, my name is Lilith and I like cats :)
 My name is Kathryn Clark. My hobbies are playing guitar and video games. 
 This is Cynthia, hello everyone! I like to exercise and read.
+<<<<<<< HEAD
 
 This is Janine and I enjoy reading books.
+=======
+This is Robert, and I enjoy hockey.
+>>>>>>> 335cc6daedfa6fbd3caa72e777a30d603caf5ace
 
 Tyler. I like Video Editing.
 
+<<<<<<< HEAD
+=======
+
+
+
+
+This is Janine and I enjoy reading books.
+Hello, Nilam here, I like to read
+>>>>>>> 335cc6daedfa6fbd3caa72e777a30d603caf5ace
