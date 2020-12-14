@@ -1,9 +1,5 @@
 Hello, my name is Richard, and I enjoy model building.
-<<<<<<< HEAD
-=======
-
 Hello, my name is Emma, and I want a cat.
->>>>>>> bdcf32e4bd067a3b0790d77cd822edfb9ef498ff
 Hello, my name is Jamie, and I like to paint.
 Hello, my name is Lilith and I like cats :)
 My name is Kathryn Clark. My hobbies are playing guitar and video games. 
@@ -12,22 +8,5 @@ This is Janine and I enjoy reading books.
 This is Robert, and I enjoy hockey.
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
-<<<<<<< HEAD
-=======
-
-
-
 Hello, I'm Medbh, I don't like merge conflicts
->>>>>>> bdcf32e4bd067a3b0790d77cd822edfb9ef498ff
-
-
-
-
-
-
-
-
-
-
-
 Tyler. I like Video Editing.
