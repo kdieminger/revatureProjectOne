@@ -1,9 +1,6 @@
 Hello, my name is Richard, and I enjoy model building.
-<<<<<<< HEAD
 
-Tyler. Video Editing
-=======
 Hello, my name is Lilith and I like cats :)
 My name is Kathryn Clark. My hobbies are playing guitar and video games. 
 This is Cynthia, hello everyone! I like to exercise and read.
->>>>>>> a6d2b3d5a1336105831810ce415bc6a28492bcf8
+Tyler. I like Video Editing.
