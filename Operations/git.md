@@ -27,5 +27,8 @@ Clone remote repository to our local machine:
 
 ## Definitions
 ### Branches
+A collection of commits in the repository. It tracks changes as a modification of a "base" branch.
 ### Commits
 A Commit is a group or subset of changes to the repository that can pushed or pulled from the remote repository and allows us to modify the repository.
+
+This should disappear when I switch back to master.
