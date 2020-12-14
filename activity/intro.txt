@@ -12,3 +12,4 @@ This is Cynthia, hello everyone! I like to exercise and read.
 
 
 This is Janine and I enjoy reading books.
+Hello, this is Medbh and I don't like merge conflicts.
