@@ -22,9 +22,13 @@ Clone remote repository to our local machine:
 * `git status` - Displays information about the local repository, including changes you've made to it.
 * `git add` - Adds a specific file to the change tracker. Any file I have made changes to, will have to be added to the commit. (assuming I want those changes to go to remote, of course.)
 * `git commit -m "a message about the commit"` - Save a packet of changes that can be sent to the remote repository.
-* `git push origin branchname` - pushes commits to the branch.
+* `git push origin {branchname}` - pushes commits to the branch.
+* `git checkout {branchname}` and `git checkout -b {branchname}`
 
 ## Definitions
 ### Branches
+A collection of commits in the repository. It tracks changes as a modification of a "base" branch.
 ### Commits
 A Commit is a group or subset of changes to the repository that can pushed or pulled from the remote repository and allows us to modify the repository.
+
+This should disappear when I switch back to master.
