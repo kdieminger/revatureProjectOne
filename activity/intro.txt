@@ -1,20 +1,15 @@
 Hello, my name is Richard, and I enjoy model building.
-
 Hello, my name is Emma, and I want a cat.
 Hello, my name is Jamie, and I like to paint.
 Hello, my name is Lilith and I like cats :)
 My name is Kathryn Clark. My hobbies are playing guitar and video games. 
 This is Cynthia, hello everyone! I like to exercise and read.
+This is Janine and I enjoy reading books.
 This is Robert, and I enjoy hockey.
-
-
-
-
-
-
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
 Hello, I'm Medbh, I don't like merge conflicts
+Tyler. I like Video Editing.
 
   origin/AN
   origin/Emily
@@ -43,6 +38,6 @@ Hello, I'm Medbh, I don't like merge conflicts
   origin/salman
   origin/salman2
   origin/tgatling
-  origin/thorn
+  origin/thorn Hi this is Tyler, I like video editing.
   origin/twilliams
   origin/ywang
