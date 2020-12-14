@@ -15,7 +15,6 @@ This is Robert, and I enjoy hockey.
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
 Hello, I'm Medbh, I don't like merge conflicts
-Hello, my name is Tashika and I like anime.
 
   origin/AN
   origin/Emily
@@ -45,6 +44,6 @@ Hello, my name is Tashika and I like anime.
   origin/salman2
   origin/tgatling
   origin/thorn
-  origin/twilliams
+  origin/twilliams Hello, my name is Tashika and I like anime.
   origin/ywang
 >>>>>>> baaed3a630a2bcaf2b9089c854d600b62e24e413
