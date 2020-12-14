@@ -1,5 +1,34 @@
 Hello, my name is Richard, and I enjoy model building.
-Hello, my name is Jonathan, and I would like to travel to New Zealand.
+Hello, my name is Jamie, and I like to paint.
 Hello, my name is Lilith and I like cats :)
 My name is Kathryn Clark. My hobbies are playing guitar and video games. 
 This is Cynthia, hello everyone! I like to exercise and read.
+  origin/AN
+  origin/Emily
+  origin/cenciso
+  origin/cterry
+  origin/damini
+  origin/ddowning
+  origin/jdawson Hello, my name is Jonathan, and I would like to travel to New Zealand.
+  origin/jgeraldizo
+  origin/jgraham
+  origin/jtater
+  origin/jwoo
+  origin/kclark
+  origin/kdieminger
+  origin/kwood
+  origin/lmoore
+  origin/maddie
+  origin/master
+  origin/mcampbell
+  origin/mchauhan
+  origin/mthurlapati
+  origin/nia
+  origin/nnguyen
+  origin/rorr
+  origin/rthompson
+  origin/salman
+  origin/salman2
+  origin/tgatling
+  origin/thorn
+  origin/ywang
