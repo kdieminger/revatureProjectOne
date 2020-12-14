@@ -1,5 +1,12 @@
-# Lunch
+# Timing
+## Start Time
+10:00 EST
+
+## Lunch
 12:30 EST - 1:30 EST
+
+## End Time
+6:00 EST
 
 # Assessments
 * Monday Quiz RevaturePro
