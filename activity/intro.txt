@@ -1,5 +1,9 @@
 Hello, my name is Richard, and I enjoy model building.
+<<<<<<< HEAD
 
+=======
+Hello, my name is Jamie, and I like to paint.
+>>>>>>> 21b1f16645102f854d52df2720b6723c31723db8
 Hello, my name is Lilith and I like cats :)
 My name is Kathryn Clark. My hobbies are playing guitar and video games. 
 This is Cynthia, hello everyone! I like to exercise and read.
