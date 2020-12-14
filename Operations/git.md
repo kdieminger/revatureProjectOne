@@ -16,3 +16,8 @@ The copy of that remote repository that exists on your machine.
 
 Clone remote repository to our local machine:
 `git clone http://gitlab.com/revature_batches/2012-dec14-react`
+
+## Commands
+`git clone` - Creates a local copy of a remote repository
+`git status` - Displays information about the local repository, including changes you've made to it.
+`git add` - Adds a specific file to the change tracker. Any file I have made changes to, will have to be added to the commit. (assuming I want those changes to go to remote, of course.)
