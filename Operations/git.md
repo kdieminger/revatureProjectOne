@@ -24,6 +24,7 @@ Clone remote repository to our local machine:
 * `git commit -m "a message about the commit"` - Save a packet of changes that can be sent to the remote repository.
 * `git push origin {branchname}` - pushes commits to the branch.
 * `git checkout {branchname}` and `git checkout -b {branchname}`
+* `git pull origin {branchname}` - pulls commits from remote to local.
 
 ## Definitions
 ### Branches
