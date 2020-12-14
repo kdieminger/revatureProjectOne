@@ -30,7 +30,7 @@ Tyler. I like Video Editing.
   origin/maddie
   origin/master
   origin/mchauhan
-  origin/mthurlapati
+  origin/mthurlapati 
   origin/nia
   origin/nnguyen
   origin/rorr
@@ -41,4 +41,3 @@ Tyler. I like Video Editing.
   origin/thorn Hi this is Tyler, I like video editing.
   origin/twilliams
   origin/ywang
-Hi this is Maddie . I Love Cooking.
