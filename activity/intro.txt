@@ -1,22 +1,20 @@
 Hello, my name is Richard, and I enjoy model building.
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 This is Cynthia, hello everyone! I like to exercise and read.
 
 Hi this is Emily, I like to sew.
 =======
+=======
+>>>>>>> 4c67ea95a88c06cd50990826f5de70c80718e920
 Hello, my name is Emma, and I want a cat.
 Hello, my name is Jamie, and I like to paint.
 Hello, my name is Lilith and I like cats :)
 My name is Kathryn Clark. My hobbies are playing guitar and video games. 
 This is Cynthia, hello everyone! I like to exercise and read.
+This is Janine and I enjoy reading books.
 This is Robert, and I enjoy hockey.
-
-
-
-
-
-
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
 <<<<<<< HEAD
@@ -27,11 +25,12 @@ Hello, I'm Medbh, I don't like merge conflicts
 >>>>>>> bdcf32e4bd067a3b0790d77cd822edfb9ef498ff
 =======
 Hello, I'm Medbh, I don't like merge conflicts
+Tyler. I like Video Editing.
 
   origin/AN
   origin/Emily
   origin/HEAD -> origin/master
-  origin/cenciso
+  origin/cenciso This is Cynthia, hello everyone! I like to exercise and read.
   origin/cterry
   origin/damini
   origin/ddowning
@@ -55,7 +54,7 @@ Hello, I'm Medbh, I don't like merge conflicts
   origin/salman
   origin/salman2
   origin/tgatling
-  origin/thorn
+  origin/thorn Hi this is Tyler, I like video editing.
   origin/twilliams
   origin/ywang
 >>>>>>> baaed3a630a2bcaf2b9089c854d600b62e24e413
