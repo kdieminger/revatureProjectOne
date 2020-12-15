@@ -71,6 +71,16 @@ function restock() {
     });
 }
 
+function checkUserRole() {
+    if (loggedUser.role === 'Employee'){
+        restock();
+    }
+    else {
+        console.log("Login as Employee");
+        start();
+    }
+}
+
 function attemptLogin() {
     rl.question('Username? ', (username) => {
         rl.question('Password? ', (password) => {
@@ -108,7 +118,7 @@ function start() {
                     start();
                     break;
                 case '3': makeSelection(); break;
-                case '4': restock(); break;
+                case '4': checkUserRole(); break;
                 case 'q': exit(); break;
                 default: start();
             }
