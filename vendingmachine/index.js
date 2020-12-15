@@ -30,7 +30,7 @@ function makeSelection() {
             let valid = false;
             if (answer.length <= 3 && answer.length > 1) {
                 //console.log('input is correct length')
-                if (isNaN(answer[0])) {
+                if (answer[0].match(/^[A-Z]/)) {
                     //console.log('first char is string')
                     switch (answer.length) {
                         case 2:
