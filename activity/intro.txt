@@ -47,3 +47,6 @@ This is Kat, I like D&D and video games.
   origin/thorn Hi this is Tyler, I like video editing.
   origin/twilliams Hello, my name is Tashika and I like to cook.
   origin/ywang
+
+  origin/anazir ---
+  origin/anazir hello, my name is asad nazir. i enjoy using git and gitlab.
