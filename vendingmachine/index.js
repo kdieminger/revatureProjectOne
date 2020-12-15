@@ -27,27 +27,40 @@ function makeSelection() {
         //As a system, when input is given, I check to make sure it is of the correct type/format.
         //Position: Two or Three Characters. The first character is a letter, followed by one or two numbers.
         let valid = false;
-        if (typeof(answer) === 'string') {
-            console.log('input is string')
-            if (answer.length <= 3 && answer.length > 1) {
-                console.log('input is correct length')
-                if (isNaN(answer[0]) == false) {
-                    console.log('first char is string')
+        if (answer.length <= 3 && answer.length > 1) {
+            //console.log('input is correct length')
+            if (isNaN(answer[0])) {
+                //console.log('first char is string')
+                switch (answer.length) {
+                    case 2:
+                        if (!isNaN(answer[1])) {
+                            //console.log('second character is number');
+                            valid = true;
+                        } else {
+                            console.log('second character is not number');
+                        }
+                        break;
+                    case 3:
+                        if (!isNaN(answer[1]) && !isNaN(answer[2])) {
+                            //console.log('second and third char is number');
+                            valid = true;
+                        } else {
+                            console.log('The second or third values aren\'t numbers.');
+                        }
+                        break;
+                    default:
+                        console.log('Please check your input again.');
+                        break;
                 }
+            } else {
+                console.log('The first character is not a character.');
             }
-        }
-        let selection = getByPosition(answer);
-        if (selection) {
-            console.log(selection);
-            obtainPayment(selection);
         } else {
-            console.log("Incorrect, try again.");
+            console.log('Please check the length of your input.')
+        }
         
         if(valid == true){
-
-
             let selection = getByPosition(answer);
-        
             if (selection) {
                console.log(selection);
               obtainPayment(selection);
