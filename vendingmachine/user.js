@@ -10,6 +10,12 @@ let users = [
         role: 'Customer'
     },
 
+    {
+        name: 'Test',
+        pass: 'testing',
+        money: 23,
+        role: 'Employee'
+    }
 ];
 
 export function getUser(username) {
