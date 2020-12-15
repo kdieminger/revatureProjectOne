@@ -1,7 +1,7 @@
 import readline from 'readline';
 
-import { restockItem, getByPosition, displayContents } from './inventory.js';
-import { getUser, login, register } from './user.js';
+import { restockItem, getByPosition, displayContents, saveInventory } from './inventory.js';
+import { getUser, login, register, saveUsers } from './user.js';
 
 
 const rl = readline.createInterface({
@@ -169,6 +169,8 @@ function attemptLogin() {
 }
 
 function exit() {
+    saveInventory();
+    saveUsers();
     process.exit();
 }
 

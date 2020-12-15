@@ -12,6 +12,7 @@
 2. Function names are `camelCase`.
 3. Class names are `PascalCase`.
 4. File names are `lowercase`.
+5. Constructor Functions are `PascalCase` (usually).
 
 Something I often see in other languages (but NOT JavaScript) is `UPPER_CASE` for constant values.
 
