@@ -138,18 +138,29 @@ function start() {
         4. Restock
         q. Exit\n`,
         function (answer) {
-            switch(answer) { 
-                case '1':
-                    attemptLogin();
-                    break;
-                case '2': 
-                    displayContents();
-                    start();
-                    break;
-                case '3': makeSelection(); break;
-                case '4': restock(); break;
-                case 'q': exit(); break;
-                default: start();
+            let valid = false;
+            if(!isNaN(answer) || (answer==='q')){
+                valid = true;
+            }
+            if(valid) {
+                switch(answer) { 
+                    case '1':
+                        attemptLogin();
+                        break;
+                    case '2': 
+                        displayContents();
+                        start();
+                        break;
+                    case '3': makeSelection(); break;
+                    case '4': restock(); break;
+                    case 'q': exit(); break;
+                    default: 
+                        console.log('Your option does not exist');
+                        start();
+                }
+            }else{
+                console.log('invalid input.');
+                start();
             }
     });
 }
