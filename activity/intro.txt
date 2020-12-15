@@ -48,8 +48,4 @@ This is Kat, I like D&D and video games.
   origin/twilliams Hello, my name is Tashika and I like to cook.
   origin/ywang
 
-  origin/anazir ---
-  origin/anazir hello, my name is asad nazir. i enjoy using git and gitlab.
-
-agian origin/anazir
-
+  origin/anazir Hello my name is Asad Nazir. I enjoy using Git and GitLab!
