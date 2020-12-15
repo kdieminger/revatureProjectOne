@@ -1,5 +1,8 @@
-import { restockItem, getByPosition, displayContents } from './inventory.js';
 import readline from 'readline';
+
+import { restockItem, getByPosition, displayContents } from './inventory.js';
+import { login } from './user.js';
+
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -15,6 +18,8 @@ const rl = readline.createInterface({
         Dispenses object. - Fine
         Be able to be restocked. - Fine
 */
+
+let loggedUser = null;
 
 function makeSelection() {
     rl.question('Which one do you want? ', (answer) => {
@@ -66,6 +71,21 @@ function restock() {
     });
 }
 
+function attemptLogin() {
+    rl.question('Username? ', (username) => {
+        rl.question('Password? ', (password) => {
+            let user = login(username, password);
+            if(user) {
+                loggedUser = user;
+                console.log(`Welcome back ${loggedUser.name}. You have $${loggedUser.money}`);
+            } else {
+                console.log('Login Failed.')
+            }
+            start();
+        })
+    });
+}
+
 function exit() {
     process.exit();
 }
@@ -73,18 +93,22 @@ function exit() {
 function start() {
     rl.question(
         `What do you want to do?
-        1. Display Contents
-        2. Make selection
-        3. Restock
+        1. Login
+        2. Display Contents
+        3. Make selection
+        4. Restock
         q. Exit\n`,
         function (answer) {
             switch(answer) { 
-                case '1': 
+                case '1':
+                    attemptLogin();
+                    break;
+                case '2': 
                     displayContents();
                     start();
                     break;
-                case '2': makeSelection(); break;
-                case '3': restock(); break;
+                case '3': makeSelection(); break;
+                case '4': restock(); break;
                 case 'q': exit(); break;
                 default: start();
             }
