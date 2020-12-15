@@ -10,7 +10,7 @@ This is Robert, and I enjoy hockey.
 
 
 
-
+Monika Chauhan, jigsaw puzzle
 
 This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
@@ -47,4 +47,3 @@ This is Kat, I like D&D and video games.
   origin/thorn Hi this is Tyler, I like video editing.
   origin/twilliams Hello, my name is Tashika and I like to cook.
   origin/ywang
-Monika request to merge. I like to solve jigsaw puzzle
