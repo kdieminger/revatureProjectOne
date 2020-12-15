@@ -24,14 +24,39 @@ let loggedUser = null;
 function makeSelection() {
     rl.question('Which one do you want? ', (answer) => {
         // TODO: Sanitize inputs
-        let selection = getByPosition(answer);
-        if (selection) {
-            console.log(selection);
-            obtainPayment(selection);
-        } else {
-            console.log("Incorrect, try again.");
+        let valid = false;
+       // console.log(answer[0]);
+        
+
+
+
+
+
+
+
+
+       
+      //  if ((answer.length <2) || (answer.length >3)){
+          // console.log("Your selection is invalid. Your choice must be bewteen 2 and 3 characters long.")
+         //  valid = false;
+        //}
+        
+        
+        if(valid == true){
+
+
+            let selection = getByPosition(answer);
+        
+            if (selection) {
+               console.log(selection);
+              obtainPayment(selection);
+           } else {
+              console.log("Incorrect, try again.");
+               start();
+             }
+        }else{
             start();
-        }
+        }  
     });
 }
 
