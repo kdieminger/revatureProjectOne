@@ -56,7 +56,7 @@ function makeSelection() {
                 console.log('The first character is not a character.');
             }
         } else {
-            console.log('Please check the length of your input.')
+            console.log('Please check the length of your input.');
         }
         
         if(valid == true){
