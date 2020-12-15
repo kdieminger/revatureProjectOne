@@ -1,7 +1,7 @@
 import readline from 'readline';
 
 import { restockItem, getByPosition, displayContents } from './inventory.js';
-import { login } from './user.js';
+import { getUser, login, register } from './user.js';
 
 
 const rl = readline.createInterface({
@@ -71,6 +71,29 @@ function restock() {
     });
 }
 
+function attemptRegister() {
+    rl.question('Username? ', (username) => {
+         //if username already exists, print output
+         if(getUser(username)) { //
+            console.log("User already exists");
+            start();
+        }
+        else {
+            console.log("Register new user");
+            //ask for password
+            rl.question('Password? ', (password) => {
+                //TO-DO: confirm password
+                rl.question('Money? ', (money) => {
+                    /*TO-DO: validate money */
+                    register(username, password, money);
+                    start();
+                })
+            })
+        }
+        
+    });
+}
+
 function attemptLogin() {
     rl.question('Username? ', (username) => {
         rl.question('Password? ', (password) => {
@@ -93,6 +116,7 @@ function exit() {
 function start() {
     rl.question(
         `What do you want to do?
+        0. Register
         1. Login
         2. Display Contents
         3. Make selection
@@ -100,6 +124,9 @@ function start() {
         q. Exit\n`,
         function (answer) {
             switch(answer) { 
+                case '0':
+                    attemptRegister();
+                    break;
                 case '1':
                     attemptLogin();
                     break;
