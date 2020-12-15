@@ -16,7 +16,7 @@ This is Janine and I enjoy reading books.
 Hello, Nilam here, I like to read
 Hello, I'm Medbh, I like D&D, running, and cats.
 Tyler. I like Video Editing.
-
+This is Kat, I like D&D and video games.
   origin/AN
   origin/Emily
   origin/HEAD -> origin/master
