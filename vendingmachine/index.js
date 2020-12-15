@@ -22,34 +22,45 @@ const rl = readline.createInterface({
 let loggedUser = null;
 
 function makeSelection() {
-    rl.question('Which one do you want? ', (answer) => {
-        // TODO: Sanitize inputs
-        let selection = getByPosition(answer);
-        if (selection) {
-            console.log(selection);
-            obtainPayment(selection);
-        } else {
-            console.log("Incorrect, try again.");
-            start();
-        }
-    });
+    if (loggedUser != null) {
+        rl.question('Which one do you want? ', (answer) => {
+            // TODO: Sanitize inputs
+            let selection = getByPosition(answer);
+            if (selection) {
+                console.log(selection);
+                obtainPayment(selection);
+            } else {
+                console.log("Incorrect, try again.");
+                start();
+            }
+        });
+    } else {
+        console.log("Please login to proceed.");
+        start();
+    }
 }
 
 function obtainPayment(selection) {
     console.log(`Remit payment of $${selection.price}.`); // Template literal
     // ${} <- Expression: Executes JS code inside of a template literal.
-    rl.question('Accept? (y/n)', function(answer) {
-        if(answer == 'y') {
-            dispenseProduct(selection);
-        } else {
-            start();
-        }
-    });
+    if (selection.price > loggedUser.money) {
+        console.log(`You don't have enough money to buy it. You have $${loggedUser.money}.`);
+        start();
+    } else {
+        rl.question('Accept? (y/n)', function(answer) {
+            if(answer == 'y') {
+                dispenseProduct(selection);
+            } else {
+                start();
+            }
+        });
+    }
 }
 
 function dispenseProduct(selection) {
     if(selection.stock > 0) {
-        console.log(`Here is your ${selection.item}.`)
+        loggedUser.money = loggedUser.money - selection.price;
+        console.log(`Here is your ${selection.item}. You have $${loggedUser.money} remaining.`);
         selection.stock--;
         start();
     } else {
@@ -99,11 +110,11 @@ function start() {
         4. Restock
         q. Exit\n`,
         function (answer) {
-            switch(answer) { 
+            switch(answer) {
                 case '1':
                     attemptLogin();
                     break;
-                case '2': 
+                case '2':
                     displayContents();
                     start();
                     break;
