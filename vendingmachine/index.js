@@ -24,6 +24,17 @@ let loggedUser = null;
 function makeSelection() {
     rl.question('Which one do you want? ', (answer) => {
         // TODO: Sanitize inputs
+        //As a system, when input is given, I check to make sure it is of the correct type/format.
+        //Position: Two or Three Characters. The first character is a letter, followed by one or two numbers.
+        if (typeof(answer) === 'string') {
+            console.log('input is string')
+            if (answer.length <= 3 && answer.length > 1) {
+                console.log('input is correct length')
+                if (isNaN(answer[0]) == false) {
+                    console.log('first char is string')
+                }
+            }
+        }
         let selection = getByPosition(answer);
         if (selection) {
             console.log(selection);
