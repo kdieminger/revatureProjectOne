@@ -1,4 +1,6 @@
-const readline = require('readline');
+import { restockItem, getByPosition, displayContents } from './inventory.js';
+import readline from 'readline';
+
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -6,42 +8,18 @@ const rl = readline.createInterface({
 
 /*
     List of features:
-        Contains products.
-        Displays info on products.
-        Accepts selection of object.
-        Accepts payment for object.
-        Dispenses object.
-        Be able to be restocked.
+        Contains products. - Fine
+        Displays info on products. - Fine
+        Accepts selection of object. - Fine
+        Accepts payment for object. - Fine
+        Dispenses object. - Fine
+        Be able to be restocked. - Fine
 */
-
-let inventory = [
-    { 'item': 'Gatorade', 'position': 'Z67', 'price': 5, 'stock': 5 },
-    { 'item': 'Pepsi Zero', 'position': 'Z68', 'price': 5, 'stock': 5 },
-    { 'item': 'Water', 'position': 'Z69', 'price': 8, 'stock': 5  },
-    { 'item': 'Chocolate chips', 'position': 'A23', 'price': 2, 'stock': 5  },
-    { 'item': 'Snickers', 'position': 'B37', 'price': 3, 'stock': 5  },
-    { 'item': 'Chips', 'position': 'S7', 'price': 4, 'stock': 5  }
-]
-function itemString(item) {
-    return item.position + '. ' + item.item + '- $' + item.price;
-}
-
-function displayContents() {
-    for (item of inventory) { // Use for-of loops when you need just the item
-        console.log(itemString(item));
-    }
-    start();
-}
 
 function makeSelection() {
     rl.question('Which one do you want? ', (answer) => {
         // TODO: Sanitize inputs
-        let selection;
-        for (item of inventory) {
-            if (item.position == answer) {
-                selection = item;
-            }
-        }
+        let selection = getByPosition(answer);
         if (selection) {
             console.log(selection);
             obtainPayment(selection);
@@ -77,12 +55,10 @@ function dispenseProduct(selection) {
 
 function restock() {
     rl.question('Restock which? ', (answer) => {
-        selection = inventory.find(function(item) { 
-            return item.position == answer
-        });
+        let selection = getByPosition(answer);
         if (selection) {
-            console.log(`Adding 1 ${selection.item}`);
-            selection.stock++;
+            restockItem(selection.item);
+            start();
         } else {
             console.log("Incorrect, try again.");
             start();
@@ -103,7 +79,10 @@ function start() {
         q. Exit\n`,
         function (answer) {
             switch(answer) { 
-                case '1': displayContents(); break;
+                case '1': 
+                    displayContents();
+                    start();
+                    break;
                 case '2': makeSelection(); break;
                 case '3': restock(); break;
                 case 'q': exit(); break;
