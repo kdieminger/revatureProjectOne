@@ -26,6 +26,7 @@ function makeSelection() {
         // TODO: Sanitize inputs
         //As a system, when input is given, I check to make sure it is of the correct type/format.
         //Position: Two or Three Characters. The first character is a letter, followed by one or two numbers.
+        let valid = false;
         if (typeof(answer) === 'string') {
             console.log('input is string')
             if (answer.length <= 3 && answer.length > 1) {
@@ -41,8 +42,22 @@ function makeSelection() {
             obtainPayment(selection);
         } else {
             console.log("Incorrect, try again.");
+        
+        if(valid == true){
+
+
+            let selection = getByPosition(answer);
+        
+            if (selection) {
+               console.log(selection);
+              obtainPayment(selection);
+           } else {
+              console.log("Incorrect, try again.");
+               start();
+             }
+        }else{
             start();
-        }
+        }  
     });
 }
 
