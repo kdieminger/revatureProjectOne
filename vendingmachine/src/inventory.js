@@ -1,13 +1,16 @@
 import fs from 'fs';
 
-let inventory;
-fs.readFile('inventory.json', (err, data)=> {
-    if(err) {
-        console.log(err);
-    } else {
-        inventory = JSON.parse(data);
-    }
-});
+export let inventory = [];
+
+export function loadInventory() {
+    fs.readFile('inventory.json', (err, data)=> {
+        if(err) {
+            console.log(err);
+        } else {
+            inventory = JSON.parse(data);
+        }
+    });
+}
 
 export function restockItem(itemName){
     let selection = inventory.find(item => item.item === itemName); // function(item){return item.item === itemName}
@@ -18,7 +21,7 @@ export function getByPosition(position) {
     return inventory.find(item => item.position === position);
 }
 
-function itemString(item) {
+export function itemString(item) {
     return item.position + '. ' + item.item + '- $' + item.price;
 }
 
