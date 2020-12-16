@@ -34,25 +34,25 @@ export function makeSelection() {
                 if (answer[0].match(/^[A-Z]/)) {
                     //console.log('first char is string')
                     switch (answer.length) {
-                        case 2:
-                            if (!isNaN(answer[1])) {
-                                //console.log('second character is number');
-                                valid = true;
-                            } else {
-                                console.log('second character is not number');
-                            }
-                            break;
-                        case 3:
-                            if (!isNaN(answer[1]) && !isNaN(answer[2])) {
-                                //console.log('second and third char is number');
-                                valid = true;
-                            } else {
-                                console.log('The second or third values aren\'t numbers.');
-                            }
-                            break;
-                        default:
-                            console.log('Please check your input again.');
-                            break;
+                    case 2:
+                        if (!isNaN(answer[1])) {
+                            //console.log('second character is number');
+                            valid = true;
+                        } else {
+                            console.log('second character is not number');
+                        }
+                        break;
+                    case 3:
+                        if (!isNaN(answer[1]) && !isNaN(answer[2])) {
+                            //console.log('second and third char is number');
+                            valid = true;
+                        } else {
+                            console.log('The second or third values aren\'t numbers.');
+                        }
+                        break;
+                    default:
+                        console.log('Please check your input again.');
+                        break;
                     }
                 } else {
                     console.log('The first character is not a character.');
@@ -67,7 +67,7 @@ export function makeSelection() {
                     console.log(selection);
                     obtainPayment(selection);
                 } else {
-                    console.log("Incorrect, try again.");
+                    console.log('Incorrect, try again.');
                     start();
                 }
             } else {
@@ -75,7 +75,7 @@ export function makeSelection() {
             }
         });
     } else {
-        console.log("Please login to proceed.");
+        console.log('Please login to proceed.');
         start();
     }
 }
@@ -110,7 +110,7 @@ export function dispenseProduct(selection) {
 }
 
 export function restock() {
-    logger.trace('Attempting Restock')
+    logger.trace('Attempting Restock');
     rl.question('Restock which? ', (answer) => {
         let selection = getByPosition(answer);
         if (selection) {
@@ -118,7 +118,7 @@ export function restock() {
             start();
         } else {
             logger.warn('Item does not exist for restock');
-            console.log("Incorrect, try again.");
+            console.log('Incorrect, try again.');
             start();
         }
     });
@@ -128,11 +128,11 @@ export function attemptRegister() {
     rl.question('Username? ', (username) => {
         //if username already exists, print output
         if (getUser(username)) { //
-            console.log("User already exists");
+            console.log('User already exists');
             start();
         }
         else {
-            console.log("Register new user");
+            console.log('Register new user');
             //ask for password
             rl.question('Password? ', (password) => {
                 //TO-DO: confirm password
@@ -140,8 +140,8 @@ export function attemptRegister() {
                     /*TO-DO: validate money */
                     register(username, password, money);
                     start();
-                })
-            })
+                });
+            });
         }
 
     });
@@ -152,8 +152,8 @@ export function checkUserRole() {
         restock();
     }
     else {
-        logger.warn('Attempted Restock not permitted.')
-        console.log("Login as Employee");
+        logger.warn('Attempted Restock not permitted.');
+        console.log('Login as Employee');
         start();
     }
 }
@@ -161,16 +161,16 @@ export function checkUserRole() {
 export function attemptLogin() {
     rl.question('Username? ', (username) => {
         rl.question('Password? ', (password) => {
-            logger.debug(`${username +' '+ password}`);
+            logger.debug(`${username + ' ' + password}`);
             let user = login(username, password);
             if (user) {
                 loggedUser = user;
                 console.log(`Welcome back ${loggedUser.name}. You have $${loggedUser.money}`);
             } else {
-                console.log('Login Failed.')
+                console.log('Login Failed.');
             }
             start();
-        })
+        });
     });
 }
 
@@ -181,7 +181,7 @@ export function exit() {
 }
 
 export function start() {
-    logger.trace('Display menu.')
+    logger.trace('Display menu.');
     rl.question(
         `What do you want to do?
         0. Register
@@ -197,29 +197,29 @@ export function start() {
             }
             if (valid) {
                 switch (answer) {
-                    case '0':
-                        logger.info('Registration.')
-                        attemptRegister();
-                        break;
-                    case '1':
-                        logger.info('Login');
-                        attemptLogin();
-                        break;
-                    case '2':
-                        logger.info('Contents');
-                        displayContents();
-                        start();
-                        break;
-                    case '3':
-                        logger.info('Selection');
-                        makeSelection();
-                        break;
-                    case '4':
-                        logger.info('Restock');
-                        checkUserRole();
-                        break;
-                    case 'q': exit(); break;
-                    default: start();
+                case '0':
+                    logger.info('Registration.')
+                    attemptRegister();
+                    break;
+                case '1':
+                    logger.info('Login');
+                    attemptLogin();
+                    break;
+                case '2':
+                    logger.info('Contents');
+                    displayContents();
+                    start();
+                    break;
+                case '3':
+                    logger.info('Selection');
+                    makeSelection();
+                    break;
+                case '4':
+                    logger.info('Restock');
+                    checkUserRole();
+                    break;
+                case 'q': exit(); break;
+                default: start();
                 }
             } else {
                 console.log('invalid input.');
@@ -228,7 +228,7 @@ export function start() {
         });
 }
 
-export function load(){
+export function load() {
     loadInventory();
     loadUsers();
 }

@@ -22,9 +22,9 @@ export function getUser(username) {
     return users.find(person => person.name === username);
 }
 export function login(user, password) {
-    logger.debug(`${user +' '+ password}`)
+    logger.debug(`${user +' '+ password}`);
     logger.debug(users);
-    return users.find(person => person.name === user && person.password === password)
+    return users.find(person => person.name === user && person.password === password);
 }
 
 export function register(username, password, money) {

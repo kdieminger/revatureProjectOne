@@ -14,7 +14,7 @@ export function loadInventory() {
 }
 
 export function restockItem(itemName){
-    logger.trace(`restock called with parameter ${JSON.stringify(item)}`);
+    logger.trace(`restock called with parameter ${JSON.stringify(itemName)}`);
     let selection = inventory.find(item => item.item === itemName); // function(item){return item.item === itemName}
     selection.stock++;
 }
@@ -30,7 +30,7 @@ export function itemString(item) {
 
 export function displayContents() {
     logger.trace('displayContents called!');
-    inventory.forEach((item) => {console.log(itemString(item))});
+    inventory.forEach((item) => {console.log(itemString(item));});
 }
 
 export function saveInventory() {
