@@ -24,6 +24,9 @@ We can assert that the code behaves in a specific manner. If it does not, the te
 ### Independence
 Unit tests should be independent from one another. If one test alters the state of the program in such a way that another test passes, we can't truly say that the second test passed.
 
+### Mocking
+We should mock the results of other functions in order to ensure we are only testing the function we want to.
+
 
 ### Test Coverage
 Many ways to measure coverage:
@@ -69,3 +72,4 @@ A unit-testing framework that attempts to be as human-readable as possible. As s
 * `afterEach` - A function that runs after each test.
 * `beforeAll` - A function tat runs before all tests.
 * `afterAll` - A function that runs after all tests.
+* `describe` - Creates a group of tests that all have the same setup.

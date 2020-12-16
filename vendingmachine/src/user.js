@@ -4,7 +4,7 @@ As a user, I can register as a customer with a starting amount of money.
 
 import fs from 'fs';
 
-let users;
+export let users;
 
 function loadUsers() {
     fs.readFile('users.json', (err, data) => {
