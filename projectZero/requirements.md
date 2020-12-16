@@ -17,14 +17,15 @@
 ## Requirements
 1. Functionality should reflect the below user stories.
 2. All Business Logic is modularized into its own module.
-3. Data is stored in DynamoDB.
-4. Data Access is performed through the use of AWS SDK.
+3. Application is written in TypeScript.
+4. Data is stored in DynamoDB.
+5. Data Access is performed through the use of AWS SDK.
    1. All Data Access is performed within its own package.
-5. All user input is received using readline.
-6. Data is modeled in JS using classes.
-7. Errors are handled
-8. Logging is implemented
-9. Unit testing is performed for your modules.
+6. All user input is received using readline.
+7. Data is modeled in JS using classes.
+8. Errors are handled
+9. Logging is implemented
+10. Unit testing is performed for your modules.
    1.  60% Test coverage on Functions (npx jest --coverage)
 
 
