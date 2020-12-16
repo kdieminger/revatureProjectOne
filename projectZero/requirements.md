@@ -8,6 +8,10 @@
 
    We want to see that you can meet deadlines and that you can code. You are expected to complete the following requirements and give a 5 minute presentation of your project to our QC team.
 
+   You will be pushing your code to your personal branch so that I may inspect it.
+
+   You will also, the day before, be filling out a self-assessment survey.
+
    Due Date: Dec 30 or Dec 31.
 
 ## Requirements
