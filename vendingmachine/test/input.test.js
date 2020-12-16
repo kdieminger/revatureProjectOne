@@ -6,7 +6,14 @@ beforeAll( () => {
     input.start = jest.fn().mockImplementation(()=>{console.log('start is called');});
 });
 
+/*
+describe('tests of displayInventory', () => {
+    beforeEach(()=>{
 
+    })
+    test()
+})
+*/
 
 describe('Tests of attemptLogin', () => {
     beforeEach( () => {
