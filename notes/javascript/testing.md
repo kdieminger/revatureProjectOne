@@ -21,6 +21,9 @@ We expect the code to behave in a specific way under certain conditions. If the 
 ### Assertions
 We can assert that the code behaves in a specific manner. If it does not, the test fails.
 
+### Independence
+Unit tests should be independent from one another. If one test alters the state of the program in such a way that another test passes, we can't truly say that the second test passed.
+
 
 ### Test Coverage
 Many ways to measure coverage:
@@ -35,4 +38,34 @@ A unit-testing framework that attempts to be as human-readable as possible. As s
 1. Navigate to the project we wish to test.
 2. Install Jest: `npm install --save-dev jest`
 3. Install Babel Plugin to allow Jest to use import: `npm install --save-dev @babel/plugin-transform-modules-commonjs`
-4. 
+4. Set up babel, create a file `.babelrc` and add the following:
+```json
+{
+  "env": {
+    "test": {
+      "plugins": ["@babel/plugin-transform-modules-commonjs"]
+    }
+  }
+}
+```
+5. Add jest script to `package.json`
+6. If it is a node project, add: 
+   ```json
+   "jest":{
+    "testEnvironment": "jest-environment-node"
+    },
+    
+    ```
+   to `package.json`
+
+
+### Jest Coverage Report
+`npx jest --coverage`
+
+### Definitions
+* `expect` - Asserts that something is as we expect.
+* `test` - A function that runs a test
+* `beforeEach` - A function that runs before each test.
+* `afterEach` - A function that runs after each test.
+* `beforeAll` - A function tat runs before all tests.
+* `afterAll` - A function that runs after all tests.
