@@ -25,7 +25,7 @@ This is Kat, I like D&D and video games.
   origin/cenciso This is Cynthia, hello everyone! I like to exercise and read.
   origin/cterry This is Cassandra aka Cassie. I like to sing and do skits.
   origin/damini
-  origin/ddowning
+  origin/ddowning Hello, my name is Delaney, and I like to read. 
   origin/jdawson Hello I'm Jonathan. I like to travel. I would like to go to New Zealand.
   origin/jgeraldizo
   origin/jgraham
