@@ -98,3 +98,11 @@ let bank = new BankAccount();
 bank.balance = 7000;
 console.log(bank);
 console.log(bank.checkBalance())
+
+
+function Salman(){
+    this.name = "Salman";
+}
+
+let x = new Salman();
+console.log(x);
