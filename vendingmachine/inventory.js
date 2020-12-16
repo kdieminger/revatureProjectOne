@@ -1,11 +1,13 @@
-let inventory = [
-    { item: 'Gatorade', position: 'Z67', price: 5, 'stock': 5 },
-    { item: 'Pepsi Zero', position: 'Z68', price: 5, 'stock': 5 },
-    { item: 'Water', position: 'Z69', price: 8, 'stock': 5  },
-    { item: 'Chocolate chips', position: 'A23', price: 2, 'stock': 5  },
-    { item: 'Snickers', position: 'B37', price: 3, 'stock': 5  },
-    { item: 'Chips', position: 'S7', price: 4, 'stock': 5  }
-]
+import fs from 'fs';
+
+let inventory;
+fs.readFile('inventory.json', (err, data)=> {
+    if(err) {
+        console.log(err);
+    } else {
+        inventory = JSON.parse(data);
+    }
+});
 
 export function restockItem(itemName){
     let selection = inventory.find(item => item.item === itemName); // function(item){return item.item === itemName}
@@ -22,4 +24,9 @@ function itemString(item) {
 
 export function displayContents() {
     inventory.forEach((item) => {console.log(itemString(item))});
+}
+
+export function saveInventory() {
+    let i = JSON.stringify(inventory);
+    fs.writeFileSync('inventory.json', i);
 }
