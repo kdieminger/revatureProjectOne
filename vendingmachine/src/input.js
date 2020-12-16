@@ -2,6 +2,7 @@ import readline from 'readline';
 
 import { restockItem, getByPosition, displayContents, saveInventory, loadInventory } from './inventory.js';
 import { getUser, login, register, saveUsers, loadUsers } from './user.js';
+import logger from './log.js';
 
 
 export const rl = readline.createInterface({
@@ -109,12 +110,14 @@ export function dispenseProduct(selection) {
 }
 
 export function restock() {
+    logger.trace('Attempting Restock')
     rl.question('Restock which? ', (answer) => {
         let selection = getByPosition(answer);
         if (selection) {
             restockItem(selection.item);
             start();
         } else {
+            logger.warn('Item does not exist for restock');
             console.log("Incorrect, try again.");
             start();
         }
@@ -144,10 +147,12 @@ export function attemptRegister() {
     });
 }
 export function checkUserRole() {
-    if (loggedUser.role === 'Employee') {
+    logger.trace('Checking user role.');
+    if (loggedUser && loggedUser.role === 'Employee') {
         restock();
     }
     else {
+        logger.warn('Attempted Restock not permitted.')
         console.log("Login as Employee");
         start();
     }
@@ -156,6 +161,7 @@ export function checkUserRole() {
 export function attemptLogin() {
     rl.question('Username? ', (username) => {
         rl.question('Password? ', (password) => {
+            logger.debug(`${username +' '+ password}`);
             let user = login(username, password);
             if (user) {
                 loggedUser = user;
@@ -175,6 +181,7 @@ export function exit() {
 }
 
 export function start() {
+    logger.trace('Display menu.')
     rl.question(
         `What do you want to do?
         0. Register
@@ -191,17 +198,26 @@ export function start() {
             if (valid) {
                 switch (answer) {
                     case '0':
+                        logger.info('Registration.')
                         attemptRegister();
                         break;
                     case '1':
+                        logger.info('Login');
                         attemptLogin();
                         break;
                     case '2':
+                        logger.info('Contents');
                         displayContents();
                         start();
                         break;
-                    case '3': makeSelection(); break;
-                    case '4': checkUserRole(); break;
+                    case '3':
+                        logger.info('Selection');
+                        makeSelection();
+                        break;
+                    case '4':
+                        logger.info('Restock');
+                        checkUserRole();
+                        break;
                     case 'q': exit(); break;
                     default: start();
                 }
