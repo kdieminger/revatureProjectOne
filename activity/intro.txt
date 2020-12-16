@@ -45,7 +45,7 @@ This is Kat, I like D&D and video games.
   origin/rthompson
   origin/salman Hello Wrold
   origin/salman2
-  origin/tgatling
+  origin/tgatling My name is Tequesha and I enjoy reading.
   origin/thorn Hi this is Tyler, I like video editing.
   origin/twilliams Hello, my name is Tashika and I like to cook.
   origin/ywang
