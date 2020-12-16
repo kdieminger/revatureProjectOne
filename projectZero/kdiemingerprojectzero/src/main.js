@@ -5,8 +5,9 @@ export const read = readline.createInterface({
     output: process.stdout
 });
 
-function start(){
-    read.question('Welcome! Would you like to login?')
+export function start(){
+    console.log('Welcome! Please log in.');
+    userLogin();
 }
 
 function userLogin(){
@@ -19,7 +20,6 @@ function userLogin(){
             else {
                 console.log('Login failed. Incorrect username or password.');
             }
-            }
         }
     }
-} 
+}
