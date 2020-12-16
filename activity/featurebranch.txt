@@ -1,0 +1,26 @@
+We are going to split into 4 groups.
+
+git checkout master
+git checkout -b 'featurename'
+Write feature
+Test code
+git add .
+git commit -m "Descriptive message"
+git push origin 'featurename'
+
+Create merge request.
+
+Group 1: Introduce the concept of role-guards.
+    As a customer, I can buy items, but I cannot restock them.
+    As an employee, I can restock items.
+
+Group 2: Introduce the ability to register a user.
+    As a user, I can register as a customer with a starting amount of money.
+
+Group 3: Introduce the concept of tracking money.
+    As a customer, when I purchase an item, money is deducted from my account.
+    As a customer, I can not purchase an item, if I do not have enough money.
+
+Group 4: Introduce input sanitization.
+    As a system, when input is given, I check to make sure it is of the correct type/format.
+    Position: Two or Three Characters. The first character is a letter, followed by one or two numbers.
