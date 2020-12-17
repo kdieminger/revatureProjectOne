@@ -1,8 +1,8 @@
 {
-  "name": "2012-dec14-react",
+  "name": "kdiemingerprojectzero",
   "version": "1.0.0",
   "description": "\"A Car Dealership App\"",
-  "main": "index.js",
+  "main": "main.js",
   "directories": {
     "example": "examples"
   },
