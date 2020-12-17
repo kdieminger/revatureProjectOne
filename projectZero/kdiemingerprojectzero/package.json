@@ -1,0 +1,15 @@
+{
+  "name": "kdiemingerprojectzero",
+  "version": "1.0.0",
+  "description": "A Car Dealership App",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "2012-dec14-react"
+  },
+  "author": "kdieminger",
+  "license": "ISC"
+}
