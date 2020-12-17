@@ -1,18 +1,21 @@
 {
-  "name": "2012-dec14-react",
+  "name": "carlot",
   "version": "1.0.0",
-  "description": "\"A Car Dealership App\"",
-  "main": "index.js",
-  "directories": {
-    "example": "examples"
-  },
+  "description": "A Car Lot Management App",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "test": "Jest"
+    "test": "jest",
+    "cov": "jest --coverage"
   },
-  "repository": {
-    "type": "module",
-    "url": "http://gitlab.com/revature_batches/2012-dec14-react"
+  "jest":{
+    "testEnvironment": "jest-environment-node"
   },
   "author": "kdieminger",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "jest": "^26.6.3"
+  }
 }
