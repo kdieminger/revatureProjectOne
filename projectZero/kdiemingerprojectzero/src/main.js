@@ -16,7 +16,8 @@ export function load(){
 
 console.log('Welcome! Please log in.');
 logUser();
-
+//User Functions
+//TODO: Role Check
 function logUser(){
     read.question('Username:', (username) => {
         read.question('Password:', (password) => {
@@ -47,4 +48,21 @@ function tryAgain(){
         }
     });
 }
+
+//Employee Functions
+export function addCar();
+export function pendingOffer();
+export function removeCar();
+export function viewPayments();
+
+//Customer Functions
+export function viewCars();
+export function makeOffer();
+export function ownedCars();
+export function remainingPay();
+
+//System Functions
+export function updateCar();
+export function rejectPending();
+export function monthlyPayment();
 
