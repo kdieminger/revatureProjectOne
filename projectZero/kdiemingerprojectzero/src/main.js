@@ -1,11 +1,13 @@
-import readline from 'readline'
+const readline = require('readline');
+const { stdin } = require('process');
+const { stdout } = require('process');
 
-export const read = readline.createInterface({
+readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-export function start(){
+function start(){
     console.log('Welcome! Please log in.');
     userLogin();
 }
