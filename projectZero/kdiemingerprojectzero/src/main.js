@@ -1,6 +1,6 @@
 import readline from 'readline';
 
-import { userLogin } from './userfunctions.js';
+import { userLogin, loadUsers } from './userfunctions.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -8,8 +8,30 @@ const read = readline.createInterface({
 });
 
 
+export let login = null;
+
+export function load(){
+    loadUsers();
+}
+
 console.log('Welcome! Please log in.');
 logUser();
+
+function logUser(){
+    read.question('Username:', (username) => {
+        read.question('Password:', (password) => {
+            login = userLogin(username, password);
+            if (login){
+                inUser = user;
+                console.log(`Welcome back ${inUser.username}!`);
+            }
+            else {
+                console.log('Login failed. Incorrect username or password.');
+                tryAgain();
+            }
+        })
+    });
+}
 
 function tryAgain(){
     read.question('Try Again: Yes | No', (answer) => {
@@ -26,18 +48,3 @@ function tryAgain(){
     });
 }
 
-function logUser(){
-    read.question('Username:', (username) => {
-        read.question('Password:', (password) => {
-            let login = userLogin(username, password);
-            if (login){
-                inUser = user;
-                console.log(`Welcome back ${inUser.username}!`);
-            }
-            else {
-                console.log('Login failed. Incorrect username or password.');
-                tryAgain();
-            }
-        })
-    });
-}
