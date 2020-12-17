@@ -2,8 +2,8 @@ import fs from 'fs'
 
 export let users;
 
-function loadUsers() {
-    fs.readFile ('users.json',(err,data) => {
+export function loadUsers() {
+    fs.readFile ('usersdata.json',(err,data) => {
         if (err){
             console.log(err);
         }else{
