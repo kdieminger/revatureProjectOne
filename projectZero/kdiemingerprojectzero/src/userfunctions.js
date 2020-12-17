@@ -6,8 +6,7 @@ function loadUsers() {
     fs.readFile ('users.json',(err,data) => {
         if (err){
             console.log(err);
-        }
-        else{
+        }else{
             users = JSON.parse(data);
         }
     });
