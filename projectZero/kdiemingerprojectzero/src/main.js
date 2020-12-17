@@ -88,20 +88,9 @@ function employeeMenu(){
     })
 }
 
-//Employee Functions
-/*export function addCar();
-export function pendingOffer();
-export function removeCar();
-export function viewPayments();
-
-//Customer Functions
-export function viewCars();
-export function makeOffer();
-export function ownedCars();
-export function remainingPay();
 
 //System Functions
-export function updateCar();
+/*export function updateCar();
 export function rejectPending();
 export function monthlyPayment();*/
 
