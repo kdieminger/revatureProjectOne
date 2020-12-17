@@ -1,12 +1,16 @@
 import fs from 'fs';
 
-export let usersData;
+export let users;
 
 export function loadUsers() {
-    usersdata = fs.readFileSync('./usersdata.json');
-        usersData = JSON.parse(usersData);
-    console.log(usersData);
-};
+    fs.readFileSync('./usersdata.json', (err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            users = JSON.parse(data);
+        }
+    });
+}
 
 
 export function userLogin (name, pass){
