@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "A Car Dealership App",
   "main": "main.js",
+  "type": "module",
   "scripts": {
     "test": "test"
   },
   "repository": {
-    "type": "module",
     "url": "2012-dec14-react"
   },
   "author": "kdieminger",

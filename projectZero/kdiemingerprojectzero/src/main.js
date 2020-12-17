@@ -2,12 +2,13 @@ const readline = require('readline');
 const { stdin } = require('process');
 const { stdout } = require('process');
 
-import { userLogin } from './userfunctions.js';
+//import { userLogin } from './userfunctions.js';
 
 const read = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+
 
 console.log('Welcome! Please log in.');
 logUser();
@@ -18,7 +19,7 @@ function tryAgain(){
             userLogin();
         }
         else if (answer === "No" || answer === "no"){
-            process.exit();
+            console.log('Okay');
         }
         else {
             console.log ('Error: Invalid response.');
@@ -34,7 +35,6 @@ function logUser(){
             if (login){
                 inUser = user;
                 console.log(`Welcome back ${inUser.username}!`);
-                process.exit();
             }
             else {
                 console.log('Login failed. Incorrect username or password.');
@@ -43,5 +43,3 @@ function logUser(){
         })
     });
 }
-
-process.exit();
