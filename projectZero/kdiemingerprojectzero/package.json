@@ -1,16 +1,18 @@
 {
-  "name": "kdiemingerprojectzero",
+  "name": "2012-dec14-react",
   "version": "1.0.0",
-  "description": "a car lot application",
-  "main": "main.js",
-  "type": "module",
+  "description": "\"A Car Dealership App\"",
+  "main": "index.js",
   "directories": {
-    "test": "tests"
+    "example": "examples"
   },
   "scripts": {
-    "test": "jest"
+    "test": "Jest"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.com/revature_batches/2012-dec14-react"
+  },
   "author": "kdieminger",
   "license": "ISC"
 }
