@@ -13,13 +13,14 @@ export function start(){
 function userLogin(){
     read.question('Username:', (username) => {
         read.question('Password:', (password) => {
-            if (userLogin){
+            let login = userLogin(username, password);
+            if (login){
                 inUser = user;
                 console.log(`Welcome back ${inUser.username}!`);
             }
             else {
                 console.log('Login failed. Incorrect username or password.');
             }
-        }
-    }
+        })
+    })
 }

@@ -10,7 +10,7 @@
     "test": "Jest"
   },
   "repository": {
-    "type": "git",
+    "type": "module",
     "url": "http://gitlab.com/revature_batches/2012-dec14-react"
   },
   "author": "kdieminger",
