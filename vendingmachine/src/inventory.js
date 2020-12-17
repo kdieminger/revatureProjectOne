@@ -1,11 +1,12 @@
 import fs from 'fs';
+import logger from './log.js';
 
 export let inventory = [];
 
 export function loadInventory() {
     fs.readFile('inventory.json', (err, data)=> {
         if(err) {
-            console.log(err);
+            logger.error(err);
         } else {
             inventory = JSON.parse(data);
         }
@@ -13,6 +14,7 @@ export function loadInventory() {
 }
 
 export function restockItem(itemName){
+    logger.trace(`restock called with parameter ${JSON.stringify(itemName)}`);
     let selection = inventory.find(item => item.item === itemName); // function(item){return item.item === itemName}
     selection.stock++;
 }
@@ -22,14 +24,17 @@ export function getByPosition(position) {
 }
 
 export function itemString(item) {
+    logger.trace(`itemString called with parameter ${JSON.stringify(item)}`);
     return item.position + '. ' + item.item + '- $' + item.price;
 }
 
 export function displayContents() {
-    inventory.forEach((item) => {console.log(itemString(item))});
+    logger.trace('displayContents called!');
+    inventory.forEach((item) => {console.log(itemString(item));});
 }
 
 export function saveInventory() {
+    logger.trace('saveInventory called!');
     let i = JSON.stringify(inventory);
     fs.writeFileSync('inventory.json', i);
 }
