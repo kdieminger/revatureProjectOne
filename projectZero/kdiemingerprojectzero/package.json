@@ -2,10 +2,13 @@
   "name": "kdiemingerprojectzero",
   "version": "1.0.0",
   "description": "A Car Dealership App",
-  "main": "src/index.js",
-  "type": "module",
+  "main": "main.js",
   "scripts": {
-    "test": "jest"
+    "test": "test"
+  },
+  "repository": {
+    "type": "module",
+    "url": "2012-dec14-react"
   },
   "author": "kdieminger",
   "license": "ISC"
