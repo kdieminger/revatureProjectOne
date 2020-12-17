@@ -1,8 +1,6 @@
-const readline = require('readline');
-const { stdin } = require('process');
-const { stdout } = require('process');
+import readline from 'readline';
 
-//import { userLogin } from './userfunctions.js';
+import { userLogin } from './userfunctions.js';
 
 const read = readline.createInterface({
     input: process.stdin,
