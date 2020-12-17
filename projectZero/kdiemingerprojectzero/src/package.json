@@ -2,7 +2,7 @@
   "name": "carlot",
   "version": "1.0.0",
   "description": "A Car Lot Management App",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "type": "module",
   "scripts": {
     "test": "jest",
