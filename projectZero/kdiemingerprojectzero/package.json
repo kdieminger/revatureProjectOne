@@ -1,0 +1,16 @@
+{
+  "name": "kdiemingerprojectzero",
+  "version": "1.0.0",
+  "description": "a car lot application",
+  "main": "main.js",
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "kdieminger",
+  "license": "ISC"
+}
