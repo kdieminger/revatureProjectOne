@@ -16,17 +16,16 @@ export function userLogin (name, pass){
     return data.find(person => person.username === name && person.password === pass);
 };
 
-/*export function tryAgain(){
-    read.question('Try Again: Yes | No', (answer) => {
-        if (answer === "Yes" || answer === "yes"){
+export function tryAgain(answer){
+    if (answer === "Yes" || answer === "yes"){
             userLogin();
-        }
-        else if (answer === "No" || answer === "no"){
+    }
+    else if (answer === "No" || answer === "no"){
             console.log('Okay');
-        }
-        else {
+            process.exit();
+    }
+    else {
             console.log ('Error: Invalid response.');
             tryAgain();
-        }
-    });
-}*/
+    }
+};
