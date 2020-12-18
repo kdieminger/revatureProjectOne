@@ -1,29 +1,40 @@
 import fs from 'fs';
-import logger from './log.js';
+import logger from './log';
 
-export let inventory = [];
+export interface Inventory{
+    item: string;
+    position: string;
+    price: number;
+    stock: number;
+}
+
+export let inventory: Inventory[] = [];
 
 export function loadInventory() {
     fs.readFile('inventory.json', (err, data)=> {
         if(err) {
             logger.error(err);
         } else {
-            inventory = JSON.parse(data);
+            inventory = JSON.parse(data.toString());
         }
     });
 }
 
-export function restockItem(itemName){
+export function restockItem(itemName: string){
     logger.trace(`restock called with parameter ${JSON.stringify(itemName)}`);
     let selection = inventory.find(item => item.item === itemName); // function(item){return item.item === itemName}
-    selection.stock++;
+    if(selection) {
+        selection.stock++;
+    } else {
+        console.log('Item does not exist.');
+    }
 }
 
-export function getByPosition(position) {
+export function getByPosition(position: string) {
     return inventory.find(item => item.position === position);
 }
 
-export function itemString(item) {
+export function itemString(item: Inventory) {
     logger.trace(`itemString called with parameter ${JSON.stringify(item)}`);
     return item.position + '. ' + item.item + '- $' + item.price;
 }

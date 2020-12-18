@@ -1,8 +1,8 @@
 import readline from 'readline';
 
-import { restockItem, getByPosition, displayContents, saveInventory, loadInventory } from './inventory.js';
-import { getUser, login, register, saveUsers, loadUsers } from './user.js';
-import logger from './log.js';
+import { restockItem, getByPosition, displayContents, saveInventory, loadInventory, Inventory } from './inventory';
+import { getUser, login, register, saveUsers, loadUsers, User } from './user';
+import logger from './log';
 
 
 export const rl = readline.createInterface({
@@ -20,7 +20,7 @@ export const rl = readline.createInterface({
         Be able to be restocked. - Fine
 */
 
-export let loggedUser = null;
+export let loggedUser: User;
 
 export function makeSelection() {
     if (loggedUser != null) {
@@ -35,7 +35,7 @@ export function makeSelection() {
                     //console.log('first char is string')
                     switch (answer.length) {
                     case 2:
-                        if (!isNaN(answer[1])) {
+                        if (answer[1].match(/^[0-9]/)) {
                             //console.log('second character is number');
                             valid = true;
                         } else {
@@ -43,7 +43,7 @@ export function makeSelection() {
                         }
                         break;
                     case 3:
-                        if (!isNaN(answer[1]) && !isNaN(answer[2])) {
+                        if (answer[1].match(/^[0-9]/) && answer[2].match(/^[0-9]/)) {
                             //console.log('second and third char is number');
                             valid = true;
                         } else {
@@ -80,7 +80,7 @@ export function makeSelection() {
     }
 }
 
-export function obtainPayment(selection) {
+export function obtainPayment(selection: Inventory) {
     console.log(`Remit payment of $${selection.price}.`); // Template literal
     // ${} <- Expression: Executes JS code inside of a template literal.
     if (selection.price > loggedUser.money) {
@@ -97,7 +97,7 @@ export function obtainPayment(selection) {
     }
 }
 
-export function dispenseProduct(selection) {
+export function dispenseProduct(selection: Inventory) {
     if (selection.stock > 0) {
         loggedUser.money = loggedUser.money - selection.price;
         console.log(`Here is your ${selection.item}. You have $${loggedUser.money} remaining.`);
@@ -138,7 +138,7 @@ export function attemptRegister() {
                 //TO-DO: confirm password
                 rl.question('Money? ', (money) => {
                     /*TO-DO: validate money */
-                    register(username, password, money);
+                    register(username, password, Number(money));
                     start();
                 });
             });
@@ -192,7 +192,7 @@ export function start() {
         q. Exit\n`,
         function (answer) {
             let valid = false;
-            if (!isNaN(answer) || (answer === 'q')) {
+            if (answer.match(/^[0-9]*/) || (answer === 'q')) {
                 valid = true;
             }
             if (valid) {

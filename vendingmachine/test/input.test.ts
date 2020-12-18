@@ -1,5 +1,5 @@
-import * as input from '../src/input.js';
-import * as user from '../src/user.js';
+import * as input from '../src/input';
+import * as user from '../src/user';
 
 // Problem #1: The Start() function
 beforeAll( () => {
@@ -25,15 +25,15 @@ describe('Tests of attemptLogin', () => {
     test('That an incorrect password results in loggedUser remaining null', () => {
         // Problem #3: test relies on login() function working correctly.
         user.login = jest.fn().mockImplementationOnce((one, two) => false);
-        expect(input.loggedUser).toBe(null);
+        expect(input.loggedUser).toBe(undefined);
         input.attemptLogin();
-        expect(input.loggedUser).toBe(null);
+        expect(input.loggedUser).toBe(undefined);
     });
     
     test('That an correct password results in loggedUser being set', () => {
         // Problem #3: test relies on login() function working correctly.
         user.login = jest.fn().mockImplementationOnce((one, two) => { return {name: one, pass: two}});
-        expect(input.loggedUser).toBe(null);
+        expect(input.loggedUser).toBe(undefined);
         input.attemptLogin();
         expect(input.loggedUser).toStrictEqual({name: 'Richard', pass: 'password'});
     });
