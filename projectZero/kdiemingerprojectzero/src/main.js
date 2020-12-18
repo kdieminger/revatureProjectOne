@@ -1,6 +1,6 @@
 import readline from 'readline';
 
-import { userLogin, loadUsers, tryAgain } from './userfunctions.js';
+import { userLogin, loadUsers, tryAgain } from './user.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -10,7 +10,7 @@ const read = readline.createInterface({
 
 export let login = null;
 
-export function load(){
+export function load() {
     loadUsers();
 }
 
@@ -19,14 +19,14 @@ employeeMenu();
 
 function start() {
     read.question(
-    `Welcome! Please log in or create an account. 
+        `Welcome! Please log in or create an account. 
     Create Account: 0
     Login: 1\n`, (answer) => {
-        if (answer == 0){
+        if (answer == 0) {
             console.log('in progress');
             process.exit();
         }
-        else if (answer == 1){
+        else if (answer == 1) {
             logUser();
         }
         else {
@@ -37,11 +37,11 @@ function start() {
 }
 //User Functions
 //TODO: Role Check
-function logUser(){
+function logUser() {
     read.question('Username:', (username) => {
         read.question('Password:', (password) => {
             login = userLogin(username, password);
-            if (login){
+            if (login) {
                 inUser = user;
                 console.log(`Welcome back ${inUser.username}!`);
             }
@@ -53,14 +53,14 @@ function logUser(){
     });
 }
 
-function employeeMenu(){
+function employeeMenu() {
     read.question(`What would you like to do?
     0. Add Car
     1. Remove Car
     2. Accept or Reject Pending Offer
     3. View All Payments
     4. Exit\n`, (answer) => {
-        switch (answer){
+        switch (answer) {
             case '0':
                 console.log("0: coming soon!");
                 //addCar();
@@ -81,8 +81,8 @@ function employeeMenu(){
                 process.exit();
                 //viewPayments();
                 break;
-            case '4': 
-                process.exit(); 
+            case '4':
+                process.exit();
                 break;
         }
     })
@@ -90,7 +90,7 @@ function employeeMenu(){
 
 
 //System Functions
-/*export function updateCar();
+/*git export function updateCar();
 export function rejectPending();
 export function monthlyPayment();*/
 

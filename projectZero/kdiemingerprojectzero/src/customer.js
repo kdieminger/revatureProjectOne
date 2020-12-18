@@ -1,3 +1,9 @@
+/**
+ * Customer Properties
+ * Name
+ * Username
+ */
+
 //Customer Functions
 export function viewCars();
 export function makeOffer();

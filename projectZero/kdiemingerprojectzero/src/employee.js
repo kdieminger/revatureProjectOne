@@ -1,3 +1,9 @@
+/**
+ * Employee Properties
+ * Name
+ * Username
+ * Salary
+ */
 //Employee Functions
 export function addCar();
 export function pendingOffer();
