@@ -5,11 +5,18 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
+  "jest":{
+    "testEnvironment": "jest-environment-node"
+  },   
   "repository": {
     "url": "2012-dec14-react"
   },
   "author": "kdieminger",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "jest": "^26.6.3"
+  }
 }
