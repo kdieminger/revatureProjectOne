@@ -1,23 +1,22 @@
 import fs from 'fs';
 
 export let users;
+export let data;
 
 export function loadUsers() {
-    fs.readFileSync('./usersdata.json', (err, data) => {
-        if (err) {
-            console.log(err);
-        } else {
-            users = JSON.parse(data);
-        }
-    });
-}
+    try {
+        data = JSON.parse(fs.readFileSync('./usersdata.json'));
+      } catch (err) {
+        console.error(err);
+      }
+};
 
 
 export function userLogin (name, pass){
-    return users.find(person => person.username === name && person.password === pass);
+    return data.find(person => person.username === name && person.password === pass);
 };
 
-export function tryAgain(){
+/*export function tryAgain(){
     read.question('Try Again: Yes | No', (answer) => {
         if (answer === "Yes" || answer === "yes"){
             userLogin();
@@ -30,4 +29,4 @@ export function tryAgain(){
             tryAgain();
         }
     });
-}
+}*/

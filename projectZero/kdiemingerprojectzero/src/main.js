@@ -1,6 +1,7 @@
+import { exit } from 'process';
 import readline from 'readline';
 
-import { userLogin, loadUsers, tryAgain } from './user.js';
+import { userLogin, loadUsers } from './user.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -14,8 +15,8 @@ export function load() {
     loadUsers();
 }
 
-employeeMenu();
-//start();
+//employeeMenu();
+start();
 
 function start() {
     read.question(
@@ -27,6 +28,7 @@ function start() {
             process.exit();
         }
         else if (answer == 1) {
+            load();
             logUser();
         }
         else {
@@ -42,18 +44,18 @@ function logUser() {
         read.question('Password:', (password) => {
             login = userLogin(username, password);
             if (login) {
-                inUser = user;
+                let inUser = login;
                 console.log(`Welcome back ${inUser.username}!`);
+                process.exit();
             }
             else {
                 console.log('Login failed. Incorrect username or password.');
-                tryAgain();
+                //tryAgain();
+                process.exit();
             }
         })
     });
 }
-
-
 
 
 //System Functions
