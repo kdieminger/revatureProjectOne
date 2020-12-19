@@ -3,6 +3,7 @@ import readline from 'readline';
 
 import { userLogin, loadUsers, tryAgain, registerUser, getUser } from './user.js';
 import { loadCarLot, viewCars } from './customer.js';
+import { addCar } from './employee.js';
 
 
 const read = readline.createInterface({

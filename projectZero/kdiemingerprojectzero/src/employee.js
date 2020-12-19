@@ -1,11 +1,29 @@
+import fs from 'fs';
+
 /**
  * Employee Properties
  * Name
  * Username
  * Salary
- */
+*/
+
+let data;
+
+export function loadCarLotE() {
+    try {
+        data = JSON.parse(fs.readFileSync('./carLot.json'));
+      } catch (err) {
+        console.error(err);
+      }
+};
+
+//adds car to carLot
+export function addCar(brand, color, price){
+    data.push({brand: brand, color: color, price: price});
+}
+
 //Employee Functions
-export function employeeMenu() {
+/*export function employeeMenu() {
     read.question(`What would you like to do?
     0. Add Car
     1. Remove Car
@@ -39,7 +57,7 @@ export function employeeMenu() {
         }
     })
 }
-export function addCar();
 export function pendingOffer();
 export function removeCar();
 export function viewPayments();
+*/
