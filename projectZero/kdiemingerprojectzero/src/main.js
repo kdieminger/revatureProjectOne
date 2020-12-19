@@ -1,7 +1,7 @@
 import { exit } from 'process';
 import readline from 'readline';
 
-import { userLogin, loadUsers, tryAgain } from './user.js';
+import { userLogin, loadUsers, tryAgain, registerUser, getUser } from './user.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -15,7 +15,26 @@ export function load() {
     loadUsers();
 }
 
+export function register() {
+    read.question('Username:', (username) => {
+        if (getUser(username)){
+            console.log('Username is taken.');
+            start();
+        }
+        else {
+            read.question('Password:', (password) => {
+                read.question('Customer or Employee? ', (type) => {
+                    registerUser(username, password, type);
+                    start();
+                })
+                
+            })
+        }
+    })
+}
+
 //employeeMenu();
+load();
 start();
 
 function start() {
@@ -24,11 +43,9 @@ function start() {
     Create Account: 0
     Login: 1\n`, (answer) => {
         if (answer == 0) {
-            console.log('in progress');
-            process.exit();
+            register();
         }
         else if (answer == 1) {
-            load();
             logUser();
         }
         else {
@@ -39,7 +56,7 @@ function start() {
 }
 //User Functions
 //TODO: Role Check
-function logUser() {
+export function logUser() {
     read.question('Username:', (username) => {
         read.question('Password:', (password) => {
             login = userLogin(username, password);
