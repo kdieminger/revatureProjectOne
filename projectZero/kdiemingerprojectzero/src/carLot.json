@@ -1,0 +1,13 @@
+[
+    {
+        "brand": "Kia",
+        "color": "red",
+        "price": 15000
+    },
+
+    {
+        "brand": "Honda",
+        "color": "blue",
+        "price": 20000
+    }
+]

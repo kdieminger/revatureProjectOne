@@ -3,7 +3,6 @@ import { exit } from 'process';
 import { logUser } from './main.js' 
 
 //variables
-export let users;
 export let data;
 
 

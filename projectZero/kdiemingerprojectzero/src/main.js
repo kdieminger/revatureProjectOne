@@ -2,6 +2,8 @@ import { exit } from 'process';
 import readline from 'readline';
 
 import { userLogin, loadUsers, tryAgain, registerUser, getUser } from './user.js';
+import { loadCarLot, viewCars } from './customer.js';
+
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -13,6 +15,7 @@ export let login = null;
 
 export function load() {
     loadUsers();
+    loadCarLot();
 }
 
 export function register() {
