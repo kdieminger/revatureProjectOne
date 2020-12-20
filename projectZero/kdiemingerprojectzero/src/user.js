@@ -3,7 +3,8 @@ import { exit } from 'process';
 import { logUser } from './main.js' 
 
 //variables
-export let data;
+export let data = [];
+export let uN = [];
 
 
 //loads users from usersdata.json
@@ -15,9 +16,15 @@ export function loadUsers() {
       }
 };
 
+//for testing
+export function testUser() {
+    return true;
+}
+
 //checks for matching username
 export function getUser(userN){
-    return data.find(person => person.username === userN);
+    uN = data.find(person => person.username === userN);
+    return uN.username;
 }
 
 //logs user in

@@ -22,6 +22,7 @@ export function load() {
 export function register() {
     read.question('Username:', (username) => {
         if (getUser(username)){
+            console.log(getUser(username));
             console.log('Username is taken.');
             start();
         }
@@ -37,29 +38,7 @@ export function register() {
     })
 }
 
-//employeeMenu();
-load();
-start();
 
-function start() {
-    read.question(
-        `Welcome! Please log in or create an account. 
-    Create Account: 0
-    Login: 1\n`, (answer) => {
-        if (answer == 0) {
-            register();
-        }
-        else if (answer == 1) {
-            logUser();
-        }
-        else {
-            console.log("invalid response");
-            start();
-        }
-    });
-}
-//User Functions
-//TODO: Role Check
 export function logUser() {
     read.question('Username:', (username) => {
         read.question('Password:', (password) => {
@@ -79,6 +58,29 @@ export function logUser() {
     });
 }
 
+
+//employeeMenu();
+load();
+start();
+
+
+function start() {
+    read.question(
+        `Welcome! Please log in or create an account. 
+    Create Account: 0
+    Login: 1\n`, (answer) => {
+        if (answer == 0) {
+            register();
+        }
+        else if (answer == 1) {
+            logUser();
+        }
+        else {
+            console.log("invalid response");
+            start();
+        }
+    });
+}
 
 //System Functions
 /*git export function updateCar();
