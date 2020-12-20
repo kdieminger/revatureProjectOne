@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
+    
   },
   "jest": {
     "testEnvironment": "jest-environment-node"
