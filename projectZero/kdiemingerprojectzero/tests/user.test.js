@@ -1,5 +1,7 @@
 import { data, uN, testUser, getUser, loadUsers, userLogin, tryAgain, registerUser } from '../src/user.js'
 
+loadUsers();
+
 let person = {username: 'smccall', password: 'allison', role: 'Customer'};
 
 
