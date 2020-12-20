@@ -16,10 +16,6 @@ export function loadUsers() {
       }
 };
 
-//for testing
-export function testUser() {
-    return true;
-}
 
 //checks for matching username
 export function getUser(userN){
