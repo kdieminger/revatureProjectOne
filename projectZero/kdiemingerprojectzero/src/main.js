@@ -73,6 +73,9 @@ export function logUser() {
             if (login) {
                 let inUser = login;
                 console.log(`Welcome back ${inUser.username}!`);
+                if (inUser.role === 'Customer'){
+                    customerMenu();
+                }
                 process.exit();
             }
             else {
@@ -108,6 +111,35 @@ function start() {
             start();
         }
     });
+}
+
+function customerMenu(){
+    read.question( 
+        `What would you like to do?
+        1. View Car Lot
+        2. Make an Offer
+        3. View owned cars
+        4. View remaining payments 
+        5. Loggout\n`, (answer) => {
+            switch (answer) {
+                case '1':
+                    viewCars();
+                    break;
+                case '2':
+                    console.log('In progress');
+                    break;
+                case '3':
+                    console.log('In progress');
+                    break;
+                case '4':
+                    console.log('In progress');
+                    break;
+                case '5':
+                    start();
+                    break;
+                default: start();
+            }
+        });
 }
 
 //System Functions

@@ -18,7 +18,8 @@ export function loadCarLot() {
 
 //view cars on the lot
 export function viewCars(){
-    console.log(data);
+  let lot = data;  
+  console.log(lot);
 }
 
 //Customer Functions
