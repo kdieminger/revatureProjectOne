@@ -102,6 +102,7 @@ class Muffin {
     }
 }
 
+// Factory function
 function spreadable(type) {
     return type=='toast'? new Toast(): new Muffin();
 }
