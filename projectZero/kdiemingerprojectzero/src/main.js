@@ -2,7 +2,7 @@ import { exit } from 'process';
 import readline from 'readline';
 
 import { userLogin, loadUsers, registerCustomer, getUser, registerEmployee } from './user.js';
-import { loadCarLot, viewCars } from './customer.js';
+import { loadCarLot, viewCars, viewOffers, makeOffer } from './customer.js';
 import { addCar } from './employee.js';
 
 
@@ -37,7 +37,6 @@ export function tryAgain(answer){
 export function register() {
     read.question('Username:', (username) => {
         if (getUser(username)){
-            console.log(getUser(username));
             console.log('Username is taken.');
             start();
         }
@@ -76,7 +75,6 @@ export function logUser() {
                 if (inUser.role === 'Customer'){
                     customerMenu();
                 }
-                process.exit();
             }
             else {
                 console.log('Login failed. Incorrect username or password.');
@@ -120,13 +118,13 @@ function customerMenu(){
         2. Make an Offer
         3. View owned cars
         4. View remaining payments 
-        5. Loggout\n`, (answer) => {
+        5. Logout\n`, (answer) => {
             switch (answer) {
                 case '1':
                     viewCars();
                     break;
                 case '2':
-                    console.log('In progress');
+                    makeOfferMenu();
                     break;
                 case '3':
                     console.log('In progress');
@@ -142,6 +140,20 @@ function customerMenu(){
         });
 }
 
+
+export function makeOfferMenu(){
+    read.question('Enter your username.\n', (uName) => {
+        read.question('Enter the car ID.\n', (ID) => {
+            read.question('Enter your down payment.\n', (DP) => {
+                read.question('Over how many months will you pay off the rest?\n', (month) => {
+                    makeOffer(ID, DP, month, uName);
+                    viewOffers();
+                })
+            })
+        })
+    })
+        
+}
 //System Functions
 /*git export function updateCar();
 export function rejectPending();
