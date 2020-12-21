@@ -1,7 +1,7 @@
 import { exit } from 'process';
 import readline from 'readline';
 
-import { userLogin, loadUsers, tryAgain, registerUser, getUser } from './user.js';
+import { userLogin, loadUsers, registerCustomer, getUser, registerEmployee } from './user.js';
 import { loadCarLot, viewCars } from './customer.js';
 import { addCar } from './employee.js';
 
@@ -19,6 +19,21 @@ export function load() {
     loadCarLot();
 }
 
+//gives the user to try to login again
+export function tryAgain(answer){
+    if (answer === "Yes" || answer === "yes"){   
+        logUser();
+    }
+    else if (answer === "No" || answer === "no"){
+            console.log('Okay');
+            process.exit();
+    }
+    else {
+            console.log ('Error: Invalid response.');
+            tryAgain();
+    }
+};
+
 export function register() {
     read.question('Username:', (username) => {
         if (getUser(username)){
@@ -28,9 +43,21 @@ export function register() {
         }
         else {
             read.question('Password:', (password) => {
-                read.question('Customer or Employee? ', (type) => {
-                    registerUser(username, password, type);
-                    start();
+                read.question('Employee Code? (enter 0 to skip)\n', (code) => {
+                    if (code === '0'){
+                        registerCustomer(username, password);
+                        console.log("Welcome new customer!");
+                        start();
+                    }
+                    else if (code === '1234'){
+                        registerEmployee(username, password);
+                        console.log("Welcome new employee!");
+                        start();
+                    }
+                    else {
+                        console.log("Incorrect employee code.");
+                        start();
+                    }
                 })
                 
             })
@@ -57,6 +84,7 @@ export function logUser() {
         })
     });
 }
+
 
 
 //employeeMenu();

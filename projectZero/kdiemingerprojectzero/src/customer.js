@@ -10,7 +10,7 @@ let data;
 //load data from carLot
 export function loadCarLot() {
     try {
-        data = JSON.parse(fs.readFileSync('./carLot.json'));
+        data = JSON.parse(fs.readFileSync('../carLot.json'));
       } catch (err) {
         console.error(err);
       }
