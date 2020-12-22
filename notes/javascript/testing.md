@@ -62,6 +62,21 @@ A unit-testing framework that attempts to be as human-readable as possible. As s
    to `package.json`
 
 
+---
+For TypeScript
+1. `npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-typescript`
+2. Create babel.config.js
+```json
+module.exports = {
+  presets: [
+    ['@babel/preset-env', {targets: {node: 'current'}}],
+    '@babel/preset-typescript'
+  ]
+};
+```
+3. `npm install --save-dev @types/jest`
+
+
 ### Jest Coverage Report
 `npx jest --coverage`
 
