@@ -95,7 +95,7 @@ start();
 
 function start() {
     read.question(
-        `Welcome! Please log in or create an account. 
+        `Welcome! Please log in or create an account. Enter q to quit. 
     Create Account: 0
     Login: 1\n`, (answer) => {
         if (answer == 0) {
@@ -103,6 +103,9 @@ function start() {
         }
         else if (answer == 1) {
             logUser();
+        }
+        else if (answer == 'q' || answer == 'Q'){
+            process.exit();
         }
         else {
             console.log("invalid response");
@@ -158,5 +161,4 @@ export function makeOfferMenu(){
 //System Functions
 /*git export function updateCar();
 export function rejectPending();
-export function monthlyPayment();*/
-
+*/
