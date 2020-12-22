@@ -46,7 +46,7 @@ export function register() {
                     if (code === '0'){
                         registerCustomer(username, password);
                         console.log("Welcome new customer!");
-                        start();
+                        customerMenu();
                     }
                     else if (code === '1234'){
                         registerEmployee(username, password);
@@ -122,6 +122,7 @@ function customerMenu(){
             switch (answer) {
                 case '1':
                     viewCars();
+                    customerMenu();
                     break;
                 case '2':
                     makeOfferMenu();
@@ -135,19 +136,19 @@ function customerMenu(){
                 case '5':
                     start();
                     break;
-                default: start();
+                default: customerMenu();
             }
         });
 }
 
-
+//TODO: make a way to exit back to main menu at any time
 export function makeOfferMenu(){
     read.question('Enter your username.\n', (uName) => {
         read.question('Enter the car ID.\n', (ID) => {
             read.question('Enter your down payment.\n', (DP) => {
                 read.question('Over how many months will you pay off the rest?\n', (month) => {
                     makeOffer(ID, DP, month, uName);
-                    viewOffers();
+                    customerMenu();
                 })
             })
         })

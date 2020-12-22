@@ -31,8 +31,23 @@ export function viewCars(){
   console.log(lot);
 }
 
+export function calcMonthPay(carID, downpay, months){
+  let vehicle = lot.find(car => car.carID === carID);
+  let z = vehicle.price;
+  let remain = z - downpay;
+  let monthly = remain/months;
+  monthly = monthly.toFixed(2);
+  return monthly;
+}
+
 export function makeOffer(carID, downPay, months, user){
   offers.push({carID: carID, downPay: downPay, months: months, user: user});
+  let x = Number(downPay);
+  let y = Number(months);
+  console.log(x, '+', y, '\n');
+  let monthly = calcMonthPay(carID, x, y);
+  console.log(monthly, '\n');
+  console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months}.`);
 }
 
 export function viewOffers(){
