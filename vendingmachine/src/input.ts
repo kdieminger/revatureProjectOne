@@ -1,7 +1,7 @@
 import readline from 'readline';
 
-import { restockItem, getByPosition, displayContents, saveInventory, loadInventory, Inventory } from './inventory';
-import { getUser, login, register, saveUsers, loadUsers, User } from './user';
+import { restockItem, getByPosition, displayContents, Inventory, createItem } from './inventory/inventory';
+import { getUser, login, register, saveUsers, loadUsers, User } from './user/user';
 import logger from './log';
 
 
@@ -9,16 +9,6 @@ export const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-
-/*
-    List of features:
-        Contains products. - Fine
-        Displays info on products. - Fine
-        Accepts selection of object. - Fine
-        Accepts payment for object. - Fine
-        Dispenses object. - Fine
-        Be able to be restocked. - Fine
-*/
 
 export let loggedUser: User;
 
@@ -124,6 +114,23 @@ export function restock() {
     });
 }
 
+export function addItem() {
+    rl.question('position: ', (position) => {
+        rl.question('name: ', (item) => {
+            rl.question('price: ', (price) => {
+                rl.question('stock: ', (stock) => {
+                    try{
+                        createItem({position, item, price: Number(price), stock: Number(stock)}, start);
+                    } catch {
+                        logger.warn('String input for price or stock. Try Again.')
+                        start();
+                    }
+                });
+            });
+        });
+    });
+}
+
 export function attemptRegister() {
     rl.question('Username? ', (username) => {
         //if username already exists, print output
@@ -146,10 +153,10 @@ export function attemptRegister() {
 
     });
 }
-export function checkUserRole() {
+export function checkUserRole(callback: Function) {
     logger.trace('Checking user role.');
     if (loggedUser && loggedUser.role === 'Employee') {
-        restock();
+        callback();
     }
     else {
         logger.warn('Attempted Restock not permitted.');
@@ -175,7 +182,6 @@ export function attemptLogin() {
 }
 
 export function exit() {
-    saveInventory();
     saveUsers();
     process.exit();
 }
@@ -189,6 +195,7 @@ export function start() {
         2. Display Contents
         3. Make selection
         4. Restock
+        5. Add Item
         q. Exit\n`,
         function (answer) {
             let valid = false;
@@ -207,8 +214,7 @@ export function start() {
                     break;
                 case '2':
                     logger.info('Contents');
-                    displayContents();
-                    start();
+                    displayContents(start);
                     break;
                 case '3':
                     logger.info('Selection');
@@ -216,7 +222,11 @@ export function start() {
                     break;
                 case '4':
                     logger.info('Restock');
-                    checkUserRole();
+                    checkUserRole(restock);
+                    break;
+                case '5':
+                    logger.info('Add Item');
+                    checkUserRole(addItem);
                     break;
                 case 'q': exit(); break;
                 default: start();
@@ -229,6 +239,5 @@ export function start() {
 }
 
 export function load() {
-    loadInventory();
     loadUsers();
 }

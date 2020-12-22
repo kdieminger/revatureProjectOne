@@ -3,7 +3,7 @@ As a user, I can register as a customer with a starting amount of money.
 */
 
 import fs from 'fs';
-import logger from './log';
+import logger from '../log';
 
 export class User {
     public role: string = 'Customer';

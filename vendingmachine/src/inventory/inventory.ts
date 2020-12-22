@@ -1,5 +1,5 @@
-import fs from 'fs';
-import logger from './log';
+import inventoryService from './inventory.service';
+import logger from '../log';
 
 export interface Inventory{
     item: string;
@@ -10,15 +10,6 @@ export interface Inventory{
 
 export let inventory: Inventory[] = [];
 
-export function loadInventory() {
-    fs.readFile('inventory.json', (err, data)=> {
-        if(err) {
-            logger.error(err);
-        } else {
-            inventory = JSON.parse(data.toString());
-        }
-    });
-}
 
 export function restockItem(itemName: string){
     logger.trace(`restock called with parameter ${JSON.stringify(itemName)}`);
@@ -39,13 +30,21 @@ export function itemString(item: Inventory) {
     return item.position + '. ' + item.item + '- $' + item.price;
 }
 
-export function displayContents() {
+export function displayContents(callback: Function) {
     logger.trace('displayContents called!');
-    inventory.forEach((item) => {console.log(itemString(item));});
+    inventoryService.getItems().then((items)=>{
+        items.forEach((item) => {console.log(itemString(item));});
+        callback();
+    })
 }
 
-export function saveInventory() {
-    logger.trace('saveInventory called!');
-    let i = JSON.stringify(inventory);
-    fs.writeFileSync('inventory.json', i);
+export function createItem(item: Inventory, callback: Function) {
+    logger.info('Adding item to db');
+    inventoryService.addItem(item).then((res) => {
+        logger.trace(res);
+        callback();
+    }).catch( (err)=> {
+        logger.error(err);
+        callback();
+    });
 }
