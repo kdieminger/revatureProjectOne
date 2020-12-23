@@ -48,19 +48,21 @@ ddb.deleteTable(removeInventory, function (err, data) {
             if (err) {
                 // log the error
                 console.log("Error", err);
-                populateTable();
             } else {
                 // celebrate, I guess
                 console.log("Table Created", data);
+                setTimeout(()=>{
+                    populateTable();
+                }, 5000);
             }
         });
-    }, 1000);
+    }, 5000);
 });
     
 function populateTable(){
-    inventoryService.addItem({position: 'S76', item: 'Snickers', price: 5.6, stock: 7});
-    inventoryService.addItem({position: 'A54', item: 'Water', price: 2, stock: 1});
-    inventoryService.addItem({position: 'B63', item: 'Gatorade', price: 3.5, stock: 4});
-    inventoryService.addItem({position: 'T3', item: 'Twix', price: 1.2, stock: 23});
-    inventoryService.addItem({position: 'G78', item: 'Mars', price: 3.2, stock: 3});
+    inventoryService.addItem({position: 'S76', item: 'Snickers', price: 5.6, stock: 7}).then(()=>{});
+    inventoryService.addItem({position: 'A54', item: 'Water', price: 2, stock: 1}).then(()=>{});
+    inventoryService.addItem({position: 'B63', item: 'Gatorade', price: 3.5, stock: 4}).then(()=>{});
+    inventoryService.addItem({position: 'T3', item: 'Twix', price: 1.2, stock: 23}).then(()=>{});
+    inventoryService.addItem({position: 'G78', item: 'Mars', price: 3.2, stock: 3}).then(()=>{});
 }
