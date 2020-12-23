@@ -1,4 +1,3 @@
-import {start, load} from './input';
+import {start} from './input';
 
-load();
 start();

@@ -8,8 +8,6 @@ export interface Inventory{
     stock: number;
 }
 
-export let inventory: Inventory[] = [];
-
 export function updateItem(item: Inventory, callback: Function) {
     logger.trace(`update called with parameter ${JSON.stringify(item)}`);
     inventoryService.updateItem(item).then((bool)=>{
