@@ -1,49 +1,63 @@
-import { inventory, itemString, restockItem } from '../src/inventory';
+import { getByPosition, Inventory, itemString } from '../src/inventory/inventory';
+import inventoryService from '../src/inventory/inventory.service';
 
-let testItem;
+let testItem: Inventory|undefined;
 
 // Set up the environment before any test is run. This runs once.
 beforeAll(() => {
-    console.log('before all tests');
-    inventory.splice(0, inventory.length);
+    //console.log('before all tests');
 });
 
 // Tear down the environment after every test is run. This runs once.
 afterAll(() => {
-    console.log('after all tests');
-    inventory.splice(0, inventory.length);
+    //console.log('after all tests');
 });
 
 // Before each of my tests, set up the environment.
 beforeEach(() => {
-    console.log('before each test');
+    //console.log('before each test');
     testItem = {item: 'Snickers', price: 5, position: 'T56', stock: 5};
-    inventory.push(testItem);
 });
 
 // Destroy everything we created after each test.
 afterEach(() => {
-    console.log('after each test');
-    testItem = null;
-    inventory.splice(0, inventory.length);
+    //console.log('after each test');
+    testItem = undefined;
 });
 
 test('That the item string works with a real object', () => {
-    console.log('snickers test');
+    //console.log('snickers test');
     let str = 'T56. Snickers- $5';
-    expect(itemString(testItem)).toBe(str);
+    if(testItem) {
+        expect(itemString(testItem)).toBe(str);
+    }
 });
 
 test('That the item string works with an empty object', () => {
-    console.log('null test');
-    let obj = {};
-    let str = 'undefined. undefined- $undefined';
+    //console.log('null test');
+    let obj: Inventory = {item: '', position: '', stock: 0, price: 0};
+    let str = '. - $0';
     expect(itemString(obj)).toBe(str);
 });
 
-test('That stock of an item increases after restockItem', () => {
-    console.log('restock test');
-    expect(testItem.stock).toBe(5);
-    restockItem('Snickers');
-    expect(testItem.stock).toBe(6);
-});
+describe('A situation where the item is found', () => {
+
+    test('that success is called when the item is found', async () => {
+        let success = jest.fn();
+        let failure = jest.fn();
+        // Mock the function by creating a new jest function that returns a promise containing the test item when called.
+        inventoryService.getItemByPosition = jest.fn().mockResolvedValue(testItem);
+        // .mock.calls is an array of all the calls to the mocked function
+        await getByPosition('', success, failure);
+        expect(success.mock.calls.length).toBe(1);
+    });
+    test('that failure is called when the item is not found', async () => {
+        let success = jest.fn();
+        let failure = jest.fn();
+        // Mock the function by creating a new jest function that returns a promise containing the test item when called.
+        inventoryService.getItemByPositionSimple = jest.fn().mockResolvedValue(undefined);
+        // .mock.calls is an array of all the calls to the mocked function
+        await getByPosition('', success, failure);
+        expect(failure.mock.calls.length).toBe(1);
+    });
+})

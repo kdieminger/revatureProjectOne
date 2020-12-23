@@ -103,6 +103,9 @@ Create an AWS Access Key
 ## Configure the AWS CLI
 * `aws configure`
 
+## Install the AWS SDK
+* `npm install --save aws-sdk`
+
 ## DynamoDB
 Dynamo Database is a serverless, NoSQL database solution created by AWS. The AWS tells it they developed DynamoDB to better handle Prime Day traffic.
 
@@ -147,5 +150,22 @@ Capacity Units ([Stolen directly from AWS](https://aws.amazon.com/dynamodb/prici
 * Write capacity unit (WCU): Each API call to write data to your table is a write request. For items up to 1 KB in size, one WCU can perform one standard write request per second. Items larger than 1 KB require additional WCUs. Transactional write requests require two WCUs to perform one write per second for items up to 1 KB. For example, a standard write request of a 1 KB item would require one WCU, a standard write request of a 3 KB item would require three WCUs, and a transactional write request of a 3 KB item would require six WCUs
 
 ### Partition Key
-### Local Secondary Index
-### Global Secondary Indexes
+A Key that identifies an item.
+* Hash Key - Partitions based on a single attribute
+* Range Key - Partitions based on two items. Allows us to group multiple items under a single partition key.
+
+Our Partition key will be our Hash Key. This is the primary identifier for an item in our Database.
+
+#### Local Secondary Index
+An index where the first element is the Partition Key of the database and the second is another attribute that we can used to sort. Sometimes known as a sort key.
+
+Can only be created during table creation. We can have only one.
+
+#### Global Secondary Indexes
+An index with any attributes. We can have as many of these as we want.
+
+The more indexes we add, the worse performance will become.
+
+### Scan vs Query
+Scan looks at the entire table and then returns results. Query allows us to look at a partition (using the partition key) of the table and then return results.
+If I don't have the table partitioned, then to retrieve a subset of the table (but not just one item) I have to perform a scan. We don't want to perform a scan unless we have to.

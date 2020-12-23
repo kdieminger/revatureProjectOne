@@ -11,5 +11,9 @@ I wish to create an object (probably a complicated one), and I'll probably need 
 
 A Factory is a class/function that creates an object as a blackbox that we can just use.
 
-## Why create a Factory Function over a class?
+### Why create a Factory Function over a class?
 You can actually just go ahead and create a class to be your factory, the important part of the Factory design pattern is that the end user doesn't really know about the implementation of the class he is given.
+
+## DAO (Data Access Object)
+This design pattern modularizes all access to a data source into a single class/module.
+For an example of a DAO, look no further than `InventoryService`.
