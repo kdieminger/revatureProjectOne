@@ -1,9 +1,7 @@
 import { exit } from 'process';
 import readline from 'readline';
 
-import { userLogin, loadUsers, registerCustomer, getUser, registerEmployee } from './user.js';
-import { loadCarLot, viewCars, viewOffers, makeOffer } from './customer.js';
-import { addCar } from './employee.js';
+import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, addCar, viewOffers } from './user.js';
 
 
 const read = readline.createInterface({
@@ -14,9 +12,11 @@ const read = readline.createInterface({
 
 export let login = null;
 
+//loads files
 export function load() {
     loadUsers();
     loadCarLot();
+    loadOffers();
 }
 
 //gives the user to try to login again
@@ -34,6 +34,7 @@ export function tryAgain(answer){
     }
 };
 
+//registers a user
 export function register() {
     read.question('Username:', (username) => {
         if (getUser(username)){
@@ -46,7 +47,7 @@ export function register() {
                     if (code === '0'){
                         registerCustomer(username, password);
                         console.log("Welcome new customer!");
-                        customerMenu();
+                        start();
                     }
                     else if (code === '1234'){
                         registerEmployee(username, password);
@@ -64,7 +65,7 @@ export function register() {
     })
 }
 
-
+//logs a user in
 export function logUser() {
     read.question('Username:', (username) => {
         read.question('Password:', (password) => {
@@ -74,6 +75,9 @@ export function logUser() {
                 console.log(`Welcome back ${inUser.username}!`);
                 if (inUser.role === 'Customer'){
                     customerMenu();
+                }
+                else if (inUser.role === 'Employee'){
+                    employeeMenu();
                 }
             }
             else {
@@ -88,11 +92,11 @@ export function logUser() {
 
 
 
-//employeeMenu();
+//loads files and then runs the start menu
 load();
 start();
 
-
+//start menu, login or register
 function start() {
     read.question(
         `Welcome! Please log in or create an account. Enter q to quit. 
@@ -114,6 +118,7 @@ function start() {
     });
 }
 
+//runs after login or register as customer
 function customerMenu(){
     read.question( 
         `What would you like to do?
@@ -144,6 +149,62 @@ function customerMenu(){
         });
 }
 
+function employeeMenu(){
+    read.question(
+        `What would you like to do?
+        1. View Car Lot
+        2. Add or Remove Car from Lot
+        3. View Pending Offers
+        4. Accept or Reject a Pending Offer
+        5. View All Payments
+        6. Switch to Customer View
+        7. Logout\n`, (answer) => {
+            switch (answer) {
+                case '1':
+                    viewCars();
+                    employeeMenu();
+                    break;
+                case '2':
+                    read.question("1. Add or 2. Remove?", (answer) =>{
+                        if (answer == 1){
+                            read.question("Brand:\n", (brand) => {
+                                read.question("Color:\n", (color) =>{
+                                    read.question("CarID:\n", (carID) =>{
+                                        read.question("Price:\n", (price) =>{
+                                            addCar(brand,color,carID,price);
+                                            viewCars();
+                                            employeeMenu();
+                                        })
+                                    })
+                                })
+                            })
+                        }
+                    })
+                    break;
+                case '3':
+                    viewOffers();
+                    employeeMenu();
+                    break;
+                case '4':
+                    console.log("In progress");
+                    employeeMenu();
+                    break;
+                case '5':
+                    console.log("In progress");
+                    employeeMenu();
+                    break;
+                case '6':
+                    customerMenu();
+                    break;
+                case '7':
+                    start();
+                    break;
+                default: employeeMenu();
+            }
+        })
+}
+
+//runs if customer selects make an offer
 //TODO: make a way to exit back to main menu at any time
 export function makeOfferMenu(){
     read.question('Enter your username.\n', (uName) => {
