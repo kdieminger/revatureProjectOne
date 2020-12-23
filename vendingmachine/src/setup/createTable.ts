@@ -1,6 +1,5 @@
 import * as AWS from 'aws-sdk';
 import inventoryService from '../inventory/inventory.service';
-import {Inventory} from '../inventory/inventory';
 
 // Set the region
 AWS.config.update({ region: 'us-west-2' });
