@@ -67,7 +67,14 @@ class InventoryService {
             // TableName - the name of the table we are sending it to
             TableName: 'inventory_items',
             // Item - the object we are sending
-            Item: inventory
+            Item: inventory,
+            ConditionExpression: '#p <> :pos',
+            ExpressionAttributeNames: {
+                '#p': 'position'
+            },
+            ExpressionAttributeValues: {
+                ':pos': inventory.position
+            }
         };
     
         /*
