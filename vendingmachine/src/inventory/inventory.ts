@@ -18,7 +18,7 @@ export function updateItem(item: Inventory, callback: Function) {
 }
 
 export function getByPosition(position: string, success: Function, cont: Function, operation?:Function) {
-    inventoryService.getItemByPosition(position).then((selection) => {
+    inventoryService.getItemByPositionSimple(position).then((selection) => {
         if (selection) {
             if(operation) {
                 operation(selection);

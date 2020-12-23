@@ -165,3 +165,7 @@ Can only be created during table creation. We can have only one.
 An index with any attributes. We can have as many of these as we want.
 
 The more indexes we add, the worse performance will become.
+
+### Scan vs Query
+Scan looks at the entire table and then returns results. Query allows us to look at a partition (using the partition key) of the table and then return results.
+If I don't have the table partitioned, then to retrieve a subset of the table (but not just one item) I have to perform a scan. We don't want to perform a scan unless we have to.

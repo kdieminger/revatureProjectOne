@@ -55,7 +55,7 @@ describe('A situation where the item is found', () => {
         let success = jest.fn();
         let failure = jest.fn();
         // Mock the function by creating a new jest function that returns a promise containing the test item when called.
-        inventoryService.getItemByPosition = jest.fn().mockResolvedValue(undefined);
+        inventoryService.getItemByPositionSimple = jest.fn().mockResolvedValue(undefined);
         // .mock.calls is an array of all the calls to the mocked function
         await getByPosition('', success, failure);
         expect(failure.mock.calls.length).toBe(1);

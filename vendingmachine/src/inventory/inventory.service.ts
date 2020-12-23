@@ -39,6 +39,22 @@ class InventoryService {
         })
     }
 
+    async getItemByPositionSimple(position: string): Promise<Inventory|null> {
+        // GetItem api call allows us to get something by the key
+        const params = {
+            TableName: 'inventory_items',
+            Key: {
+                'position': position
+            }
+        };
+        return await this.doc.get(params).promise().then((data) => {
+            if(data && data.Item)
+                return data.Item as Inventory;
+            else
+                return null;
+        })
+    }
+
     async updateItem(inventory: Inventory): Promise<boolean> {
         const params = {
             TableName: 'inventory_items',
@@ -94,4 +110,5 @@ class InventoryService {
 }
 
 const inventoryService = new InventoryService();
+Object.freeze(inventoryService);
 export default inventoryService;
