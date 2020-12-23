@@ -1,5 +1,5 @@
 import * as input from '../src/input';
-import * as user from '../src/user';
+import * as user from '../src/user/user';
 
 // Problem #1: The Start() function
 beforeAll( () => {

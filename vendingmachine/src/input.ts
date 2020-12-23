@@ -1,6 +1,6 @@
 import readline from 'readline';
 
-import { restockItem, getByPosition, displayContents, Inventory, createItem } from './inventory/inventory';
+import { updateItem, getByPosition, displayContents, Inventory, createItem } from './inventory/inventory';
 import { getUser, login, register, saveUsers, loadUsers, User } from './user/user';
 import logger from './log';
 
@@ -52,14 +52,7 @@ export function makeSelection() {
             }
 
             if (valid == true) {
-                let selection = getByPosition(answer);
-                if (selection) {
-                    console.log(selection);
-                    obtainPayment(selection);
-                } else {
-                    console.log('Incorrect, try again.');
-                    start();
-                }
+                getByPosition(answer, obtainPayment, start);
             } else {
                 start();
             }
@@ -70,7 +63,7 @@ export function makeSelection() {
     }
 }
 
-export function obtainPayment(selection: Inventory) {
+export function obtainPayment(selection: Inventory, callback?: Function) {
     console.log(`Remit payment of $${selection.price}.`); // Template literal
     // ${} <- Expression: Executes JS code inside of a template literal.
     if (selection.price > loggedUser.money) {
@@ -92,7 +85,7 @@ export function dispenseProduct(selection: Inventory) {
         loggedUser.money = loggedUser.money - selection.price;
         console.log(`Here is your ${selection.item}. You have $${loggedUser.money} remaining.`);
         selection.stock--;
-        start();
+        updateItem(selection, start);
     } else {
         console.log(`Not enough ${selection.item}. Returning $${selection.price}.`);
         start();
@@ -102,15 +95,7 @@ export function dispenseProduct(selection: Inventory) {
 export function restock() {
     logger.trace('Attempting Restock');
     rl.question('Restock which? ', (answer) => {
-        let selection = getByPosition(answer);
-        if (selection) {
-            restockItem(selection.item);
-            start();
-        } else {
-            logger.warn('Item does not exist for restock');
-            console.log('Incorrect, try again.');
-            start();
-        }
+        getByPosition(answer, updateItem, start, function(item: Inventory) {item.stock++});
     });
 }
 

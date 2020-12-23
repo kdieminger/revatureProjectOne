@@ -1,4 +1,4 @@
-import { inventory, itemString, restockItem } from '../src/inventory';
+import { inventory, itemString, restockItem } from '../src/inventory/inventory';
 
 let testItem;
 

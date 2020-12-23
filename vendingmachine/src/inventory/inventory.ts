@@ -10,19 +10,25 @@ export interface Inventory{
 
 export let inventory: Inventory[] = [];
 
-
-export function restockItem(itemName: string){
-    logger.trace(`restock called with parameter ${JSON.stringify(itemName)}`);
-    let selection = inventory.find(item => item.item === itemName); // function(item){return item.item === itemName}
-    if(selection) {
-        selection.stock++;
-    } else {
-        console.log('Item does not exist.');
-    }
+export function updateItem(item: Inventory, callback: Function) {
+    logger.trace(`update called with parameter ${JSON.stringify(item)}`);
+    inventoryService.updateItem(item).then((bool)=>{
+        callback();
+    });
 }
 
-export function getByPosition(position: string) {
-    return inventory.find(item => item.position === position);
+export function getByPosition(position: string, success: Function, cont: Function, operation?:Function) {
+    inventoryService.getItemByPosition(position).then((selection)=>{
+        if (selection) {
+            if(operation) {
+                operation(selection);
+            }
+            success(selection as Inventory, cont);
+        } else {
+            console.log('Incorrect, try again.');
+            cont();
+        }
+    })
 }
 
 export function itemString(item: Inventory) {

@@ -11,6 +11,7 @@ class InventoryService {
     }
 
     async getItems(): Promise<Inventory[]> {
+        // Scan retrieves every record in the table. In very large tables, this can be very resource intensive
         return await this.doc.scan({'TableName':'inventory_items'}).promise().then((result) => {
             return result.Items as Inventory[];
         }).catch((err) => {
@@ -18,7 +19,49 @@ class InventoryService {
             return [];
         });
     }
-    async addItem(inventory: Inventory): Promise<boolean>{
+    async getItemByPosition(position: string): Promise<Inventory|null> {
+        // Query allows us to query along a partition key.
+        const params = {
+            TableName: 'inventory_items',
+            KeyConditionExpression: '#pos = :position',
+            ExpressionAttributeNames: {
+                '#pos': 'position'
+            },
+            ExpressionAttributeValues: {
+                ':position': position
+            }
+        };
+        return await this.doc.query(params).promise().then((data) => {
+            if(data && data.Items && data.Items.length)
+                return data.Items[0] as Inventory;
+            else
+                return null;
+        })
+    }
+
+    async updateItem(inventory: Inventory): Promise<boolean> {
+        const params = {
+            TableName: 'inventory_items',
+            Key: {
+                'position': inventory.position
+            },
+            UpdateExpression: 'set stock = :s, price = :p',
+            ExpressionAttributeValues: {
+                ':p': inventory.price,
+                ':s': inventory.stock
+            },
+            ReturnValues: 'UPDATED_NEW'
+        };
+        return await this.doc.update(params).promise().then((data)=> {
+            console.log(data);
+            return true;
+        }).catch(error=> {
+            logger.error(error);
+            return false;
+        })
+    }
+
+    async addItem(inventory: Inventory): Promise<boolean> {
         // object to be sent to AWS.
         const params = {
             // TableName - the name of the table we are sending it to
