@@ -1,7 +1,7 @@
 import { exit } from 'process';
 import readline from 'readline';
 
-import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, addCar, viewOffers } from './user.js';
+import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, addCar, viewOffers, removeCar } from './user.js';
 
 
 const read = readline.createInterface({
@@ -165,7 +165,7 @@ function employeeMenu(){
                     employeeMenu();
                     break;
                 case '2':
-                    read.question("1. Add or 2. Remove?", (answer) =>{
+                    read.question("1. Add or 2. Remove?\n", (answer) =>{
                         if (answer == 1){
                             read.question("Brand:\n", (brand) => {
                                 read.question("Color:\n", (color) =>{
@@ -177,6 +177,13 @@ function employeeMenu(){
                                         })
                                     })
                                 })
+                            })
+                        }
+                        else if (answer == 2){
+                            read.question("Enter CarID:\n", (answer) => {
+                                removeCar(answer);
+                                viewCars();
+                                employeeMenu();
                             })
                         }
                     })

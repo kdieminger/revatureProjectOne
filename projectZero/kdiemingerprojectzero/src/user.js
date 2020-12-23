@@ -109,6 +109,12 @@ export function addCar(brand, color, carID, price){
 export function viewOffers(){
     console.log(offers);
 }
+
+//remove car from carLot
+export function removeCar(carID){
+  let remove = lot.indexOf(lot.find(car => car.carID === carID));
+  lot.splice(remove, 1);
+}
 /*export function pendingOffer()
 export function removeCar()
 export function viewPayments()*/
