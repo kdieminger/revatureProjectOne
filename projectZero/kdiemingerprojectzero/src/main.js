@@ -1,7 +1,8 @@
 import { exit } from 'process';
 import readline from 'readline';
 
-import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, addCar, viewOffers, removeCar } from './user.js';
+import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, 
+    addCar, viewOffers, removeCar, lot, updateCarOwner, data, ownedCars, pendingOffer, rejectPending} from './user.js';
 
 
 const read = readline.createInterface({
@@ -96,6 +97,7 @@ export function logUser() {
 load();
 start();
 
+
 //start menu, login or register
 function start() {
     read.question(
@@ -124,7 +126,7 @@ function customerMenu(){
         `What would you like to do?
         1. View Car Lot
         2. Make an Offer
-        3. View owned cars
+        3. View Owned cars
         4. View remaining payments 
         5. Logout\n`, (answer) => {
             switch (answer) {
@@ -134,9 +136,13 @@ function customerMenu(){
                     break;
                 case '2':
                     makeOfferMenu();
+                    customerMenu();
                     break;
                 case '3':
-                    console.log('In progress');
+                    read.question("Enter username: \n", (user) => {
+                        ownedCars(user); 
+                        customerMenu();   
+                    })
                     break;
                 case '4':
                     console.log('In progress');
@@ -149,6 +155,7 @@ function customerMenu(){
         });
 }
 
+//runs after login or register as employee
 function employeeMenu(){
     read.question(
         `What would you like to do?
@@ -193,8 +200,14 @@ function employeeMenu(){
                     employeeMenu();
                     break;
                 case '4':
-                    console.log("In progress");
-                    employeeMenu();
+                    read.question("Enter Car ID: \n", (carid) =>{
+                        read.question("Enter Customer Username: \n", (user) =>{
+                            read.question("0. Accept \n1. Reject\n", (num) =>{
+                                pendingOffer(carid, user, num);
+                                employeeMenu();
+                            })
+                        })
+                    })
                     break;
                 case '5':
                     console.log("In progress");
@@ -226,7 +239,4 @@ export function makeOfferMenu(){
     })
         
 }
-//System Functions
-/*git export function updateCar();
-export function rejectPending();
-*/
+

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { exit } from 'process';
+import { removeEmitHelper } from 'typescript';
 import { Car, Offer } from './car.js';
 
 //Class declaration
@@ -85,13 +86,17 @@ export function makeOffer(carID, downPay, months, user){
     let y = Number(months);
     let monthly = calcMonthPay(carID, x, y);
     console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months} months.`);
-    viewOffers();
 }
 
-/*
-export function ownedCars();
-export function remainingPay();
-*/
+//lets the user view their cars
+export function ownedCars(username){
+  let user = data.find(person => person.username === username);
+  console.log(user.ownedCars);
+}
+
+
+//export function remainingPay();
+
 
 //EMPLOYEE FUNCTIONS
 //registers an employee
@@ -115,9 +120,50 @@ export function removeCar(carID){
   let remove = lot.indexOf(lot.find(car => car.carID === carID));
   lot.splice(remove, 1);
 }
-/*export function pendingOffer()
-export function removeCar()
-export function viewPayments()*/
+
+//accepts or rejects a pending offer
+export function pendingOffer(carID, username, action){
+  let offer = offers.find(off => off.carID === carID && off.username === username);
+  let fCarID = offer.carID;
+  let user = offer.username;
+  if(action == 0){
+    updateCarOwner(fCarID, user);
+    removeCar(fCarID);
+    let remove = offers.indexOf(offers.find(offer => offer.carID === carID && offer.username === username));
+    offers.splice(remove, 1);
+    rejectPending();
+  }
+  else if(action == 1){
+    let remove = offers.indexOf(offers.find(offer => offer.carID === carID && offer.username === username));
+    offers.splice(remove, 1);
+  }
+  else{
+    console.log("Oops!");
+  }
+}
+
+//export function viewPayments()
+
+//SYSTEM FUNCTIONS
+//updates a car's owner - to be called when an offer is accepted
+export function updateCarOwner(carID, username){
+  let userCar = lot.find(car => car.carID === carID);
+  userCar.owner = username;
+  let fUser = data.find(person => person.username === username);
+  let newUserCar = fUser.ownedCars;
+  newUserCar.push(userCar);
+}
+
+export function rejectPending(carID){
+  for (let i = 0; i < offers.length; i++){
+    if (offers[i].carID === carID){
+      console.log(offers[i]);
+      offers.splice(i, 1);
+    }
+  }
+}
+
+
 
 
 
