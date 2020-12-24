@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeOfferMenu = exports.logUser = exports.register = exports.tryAgain = exports.load = exports.login = void 0;
+exports.makeOfferMenu = exports.start = exports.logUser = exports.register = exports.tryAgain = exports.load = exports.login = void 0;
 var readline_1 = __importDefault(require("readline"));
 var user_js_1 = require("./user.js");
 var read = readline_1.default.createInterface({
@@ -89,9 +89,6 @@ function logUser() {
     });
 }
 exports.logUser = logUser;
-//loads files and then runs the start menu
-load();
-start();
 //start menu, login or register
 function start() {
     read.question("Welcome! Please log in or create an account. Enter q to quit. \n    Create Account: 0\n    Login: 1\n", function (answer) {
@@ -110,6 +107,7 @@ function start() {
         }
     });
 }
+exports.start = start;
 //runs after login or register as customer
 function customerMenu() {
     read.question("What would you like to do?\n        1. View Car Lot\n        2. Make an Offer\n        3. View Owned cars\n        4. View remaining payments \n        5. Logout\n", function (answer) {

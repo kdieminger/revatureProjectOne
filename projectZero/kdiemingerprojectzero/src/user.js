@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rejectPending = exports.addPending = exports.updateCarOwner = exports.viewOwnPayments = exports.pendingOffer = exports.removeOffer = exports.removeCar = exports.viewOffers = exports.addCar = exports.registerEmployee = exports.remainingPay = exports.viewUserOffers = exports.viewOwnedCars = exports.makeOffer = exports.registerCustomer = exports.calcMonthPay = exports.viewCars = exports.userLogin = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
 var fs_1 = __importDefault(require("fs"));
+var log_js_1 = __importDefault(require("./log.js"));
 var car_js_1 = require("./car.js");
 //Class declaration
 var User = /** @class */ (function () {
@@ -26,7 +27,7 @@ function loadUsers() {
         exports.data = JSON.parse((fs_1.default.readFileSync('./usersdata.json')).toString());
     }
     catch (err) {
-        console.error(err);
+        log_js_1.default.error(err);
     }
 }
 exports.loadUsers = loadUsers;
@@ -55,6 +56,7 @@ exports.loadOffers = loadOffers;
 //ROLE NEUTRAL FUNCTIONS
 //checks for matching username
 function getUser(userN) {
+    log_js_1.default.trace("get user called with parameter " + userN);
     return exports.data.find(function (person) { return person.username === userN; });
 }
 exports.getUser = getUser;

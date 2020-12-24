@@ -93,14 +93,8 @@ export function logUser() {
 }
 
 
-
-//loads files and then runs the start menu
-load();
-start();
-
-
 //start menu, login or register
-function start() {
+export function start() {
     read.question(
         `Welcome! Please log in or create an account. Enter q to quit. 
     Create Account: 0

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import logger from './log.js';
 import { exit } from 'process';
 import { Car, Offer, Payment } from './car.js';
 
@@ -20,7 +21,7 @@ export function loadUsers() {
     try {
         data = JSON.parse((fs.readFileSync('./usersdata.json')).toString());
       } catch (err) {
-        console.error(err);
+        logger.error(err);
       }
 };
 //loads cars from carLot.json
@@ -46,7 +47,8 @@ export function loadOffers(){
 
 //checks for matching username
 export function getUser(userN: string){
-    return data.find((person: User) => person.username === userN);
+  logger.trace(`get user called with parameter ${userN}`);
+  return data.find((person: User) => person.username === userN);
 }
 
 //logs user in
