@@ -21,7 +21,7 @@ export function load() {
 }
 
 //gives the user to try to login again
-export function tryAgain(answer){
+export function tryAgain(answer: string){
     if (answer === "Yes" || answer === "yes"){   
         logUser();
     }
@@ -31,20 +31,21 @@ export function tryAgain(answer){
     }
     else {
             console.log ('Error: Invalid response.');
-            tryAgain();
+            //tryAgain();
+            logUser();
     }
 };
 
 //registers a user
 export function register() {
-    read.question('Username:', (username) => {
+    read.question('Username:', (username: string) => {
         if (getUser(username)){
             console.log('Username is taken.');
             start();
         }
         else {
-            read.question('Password:', (password) => {
-                read.question('Employee Code? (enter 0 to skip)\n', (code) => {
+            read.question('Password:', (password: string) => {
+                read.question('Employee Code? (enter 0 to skip)\n', (code: string) => {
                     if (code === '0'){
                         registerCustomer(username, password);
                         console.log("Welcome new customer!");
@@ -68,8 +69,8 @@ export function register() {
 
 //logs a user in
 export function logUser() {
-    read.question('Username:', (username) => {
-        read.question('Password:', (password) => {
+    read.question('Username:', (username: string) => {
+        read.question('Password:', (password: string) => {
             login = userLogin(username, password);
             if (login) {
                 let inUser = login;
@@ -83,7 +84,7 @@ export function logUser() {
             }
             else {
                 console.log('Login failed. Incorrect username or password.');
-                read.question('Try Again: Yes | No\n', (answer) => {
+                read.question('Try Again: Yes | No\n', (answer: string) => {
                     tryAgain(answer);
                 });
             }
@@ -103,7 +104,7 @@ function start() {
     read.question(
         `Welcome! Please log in or create an account. Enter q to quit. 
     Create Account: 0
-    Login: 1\n`, (answer) => {
+    Login: 1\n`, (answer: any) => {
         if (answer == 0) {
             register();
         }
@@ -128,7 +129,7 @@ function customerMenu(){
         2. Make an Offer
         3. View Owned cars
         4. View remaining payments 
-        5. Logout\n`, (answer) => {
+        5. Logout\n`, (answer: string) => {
             switch (answer) {
                 case '1':
                     viewCars();
@@ -139,7 +140,7 @@ function customerMenu(){
                     customerMenu();
                     break;
                 case '3':
-                    read.question("Enter username: \n", (user) => {
+                    read.question("Enter username: \n", (user: string) => {
                         viewOwnedCars(user); 
                         customerMenu();   
                     })
@@ -165,14 +166,14 @@ function employeeMenu(){
         4. Accept or Reject a Pending Offer
         5. View All Payments
         6. Switch to Customer View
-        7. Logout\n`, (answer) => {
+        7. Logout\n`, (answer: string) => {
             switch (answer) {
                 case '1':
                     viewCars();
                     employeeMenu();
                     break;
                 case '2':
-                    read.question("1. Add or 2. Remove?\n", (answer) =>{
+                    read.question("1. Add or 2. Remove?\n", (answer: number) =>{
                         if (answer == 1){
                             read.question("Brand:\n", (brand) => {
                                 read.question("Color:\n", (color) =>{
@@ -186,7 +187,7 @@ function employeeMenu(){
                             })
                         }
                         else if (answer == 2){
-                            read.question("Enter CarID:\n", (answer) => {
+                            read.question("Enter CarID:\n", (answer: string) => {
                                 removeCar(answer);
                                 viewCars();
                                 employeeMenu();
@@ -199,9 +200,9 @@ function employeeMenu(){
                     employeeMenu();
                     break;
                 case '4':
-                    read.question("Enter Car ID: \n", (carid) =>{
-                        read.question("Enter Customer Username: \n", (user) =>{
-                            read.question("0. Accept \n1. Reject\n", (num) =>{
+                    read.question("Enter Car ID: \n", (carid: string) =>{
+                        read.question("Enter Customer Username: \n", (user: string) =>{
+                            read.question("0. Accept \n1. Reject\n", (num: number) =>{
                                 pendingOffer(carid, user, num);
                                 employeeMenu();
                             })
@@ -226,9 +227,9 @@ function employeeMenu(){
 //runs if customer selects make an offer
 //TODO: make a way to exit back to main menu at any time
 export function makeOfferMenu(){
-    read.question('Enter your username.\n', (uName) => {
-        read.question('Enter the car ID.\n', (ID) => {
-            read.question('Enter your down payment.\n', (DP) => {
+    read.question('Enter your username.\n', (uName: string) => {
+        read.question('Enter the car ID.\n', (ID: string) => {
+            read.question('Enter your down payment.\n', (DP: number) => {
                 read.question('Over how many months will you pay off the rest?\n', (month) => {
                     makeOffer(ID, DP, month, uName);
                     customerMenu();

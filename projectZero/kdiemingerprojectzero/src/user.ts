@@ -4,8 +4,8 @@ import { Car, Offer } from './car.js';
 
 //Class declaration
 export class User{
-  public userCars: Array<Object> = [];
-  constructor(public username: string, public password: string, public role: string, public userCars: Array){
+  constructor(public username: string, public password: string, public role: string, public userCars: Array<Object>){
+    userCars = [];
   };
 }
 
@@ -61,24 +61,25 @@ export function viewCars(){
 }
 
 //calculate monthly payment
-export function calcMonthPay(carID, downpay, months){
-  let vehicle = lot.find(car => car.carID === carID);
-  let z = vehicle.price;
-  let remain = z - downpay;
+export function calcMonthPay(carID: string, downpay: number, months: number){
+  //TODO: check appropriate type for vehicle - why not Object?
+  let vehicle: any = lot.find(car => car.carID === carID);
+  let z: number = vehicle.price;
+  let remain: number = z - downpay;
   let monthly: any = remain/months;
   monthly = monthly.toFixed(2);
   return monthly;
 }
 //CUSTOMER FUNCTIONS
 //registers a customer
-export function registerCustomer(userN, passW){
+export function registerCustomer(userN: string, passW: string){
     let role = 'Customer';
     data.push(new User(userN, passW, role, []));
 }
 
 //makes an offer on a car
-export function makeOffer(carID, downPay, months, user){
-    offers.push(new Offer (carID, downPay, months, user));
+export function makeOffer(carID: string, downPay: number, months: number, user: string){
+    offers.push(new Offer (carID, downPay, months, user, ''));
     let x = Number(downPay);
     let y = Number(months);
     let monthly = calcMonthPay(carID, x, y);
@@ -87,31 +88,32 @@ export function makeOffer(carID, downPay, months, user){
 }
 
 //lets the user view their cars
-export function viewOwnedCars(username){
+export function viewOwnedCars(username:string){
   let user = data.find(person => person.username === username);
   console.log(user.ownedCars);
 }
 
-export function viewUserOffers(username){
+export function viewUserOffers(username: string){
   let user = data.find(person => person.username === username);
   console.log(user.pendingOffers);
 }
 
-export function remainingPay(username, carID){
+//TODO: THIS FUNCTION
+export function remainingPay(username: string, carID: string){
   let ongoing = data.find(person => person.username === username);
 }
 
 
 //EMPLOYEE FUNCTIONS
 //registers an employee
-export function registerEmployee(userN, passW){
+export function registerEmployee(userN: string, passW: string){
     let role = 'Employee';
     data.push(new User(userN, passW, role, []));
 }
 
 //adds car to carLot
-export function addCar(brand, color, carID, price){
-  let newCar = new Car(brand, color, carID, price);
+export function addCar(brand: string, color: string, carID: string, price: number){
+  let newCar = new Car(brand, color, carID, price, 'dealer');
   let check = lot.find(car => car.carID === carID);
   if(check){
     console.log("CarID already exists.");
@@ -127,13 +129,13 @@ export function viewOffers(){
 }
 
 //remove car from carLot
-export function removeCar(carID){
+export function removeCar(carID: string){
   let remove = lot.indexOf(lot.find(car => car.carID === carID));
   lot.splice(remove, 1);
 }
 
 //accepts or rejects a pending offer
-export function pendingOffer(carID, username, action){
+export function pendingOffer(carID: string, username: string, action: number){
   let offer = offers.find(off => off.carID === carID && off.username === username);
   let fCarID = offer.carID;
   let user = offer.username;
@@ -142,11 +144,11 @@ export function pendingOffer(carID, username, action){
     removeCar(fCarID);
     let userPay = data.find(person => person.username === username);
     let newOngoing = userPay.ongoingPay;
-    newOngoing.push(new Offer(offer.carID, offer.downPay, offer.months, offer.username));
+    newOngoing.push(new Offer(offer.carID, offer.downPay, offer.months, offer.username, ''));
     console.log(newOngoing);
     let remove = offers.indexOf(offers.find(offer => offer.carID === carID && offer.username === username));
     offers.splice(remove, 1);
-    rejectPending();
+    rejectPending(carID);
   }
   else if(action == 1){
     let remove = offers.indexOf(offers.find(offer => offer.carID === carID && offer.username === username));
@@ -161,7 +163,7 @@ export function pendingOffer(carID, username, action){
 
 //SYSTEM FUNCTIONS
 //updates a car's owner - to be called when an offer is accepted
-export function updateCarOwner(carID, username){
+export function updateCarOwner(carID: string, username: string){
   let userCar = lot.find(car => car.carID === carID);
   userCar.owner = username;
   let fUser = data.find(person => person.username === username);
@@ -170,7 +172,7 @@ export function updateCarOwner(carID, username){
 }
 
 //add pending offer to user
-export function addPending(carID, username){
+export function addPending(carID: string, username: string){
   let pendOfferID = carID + username;
   let userOffer = offers.find(off => off.offerID === pendOfferID);
   let fUser = data.find(person => person.username === username);
@@ -178,7 +180,7 @@ export function addPending(carID, username){
   newUserOffer.push(userOffer);
 }
 
-export function rejectPending(carID){
+export function rejectPending(carID: string){
   for (let i = 0; i < offers.length; i++){
     if (offers[i].carID === carID){
       console.log(offers[i]);
