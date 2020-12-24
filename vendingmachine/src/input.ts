@@ -81,7 +81,7 @@ export function obtainPayment(selection: Inventory, callback?: Function) {
 }
 
 export function dispenseProduct(selection: Inventory) {
-    if (selection.stock > 0) {
+    if (selection.stock && selection.stock > 0) {
         loggedUser.money = loggedUser.money - selection.price;
         updateUser(loggedUser);
         console.log(`Here is your ${selection.item}. You have $${loggedUser.money} remaining.`);
@@ -96,7 +96,12 @@ export function dispenseProduct(selection: Inventory) {
 export function restock() {
     logger.trace('Attempting Restock');
     rl.question('Restock which? ', (answer) => {
-        getByPosition(answer, updateItem, start, function (item: Inventory) { item.stock++ });
+        getByPosition(answer, updateItem, start, function (item: Inventory) { 
+            if(!item.stock){
+                item.stock = 0;
+            }
+            item.stock++;
+        });
     });
 }
 

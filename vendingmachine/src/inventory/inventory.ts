@@ -5,7 +5,7 @@ export interface Inventory{
     item: string;
     position: string;
     price: number;
-    stock: number;
+    stock?: number;
 }
 
 export function updateItem(item: Inventory, callback: Function) {
@@ -36,7 +36,7 @@ export function itemString(item: Inventory) {
 
 export function displayContents(callback: Function) {
     logger.trace('displayContents called!');
-    inventoryService.getItems().then((items)=>{
+    inventoryService.getItemsForDisplay().then((items)=>{
         items.forEach((item) => {console.log(itemString(item));});
         callback();
     })
