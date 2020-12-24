@@ -19,6 +19,27 @@ class InventoryService {
             return [];
         });
     }
+
+    async getItemsForDisplay(): Promise<Inventory[]> {
+        // Scan retrieves every record in the table. In very large tables, this can be very resource intensive
+        const params = {
+            'TableName':'inventory_items',
+            ProjectionExpression: '#item, #pos, #price',
+            ExpressionAttributeNames: {
+                '#item': 'item',
+                '#pos': 'position',
+                '#price': 'price'
+            }
+        }
+        return await this.doc.scan(params).promise().then((result) => {
+            logger.debug(result.Items);
+            return result.Items as Inventory[];
+        }).catch((err) => {
+            logger.error(err);
+            return [];
+        });
+    }
+
     async getItemByPosition(position: string): Promise<Inventory|null> {
         // Query allows us to query along a partition key.
         const params = {
