@@ -2,7 +2,7 @@ import { exit } from 'process';
 import readline from 'readline';
 
 import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, 
-    addCar, viewOffers, removeCar, lot, updateCarOwner, data, ownedCars, pendingOffer, rejectPending, userOffers } from './user.js';
+    addCar, viewOffers, removeCar, lot, updateCarOwner, data, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers } from './user.js';
 
 
 const read = readline.createInterface({
@@ -97,6 +97,7 @@ export function logUser() {
 load();
 start();
 
+
 //start menu, login or register
 function start() {
     read.question(
@@ -139,7 +140,7 @@ function customerMenu(){
                     break;
                 case '3':
                     read.question("Enter username: \n", (user) => {
-                        ownedCars(user); 
+                        viewOwnedCars(user); 
                         customerMenu();   
                     })
                     break;
@@ -178,7 +179,6 @@ function employeeMenu(){
                                     read.question("CarID:\n", (carID) =>{
                                         read.question("Price:\n", (price) =>{
                                             addCar(brand,color,carID,price);
-                                            viewCars();
                                             employeeMenu();
                                         })
                                     })
