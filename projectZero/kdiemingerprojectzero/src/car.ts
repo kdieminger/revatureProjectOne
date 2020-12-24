@@ -6,9 +6,13 @@ export class Car {
 }
 
 export class Offer {
-    constructor(public carID: string, public downPay: number, public months: number, public user: string, public offerID: string){
-        offerID = carID + user;
+    constructor(public carID: string, public downPay: number, public months: number, public username: string, public offerID: string = carID + username){
         //the next line breaks when called with pendingOffer function
         //this.mPay = calcMonthPay(carID, downPay, months);
     };
+}
+
+export class Payment {
+    constructor(public payID: string, public vehicle: Car, public username: string, public downPay: number,public months: number, public monthlyPay: number, public remainingPay: any = (vehicle.price) - downPay){
+    }
 }

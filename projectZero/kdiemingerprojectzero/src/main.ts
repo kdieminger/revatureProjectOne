@@ -1,8 +1,8 @@
 import { exit } from 'process';
 import readline from 'readline';
 
-import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, 
-    addCar, viewOffers, removeCar, lot, updateCarOwner, data, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers } from './user.js';
+import { User, loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, 
+    addCar, viewOffers, removeCar, lot, updateCarOwner, data, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments } from './user.js';
 
 
 const read = readline.createInterface({
@@ -11,7 +11,7 @@ const read = readline.createInterface({
 });
 
 
-export let login = null;
+export let login: any;
 
 //loads files
 export function load() {
@@ -140,16 +140,18 @@ function customerMenu(){
                     customerMenu();
                     break;
                 case '3':
-                    read.question("Enter username: \n", (user: string) => {
-                        viewOwnedCars(user); 
-                        customerMenu();   
-                    })
+                    viewOwnedCars(login.username); 
+                    customerMenu();   
                     break;
                 case '4':
-                    console.log('In progress');
+                    viewOwnPayments(login.username);
+                    customerMenu();
                     break;
                 case '5':
                     start();
+                    break;
+                case 'e':
+                    employeeMenu();
                     break;
                 default: customerMenu();
             }
@@ -165,7 +167,7 @@ function employeeMenu(){
         3. View Pending Offers
         4. Accept or Reject a Pending Offer
         5. View All Payments
-        6. Switch to Customer View
+        6. Switch to Customer View (enter 'e' to switch back)
         7. Logout\n`, (answer: string) => {
             switch (answer) {
                 case '1':
@@ -173,12 +175,12 @@ function employeeMenu(){
                     employeeMenu();
                     break;
                 case '2':
-                    read.question("1. Add or 2. Remove?\n", (answer: number) =>{
+                    read.question("1. Add or 2. Remove?\n", (answer: any) =>{
                         if (answer == 1){
                             read.question("Brand:\n", (brand) => {
                                 read.question("Color:\n", (color) =>{
                                     read.question("CarID:\n", (carID) =>{
-                                        read.question("Price:\n", (price) =>{
+                                        read.question("Price:\n", (price: any) =>{
                                             addCar(brand,color,carID,price);
                                             employeeMenu();
                                         })
@@ -200,13 +202,11 @@ function employeeMenu(){
                     employeeMenu();
                     break;
                 case '4':
-                    read.question("Enter Car ID: \n", (carid: string) =>{
-                        read.question("Enter Customer Username: \n", (user: string) =>{
-                            read.question("0. Accept \n1. Reject\n", (num: number) =>{
-                                pendingOffer(carid, user, num);
+                    read.question("Enter Offer ID: \n", (offerID: string) =>{
+                            read.question("0. Accept \n1. Reject\n", (num: any) =>{
+                                pendingOffer(offerID, num);
                                 employeeMenu();
-                            })
-                        })
+                            });
                     })
                     break;
                 case '5':
@@ -226,17 +226,14 @@ function employeeMenu(){
 
 //runs if customer selects make an offer
 //TODO: make a way to exit back to main menu at any time
-export function makeOfferMenu(){
-    read.question('Enter your username.\n', (uName: string) => {
-        read.question('Enter the car ID.\n', (ID: string) => {
-            read.question('Enter your down payment.\n', (DP: number) => {
-                read.question('Over how many months will you pay off the rest?\n', (month) => {
-                    makeOffer(ID, DP, month, uName);
-                    customerMenu();
-                })
+export function makeOfferMenu() {
+    read.question('Enter the car ID.\n', (ID: string) => {
+        read.question('Enter your down payment.\n', (DP: any) => {
+            read.question('Over how many months will you pay off the rest?\n', (month: any) => {
+                makeOffer(ID, DP, month, login.username);
+                customerMenu();
             })
         })
     })
-        
 }
 
