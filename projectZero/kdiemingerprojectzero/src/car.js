@@ -11,12 +11,12 @@ export class Car {
 }
 
 export class Offer {
-    constructor(carID, downPay, months, user, offerID) {
+    constructor(carID, downPay, months, user) {
         this.carID = carID;
         this.downPay = downPay;
         this.months = months;
         this.user = user;
-        this.mPay = calcMonthPay(carID, downPay, months);
-        this.offerID = offerID;
+        //the next line breaks when called with pendingOffer function
+        //this.mPay = calcMonthPay(carID, downPay, months);
     }
 }

@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { exit } from 'process';
-import { removeEmitHelper } from 'typescript';
 import { Car, Offer } from './car.js';
 
 //Class declaration
@@ -66,6 +65,7 @@ export function viewCars(){
 //calculate monthly payment
 export function calcMonthPay(carID, downpay, months){
   let vehicle = lot.find(car => car.carID === carID);
+  console.log(vehicle);
   let z = vehicle.price;
   let remain = z - downpay;
   let monthly = remain/months;
@@ -85,6 +85,7 @@ export function makeOffer(carID, downPay, months, user){
     let x = Number(downPay);
     let y = Number(months);
     let monthly = calcMonthPay(carID, x, y);
+    addPending(user);
     console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months} months.`);
 }
 
@@ -94,8 +95,14 @@ export function ownedCars(username){
   console.log(user.ownedCars);
 }
 
+export function userOffers(username){
+  let user = data.find(person => person.username === username);
+  console.log(user.pendingOffers);
+}
 
-//export function remainingPay();
+export function remainingPay(username, carID){
+  let ongoing = data.find(person => person.username === username);
+}
 
 
 //EMPLOYEE FUNCTIONS
@@ -107,7 +114,7 @@ export function registerEmployee(userN, passW){
 
 //adds car to carLot
 export function addCar(brand, color, carID, price){
-    lot.push(new Car(brand, color, carID, price));
+  lot.push(new Car(brand, color, carID, price));
 }
 
 //view pending offers
@@ -129,6 +136,10 @@ export function pendingOffer(carID, username, action){
   if(action == 0){
     updateCarOwner(fCarID, user);
     removeCar(fCarID);
+    let userPay = data.find(person => person.username === username);
+    let newOngoing = userPay.ongoingPay;
+    newOngoing.push(new Offer(offer.carID, offer.downPay, offer.months, offer.username));
+    console.log(newOngoing);
     let remove = offers.indexOf(offers.find(offer => offer.carID === carID && offer.username === username));
     offers.splice(remove, 1);
     rejectPending();
@@ -142,7 +153,7 @@ export function pendingOffer(carID, username, action){
   }
 }
 
-//export function viewPayments()
+//export function viewPayments(username){}
 
 //SYSTEM FUNCTIONS
 //updates a car's owner - to be called when an offer is accepted
@@ -152,6 +163,14 @@ export function updateCarOwner(carID, username){
   let fUser = data.find(person => person.username === username);
   let newUserCar = fUser.ownedCars;
   newUserCar.push(userCar);
+}
+
+//add pending offer to user
+export function addPending(username){
+  let userOffer = offers.find(off => off.username === username);
+  let fUser = data.find(person => person.username === username);
+  let newUserOffer = fUser.pendingOffers;
+  newUserOffer.push(userOffer);
 }
 
 export function rejectPending(carID){

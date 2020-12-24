@@ -2,7 +2,7 @@ import { exit } from 'process';
 import readline from 'readline';
 
 import { loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, 
-    addCar, viewOffers, removeCar, lot, updateCarOwner, data, ownedCars, pendingOffer, rejectPending} from './user.js';
+    addCar, viewOffers, removeCar, lot, updateCarOwner, data, ownedCars, pendingOffer, rejectPending, userOffers } from './user.js';
 
 
 const read = readline.createInterface({
@@ -96,7 +96,6 @@ export function logUser() {
 //loads files and then runs the start menu
 load();
 start();
-
 
 //start menu, login or register
 function start() {
