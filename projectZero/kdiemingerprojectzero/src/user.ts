@@ -1,6 +1,5 @@
 import fs from 'fs';
 import logger from './log.js';
-import { exit } from 'process';
 import { Car, Offer, Payment } from './car.js';
 
 //Class declaration
@@ -29,7 +28,7 @@ export function loadCarLot() {
     try {
         lot = JSON.parse((fs.readFileSync('./carLot.json')).toString());
       } catch (err) {
-        console.error(err);
+        logger.error(err);
       }
 };
 //loads offers from offers.json
@@ -37,7 +36,7 @@ export function loadOffers(){
     try {
       offers = JSON.parse((fs.readFileSync('./offers.json')).toString());
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
 }
 
@@ -46,24 +45,31 @@ export function loadOffers(){
 //ROLE NEUTRAL FUNCTIONS
 
 //checks for matching username
-export function getUser(userN: string){
+export function getUser(userN: string) {
   logger.trace(`get user called with parameter ${userN}`);
   return data.find((person: User) => person.username === userN);
 }
 
+//registers a user
+export function registerUser(userN: string, passW: string, role: string){
+  logger.trace('Attempt to register user');
+  data.push(new User(userN, passW, role, [], [], []));
+}
+
 //logs user in
 export function userLogin (name: string, pass: string){
-    return data.find((person: User) => person.username === name && person.password === pass);
+  logger.trace(`user login called with parameters ${name} and ${pass}`);
+  return data.find((person: User) => person.username === name && person.password === pass);
 };
 
 //view cars on the lot
 export function viewCars(){ 
-    console.log(lot);
+  console.log(lot);
 }
 
 //calculate monthly payment
 export function calcMonthPay(carID: string, downpay: number, months: number){
-  //TODO: check appropriate type for vehicle - why not Object?
+  logger.trace(`calculate monthly payment called with parameters ${carID}, ${downpay}, ${months}.`);
   let vehicle: any = lot.find((car: Car) => car.carID === carID);
   let z: number = vehicle.price;
   let remain: number = z - downpay;
@@ -72,55 +78,64 @@ export function calcMonthPay(carID: string, downpay: number, months: number){
   return monthly;
 }
 //CUSTOMER FUNCTIONS
-//registers a customer
-export function registerCustomer(userN: string, passW: string){
-    let role = 'Customer';
-    data.push(new User(userN, passW, role, [], [], []));
-}
 
 //makes an offer on a car
-export function makeOffer(carID: string, downPay: number, months: number, user: string){
-    offers.push(new Offer (carID, downPay, months, user));
-    let x = Number(downPay);
-    let y = Number(months);
-    let monthly = calcMonthPay(carID, x, y);
-    addPending(carID,user);
-    console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months} months.`);
+export function makeOffer(carID: string, downPay: string, months: string, user: string) {
+  logger.trace(`create a new offer using parameters ${carID}, ${downPay}, ${months}, and ${user}`);
+  let check = lot.find((car: Car) => car.carID == carID);
+  let dPay: number = parseInt(downPay);
+  let mnths: number = parseInt(months);
+  if(isNaN(dPay) || isNaN(mnths)){
+    logger.error('invalid input, NaN');
+    console.log('Invalid input.');
+  }
+  else{
+    if (!check){
+      logger.error('Car doesnt exist');
+      console.log('invalid carID');
+    }
+    else {
+      offers.push(new Offer(carID, dPay, mnths, user));
+      let x = Number(downPay);
+      let y = Number(months);
+      let monthly = calcMonthPay(carID, x, y);
+      addPending(carID, user);
+      console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months} months.`);
+    }
+  }
 }
 
 //lets the user view their cars
 export function viewOwnedCars(username:string){
+  logger.info(`view cars owned by ${username}.`);
   let user: any;
   user = data.find((person: User) => person.username === username);
   console.log(user.ownedCars);
 }
 
 export function viewUserOffers(username: string){
-  let user: any;
-  user = data.find(person => person.username === username);
+  logger.info(`view offers made by ${username}`);
+  let user: any = data.find(person => person.username === username);
   console.log(user.pendingOffers);
 }
 
-//TODO: THIS FUNCTION
-export function remainingPay(username: string, carID: string){
-  let ongoing = data.find(person => person.username === username);
+//allows user to view their ongoing payments
+export function viewOwnPayments(username: string){
+  logger.info(`view outstanding payments for ${username}`)
+  let user: any = data.find((person: User) => person.username === username);
+  console.log(user.ongoingPay);
 }
 
 
 //EMPLOYEE FUNCTIONS
-//registers an employee
-//TODO: Consolidate into one registerUser function
-export function registerEmployee(userN: string, passW: string){
-    let role = 'Employee';
-    data.push(new User(userN, passW, role, [], [], []));
-}
-
 //adds car to carLot
 export function addCar(brand: string, color: string, carID: string, price: number){
+  logger.trace(`adds a car to the lot with parameters ${brand}, ${color}, ${price}, ${price}`);
   let newCar = new Car(brand, color, carID, price, 'dealer');
   let check = lot.find(car => car.carID === carID);
   if(check){
-    console.log("CarID already exists.");
+    logger.warn('carID already exists');
+    console.log('CarID already exists. No car added.');
   }
   else if (!check){
     lot.push(newCar);
@@ -129,7 +144,7 @@ export function addCar(brand: string, color: string, carID: string, price: numbe
 
 //view pending offers
 export function viewOffers(){
-    console.log(offers);
+  console.log(offers);
 }
 
 //remove car from carLot
@@ -137,8 +152,14 @@ export function removeCar(carID: string){
   let index: number;
   let remove: any;
   remove = lot.find((car: Car) => car.carID === carID);
-  index = lot.indexOf(remove);
-  lot.splice(index, 1);
+  if(!remove){
+    logger.error('car does not exist');
+    console.log('invalid carID');
+  }
+  else{
+    index = lot.indexOf(remove);
+    lot.splice(index, 1);
+  }
 }
 
 export function removeOffer(offerID: string){
@@ -150,31 +171,29 @@ export function removeOffer(offerID: string){
 //accepts or rejects a pending offer
 export function pendingOffer(offerID: string, action: number){
   let offer: any = offers.find(off => off.offerID === offerID);
-  let car: string = offer.carID;
-  let userN: string = offer.username;
-  if(action == 0){
-    updateCarOwner(car, userN);
-    let user: any = data.find((person: User) => person.username === userN);
-    let newCar: any = lot.find((vehicle: Car) => vehicle.carID === car);
-    let newOngoing: Array<Payment> = user.ongoingPay;
-    newOngoing.push(new Payment(offerID, newCar, userN, offer.downPay, offer.months, calcMonthPay(car, offer.downPay, offer.months)));
-    removeCar(car);
-    removeOffer(offerID);
-    rejectPending(car);
-  }
-  else if(action == 1){
-    let remove: any = offers.find(offer => offer.offerID === offerID);
-    let index: number = offers.indexOf(remove);
-    offers.splice(index, 1);
+  if(!offer){
+    logger.error('offer does not exist');
+    console.log('Invalid offerID');
   }
   else{
-    console.log("Oops!");
+    let car: string = offer.carID;
+    let userN: string = offer.username;
+    if(action == 0){
+      updateCarOwner(car, userN);
+      let user: any = data.find((person: User) => person.username === userN);
+      let newCar: any = lot.find((vehicle: Car) => vehicle.carID === car);
+      let newOngoing: Array<Payment> = user.ongoingPay;
+      newOngoing.push(new Payment(offerID, newCar, userN, offer.downPay, offer.months, calcMonthPay(car, offer.downPay, offer.months)));
+      removeCar(car);
+      removeOffer(offerID);
+      rejectPending(car);
+    }
+    else if(action == 1){
+      let remove: any = offers.find(offer => offer.offerID === offerID);
+      let index: number = offers.indexOf(remove);
+      offers.splice(index, 1);
+    }
   }
-}
-
-export function viewOwnPayments(username: string){
-  let user: any = data.find((person: User) => person.username === username);
-  console.log(user.ongoingPay);
 }
 
 //SYSTEM FUNCTIONS

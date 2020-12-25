@@ -1,7 +1,8 @@
 import { exit } from 'process';
 import readline from 'readline';
+import logger from './log.js';
 
-import { User, loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerCustomer, makeOffer, registerEmployee, 
+import { User, loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerUser, makeOffer, 
     addCar, viewOffers, removeCar, lot, updateCarOwner, data, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments } from './user.js';
 
 
@@ -21,18 +22,19 @@ export function load() {
 }
 
 //gives the user to try to login again
-export function tryAgain(answer: string){
-    if (answer === "Yes" || answer === "yes"){   
+export function tryAgain(answer: string) {
+    if (answer === "Yes" || answer === "yes") {
         logUser();
     }
-    else if (answer === "No" || answer === "no"){
-            console.log('Okay');
-            process.exit();
+    else if (answer === "No" || answer === "no") {
+        console.log('Okay');
+        process.exit();
     }
     else {
-            console.log ('Error: Invalid response.');
-            //tryAgain();
-            logUser();
+        logger.warn('invalid input');
+        console.log('Error: Invalid response.');
+        //tryAgain();
+        logUser();
     }
 };
 
@@ -40,6 +42,7 @@ export function tryAgain(answer: string){
 export function register() {
     read.question('Username:', (username: string) => {
         if (getUser(username)){
+            logger.warn('username already exists');
             console.log('Username is taken.');
             start();
         }
@@ -47,16 +50,17 @@ export function register() {
             read.question('Password:', (password: string) => {
                 read.question('Employee Code? (enter 0 to skip)\n', (code: string) => {
                     if (code === '0'){
-                        registerCustomer(username, password);
+                        registerUser(username, password, 'Customer');
                         console.log("Welcome new customer!");
                         start();
                     }
                     else if (code === '1234'){
-                        registerEmployee(username, password);
+                        registerUser(username, password, 'Employee');
                         console.log("Welcome new employee!");
                         start();
                     }
                     else {
+                        logger.warn('Code did not correspond to anything.');
                         console.log("Incorrect employee code.");
                         start();
                     }
@@ -83,6 +87,7 @@ export function logUser() {
                 }
             }
             else {
+                logger.warn('Login failed');
                 console.log('Login failed. Incorrect username or password.');
                 read.question('Try Again: Yes | No\n', (answer: string) => {
                     tryAgain(answer);
@@ -95,21 +100,24 @@ export function logUser() {
 
 //start menu, login or register
 export function start() {
+    logger.debug('Display start menu');
     read.question(
         `Welcome! Please log in or create an account. Enter q to quit. 
     Create Account: 0
     Login: 1\n`, (answer: any) => {
         if (answer == 0) {
+            logger.info('Registration');
             register();
         }
         else if (answer == 1) {
+            logger.info('Login');
             logUser();
         }
         else if (answer == 'q' || answer == 'Q'){
             process.exit();
         }
         else {
-            console.log("invalid response");
+            logger.warn('Invalid input.');
             start();
         }
     });
@@ -126,26 +134,28 @@ function customerMenu(){
         5. Logout\n`, (answer: string) => {
             switch (answer) {
                 case '1':
+                    logger.info('view all cars in car lot');    
                     viewCars();
                     customerMenu();
                     break;
                 case '2':
+                    logger.info('pull menu for makeOffer');
                     makeOfferMenu();
                     customerMenu();
                     break;
                 case '3':
+                    logger.info('view current users cars');
                     viewOwnedCars(login.username); 
                     customerMenu();   
                     break;
                 case '4':
+                    logger.info('view current users payments');
                     viewOwnPayments(login.username);
                     customerMenu();
                     break;
                 case '5':
+                    logger.info('return to start menu');
                     start();
-                    break;
-                case 'e':
-                    employeeMenu();
                     break;
                 default: customerMenu();
             }
@@ -161,14 +171,16 @@ function employeeMenu(){
         3. View Pending Offers
         4. Accept or Reject a Pending Offer
         5. View All Payments
-        6. Switch to Customer View (enter 'e' to switch back)
+        6. Switch to Customer View
         7. Logout\n`, (answer: string) => {
             switch (answer) {
                 case '1':
+                    logger.info('view car lot');
                     viewCars();
                     employeeMenu();
                     break;
                 case '2':
+                    logger.info('add or remove car from lot');
                     read.question("1. Add or 2. Remove?\n", (answer: any) =>{
                         if (answer == 1){
                             read.question("Brand:\n", (brand) => {
@@ -183,19 +195,24 @@ function employeeMenu(){
                             })
                         }
                         else if (answer == 2){
-                            read.question("Enter CarID:\n", (answer: string) => {
-                                removeCar(answer);
-                                viewCars();
+                            read.question("Enter CarID:\n", (carID: string) => {
+                                removeCar(carID);
                                 employeeMenu();
                             })
+                        }
+                        else {
+                            logger.error('invalid input');
+                            console.log('invalid input');
                         }
                     })
                     break;
                 case '3':
+                    logger.info('view offers');
                     viewOffers();
                     employeeMenu();
                     break;
                 case '4':
+                    logger.info('accept or reject offer');
                     read.question("Enter Offer ID: \n", (offerID: string) =>{
                             read.question("0. Accept \n1. Reject\n", (num: any) =>{
                                 pendingOffer(offerID, num);
