@@ -2,12 +2,24 @@
     {
         "brand": "Kia",
         "color": "red",
-        "price": 15000
+        "carID": "17D",
+        "price": 15000,
+        "owner": "dealer"
     },
 
     {
         "brand": "Honda",
         "color": "blue",
-        "price": 20000
+        "carID": "12A",
+        "price": 20000,
+        "owner": "dealer"
+    },
+
+    {
+        "brand": "Kia",
+        "color": "black",
+        "carID": "19F",
+        "price": 17500,
+        "owner": "dealer"
     }
 ]

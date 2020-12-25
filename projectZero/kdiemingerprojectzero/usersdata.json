@@ -2,12 +2,27 @@
     {
         "username": "kdieminger",
         "password": "Diemin1234",
-        "role": "Customer"
+        "role": "Customer",
+        "ownedCars": [],
+        "pendingOffers": [],
+        "ongoingPay": []
     },
 
     {
         "username": "smccall",
         "password": "allison",
-        "role": "Customer"
+        "role": "Customer",
+        "ownedCars": [],
+        "pendingOffers": [],
+        "ongoingPay": []
+    },
+
+    {
+        "username": "lmartin",
+        "password": "ariel",
+        "role": "Employee",
+        "ownedCars": [],
+        "pendingOffers":[],
+        "ongoingPay":[]
     }
 ]

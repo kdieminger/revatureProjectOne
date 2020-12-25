@@ -1,0 +1,10 @@
+TO DO GENERAL:
+- option to exit back to main menu at any time
+- logging
+- typescript
+- Classes
+- testing
+TO DO (CUSTOMER):
+- view remaining payments
+
+

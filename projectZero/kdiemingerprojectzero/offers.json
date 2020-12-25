@@ -1,0 +1,41 @@
+[
+   {
+       "carID": "17D",
+       "downPay": 5000,
+       "months": 12,
+       "username": "smccall",
+       "offerID": "17Dsmccall"
+   },
+
+   {
+        "carID": "12A",
+        "downPay": 10000,
+        "months": 6,
+        "username": "lmartin",
+        "offerID": "12Almartin"
+   },
+
+    {
+        "carID": "17D",
+        "downPay": 10000,
+        "months": 6,
+        "username": "lmartin",
+        "offerID": "17Dlmartin"
+    },
+
+    {
+        "carID": "19F",
+        "downPay": 7000,
+        "months": 8,
+        "username": "kdieminger",
+        "offerID": "19Fkdieminger"
+    },
+
+    {
+        "carID": "17D",
+        "downPay": 10000,
+        "months": 6,
+        "username": "kdieminger",
+        "offerID": "17Dkdieminger"
+    }
+]
