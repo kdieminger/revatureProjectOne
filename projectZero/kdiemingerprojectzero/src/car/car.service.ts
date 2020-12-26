@@ -32,13 +32,13 @@ export class CarService {
 
     async removeCar(carID: string): Promise<boolean> {
         const params = {
-            TableName: "carlot",
+            TableName: 'carlot',
             Key: {
                 carID: carID
             }
         };
         return await this.doc.delete(params).promise().then(() => {
-            logger.info('succesffully deleted car');
+            logger.info('succesfully deleted car');
             return true;
         }).catch((error) => {
             logger.error(error);
@@ -54,6 +54,44 @@ export class CarService {
             return [];
         });
     }
+
+    async getCarByID(carID: string): Promise<Car|null> {
+        const params = {
+            TableName: 'carlot',
+            Key: {
+                'carID': carID
+            }
+        };
+        return await this.doc.get(params).promise().then((data) => {
+            if(data && data.Item){
+                return data.Item as Car;
+            }
+            else{
+                return null;
+            }
+        })
+    }
+
+//     async updateCarOwner(car: Car, user: string): Promise<boolean>{
+//         const params = {
+//             TableName: 'carlot',
+//             Key: {
+//                 'carID': car.carID
+//             },
+//             UpdateExpression: 'set owner = :o',
+//             ExpressionAttributeValues: {
+//                 ':o': user
+//             },
+//             ReturnValues: 'UPDATED_NEW'
+//         };
+//         return await this.doc.update(params).promise().then((data) => {
+//             logger.debug(data);
+//             return true;
+//         }).catch(error => {
+//             logger.error(error);
+//             return false;
+//         });
+//     }
 }
 
 const carService = new CarService();

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Offer = exports.Car = void 0;
+exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var car_service_js_1 = __importDefault(require("./car.service.js"));
 var Car = /** @class */ (function () {
@@ -18,19 +18,6 @@ var Car = /** @class */ (function () {
     return Car;
 }());
 exports.Car = Car;
-var Offer = /** @class */ (function () {
-    function Offer(carID, downPay, months, username, offerID) {
-        if (offerID === void 0) { offerID = carID + username; }
-        this.carID = carID;
-        this.downPay = downPay;
-        this.months = months;
-        this.username = username;
-        this.offerID = offerID;
-    }
-    ;
-    return Offer;
-}());
-exports.Offer = Offer;
 var Payment = /** @class */ (function () {
     function Payment(payID, vehicle, username, downPay, months, monthlyPay, remainingPay) {
         if (remainingPay === void 0) { remainingPay = (vehicle.price) - downPay; }
@@ -58,6 +45,19 @@ function viewCars(callback) {
     });
 }
 exports.viewCars = viewCars;
+//updates a car's owner - to be called when an offer is accepted
+// export function updateCarOwner(car: Car, username: string){
+//     carService.updateCarOwner(car, username).then((success) =>{
+//         logger.info('car owner updated successfully');
+//     }).catch((error) => {
+//         logger.warn('car owner not updated');
+//     });
+//     // let userCar: any = lot.find(car => car.carID === carID);
+//     // userCar.owner = username;
+//     // let fUser: any = data.find(person => person.username === username);
+//     // let newUserCar = fUser.ownedCars;
+//     // newUserCar.push(userCar);
+//   }
 function addCar(brand, color, carID, price, callback) {
     log_js_1.default.trace("addCar called with parameters " + brand + ", " + color + ", " + carID + ", and " + price + ".");
     var newCar = new Car(brand, color, carID, price, 'dealer');

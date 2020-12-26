@@ -15,6 +15,10 @@ const removeCarLot = {
     TableName: 'carlot'
 }
 
+const removeOffers = {
+    TableName: 'offers'
+}
+
 const userSchema = {
     AttributeDefinitions: [
         {
@@ -56,6 +60,29 @@ const carSchema = {
         WriteCapacityUnits: 3
     },
     TableName: 'carlot',
+    StreamSpecification: {
+        StreamEnabled: false
+    }
+};
+
+const offerSchema = {
+    AttributeDefinitions: [
+        {
+            AttributeName: 'offerID',
+            AttributeType: 'S'
+        }
+    ],
+    KeySchema: [
+        {
+            AttributeName: 'offerID',
+            KeyType: 'HASH'
+        }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 3,
+        WriteCapacityUnits: 3
+    },
+    TableName: 'offers',
     StreamSpecification: {
         StreamEnabled: false
     }
@@ -106,6 +133,27 @@ ddb.deleteTable(removeCarLot, function(err, data){
     }, 5000)
 });
 
+ddb.deleteTable(removeOffers, function(err, data){
+    if(err) {
+        console.error('Unable to delete table. Error JSON: ', JSON.stringify(err, null, 2));
+    }
+    else {
+        console.log('Deleted table. Table description JSON: ', JSON.stringify(data, null, 2));
+    }
+    setTimeout(()=>{
+        ddb.createTable(offerSchema, (err, data) => {
+            if(err){
+                console.log('Error', err);
+            }
+            else {
+                console.log('Table Created', data);
+                setTimeout(() => {
+                    populateOffersTable();
+                }, 5000);
+            }
+        });
+    }, 5000)
+});
 
 function populateUserTable(){
     userService.addUser({username: 'smccall', password: 'allison', role: 'Customer', ownedCars: [], pendingOffers: [], ongoingPay: []}).then(()=>{});
@@ -116,4 +164,8 @@ function populateCarTable(){
     carService.addCar({brand: 'Honda', color: 'Black', carID: 'H01', price: 20500, owner: 'dealer' }).then(() => {});
     carService.addCar({brand: 'Toyota', color: 'White', carID: 'T01', price: 17500, owner: 'dealer' }).then(() => {});
     carService.addCar({brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(() => {});
+}
+
+function populateOffersTable(){
+
 }

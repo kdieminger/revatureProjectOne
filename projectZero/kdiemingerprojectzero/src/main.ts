@@ -1,13 +1,11 @@
 import { exit } from 'process';
 import readline from 'readline';
 import logger from './log.js';
-
 import {
-    User, lot, data, offers, loadCarLot, loadOffers, loadUsers, getUser, userLogin, calcMonthPay, registerUser, makeOffer,
-    addCarOld, viewOffers, removeCarOld, viewCarsOld, updateCarOwner, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments, replaceOffer
-} from './user/user.js';
-
-import { Car, Offer, viewCars, addCar, removeCar } from './car/car.js';
+    User, offers, loadCarLot, loadOffers, loadUsers, userLogin, calcMonthPay, registerUser, viewOwnedCars, /*pendingOffer*/ rejectPending, viewUserOffers, viewOwnPayments, removeOffer } from './user/user.js';
+import { Car, viewCars, addCar, removeCar } from './car/car.js';
+import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer} from './offer/offer.js';
+import offerService from './offer/offer.service.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -91,23 +89,6 @@ export function logUser() {
                     start();
                 }
             })
-            // if (login) {
-            //     let inUser = login;
-            //     console.log(`Welcome back ${inUser.username}!`);
-            //     if (inUser.role === 'Customer'){
-            //         customerMenu();
-            //     }
-            //     else if (inUser.role === 'Employee'){
-            //         employeeMenu();
-            //     }
-            // }
-            // else {
-            //     logger.warn('Login failed');
-            //     console.log('Login failed. Incorrect username or password.');
-            //     read.question('Try Again: Yes | No\n', (answer: string) => {
-            //         tryAgain(answer);
-            //     });
-            // }
         })
     });
 }
@@ -219,14 +200,18 @@ function employeeMenu(){
                     break;
                 case '3':
                     logger.info('view offers');
-                    viewOffers();
-                    employeeMenu();
+                    viewOffers(employeeMenu);
                     break;
                 case '4':
                     logger.info('accept or reject offer');
                     read.question("Enter Offer ID: \n", (offerID: string) =>{
                             read.question("0. Accept \n1. Reject\n", (num: any) =>{
-                                pendingOffer(offerID, num);
+                                if (num === 0){
+                                }
+                                else if(num === 1){
+                                    removeOffer(offerID);
+                                }
+                                //pendingOffer(offerID, num);
                                 employeeMenu();
                             });
                     })
@@ -252,31 +237,27 @@ export function makeOfferMenu() {
     read.question('Enter the car ID.\n', (ID: string) => {
         read.question('Enter your down payment.\n', (DP: any) => {
             read.question('Over how many months will you pay off the rest?\n', (month: any) => {
-                let exists: boolean = false;
-                for (let i: number = 0; i < offers.length; i++) {
-                    if (offers[i].offerID === ID + login.username) {
-                        exists = true;
-                        i = offers.length;
-                    }
-                }
-                if (exists) {
-                    logger.warn('Offer with this ID already exists');
-                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
-                        if (answer === 'Yes' || answer === 'yes') {
-                            logger.info('replacing old offer');
-                            replaceOffer(ID, DP, month, login.username);
-                            customerMenu();
-                        }
-                        else if (answer === 'No' || answer === 'no') {
-                            customerMenu();
-                        }
-                    })
-                }
-                else {
-                    logger.info('making new offer');
-                    makeOffer(ID, DP, month, login.username);
-                    customerMenu();
-                }
+                let offerID: string = ID+login.username;
+                logger.debug(offerID);
+                // if(offerService.getOfferByID(offerID)){
+                //     logger.warn('Offer with this ID already exists');
+                //     read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
+                //         if (answer === 'Yes' || answer === 'yes') {
+                //             logger.info('replacing old offer');
+                //             replaceOffer(ID, DP, month, login.username);
+                //             customerMenu();
+                //         }
+                //         else if (answer === 'No' || answer === 'no') {
+                //             customerMenu();
+                //         }
+                //     })
+                // }
+                // else{
+                //     logger.info('making new offer');
+                //     makeOffer(ID, DP, month, login.username,customerMenu);
+                // }
+                logger.info('making a new offer');
+                makeOffer(ID, DP, month, login.username, customerMenu);
             })
         })
     })

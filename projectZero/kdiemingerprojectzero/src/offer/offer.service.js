@@ -39,32 +39,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CarService = void 0;
+exports.OfferService = void 0;
 var dynamo_1 = __importDefault(require("../dynamo/dynamo"));
 var log_1 = __importDefault(require("../log"));
-var CarService = /** @class */ (function () {
-    function CarService() {
+var OfferService = /** @class */ (function () {
+    function OfferService() {
         this.doc = dynamo_1.default;
     }
-    CarService.prototype.addCar = function (car) {
+    OfferService.prototype.addOffer = function (offer) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         params = {
-                            TableName: 'carlot',
-                            Item: car,
-                            ConditionExpression: '#carID <> :carID',
+                            TableName: 'offers',
+                            Item: offer,
+                            ConditionExpression: '#offerID <> :offerID',
                             ExpressionAttributeNames: {
-                                '#carID': 'carID'
+                                '#offerID': 'offerID'
                             },
                             ExpressionAttributeValues: {
-                                ':carID': car.carID
+                                ':offerID': offer.offerID
                             }
                         };
                         return [4 /*yield*/, this.doc.put(params).promise().then(function () {
-                                log_1.default.info('successfully created car');
+                                log_1.default.info('successfully created an offer');
                                 return true;
                             }).catch(function (error) {
                                 log_1.default.error(error);
@@ -75,20 +75,20 @@ var CarService = /** @class */ (function () {
             });
         });
     };
-    CarService.prototype.removeCar = function (carID) {
+    OfferService.prototype.removeOffer = function (offerID) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         params = {
-                            TableName: 'carlot',
+                            TableName: 'offers',
                             Key: {
-                                carID: carID
+                                offerID: offerID
                             }
                         };
                         return [4 /*yield*/, this.doc.delete(params).promise().then(function () {
-                                log_1.default.info('succesfully deleted car');
+                                log_1.default.info('successfully deleted offer');
                                 return true;
                             }).catch(function (error) {
                                 log_1.default.error(error);
@@ -99,11 +99,11 @@ var CarService = /** @class */ (function () {
             });
         });
     };
-    CarService.prototype.getCars = function () {
+    OfferService.prototype.getOffers = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.doc.scan({ 'TableName': 'carlot' }).promise().then(function (result) {
+                    case 0: return [4 /*yield*/, this.doc.scan({ 'TableName': 'offers' }).promise().then(function (result) {
                             return result.Items;
                         }).catch(function (err) {
                             log_1.default.error(err);
@@ -114,7 +114,7 @@ var CarService = /** @class */ (function () {
             });
         });
     };
-    CarService.prototype.getCarByID = function (carID) {
+    OfferService.prototype.getOfferByID = function (offerID) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             return __generator(this, function (_a) {
@@ -123,7 +123,7 @@ var CarService = /** @class */ (function () {
                         params = {
                             TableName: 'carlot',
                             Key: {
-                                'carID': carID
+                                'offerID': offerID
                             }
                         };
                         return [4 /*yield*/, this.doc.get(params).promise().then(function (data) {
@@ -139,8 +139,8 @@ var CarService = /** @class */ (function () {
             });
         });
     };
-    return CarService;
+    return OfferService;
 }());
-exports.CarService = CarService;
-var carService = new CarService();
-exports.default = carService;
+exports.OfferService = OfferService;
+var offerService = new OfferService();
+exports.default = offerService;

@@ -33,6 +33,9 @@ var removeUsers = {
 var removeCarLot = {
     TableName: 'carlot'
 };
+var removeOffers = {
+    TableName: 'offers'
+};
 var userSchema = {
     AttributeDefinitions: [
         {
@@ -73,6 +76,28 @@ var carSchema = {
         WriteCapacityUnits: 3
     },
     TableName: 'carlot',
+    StreamSpecification: {
+        StreamEnabled: false
+    }
+};
+var offerSchema = {
+    AttributeDefinitions: [
+        {
+            AttributeName: 'offerID',
+            AttributeType: 'S'
+        }
+    ],
+    KeySchema: [
+        {
+            AttributeName: 'offerID',
+            KeyType: 'HASH'
+        }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 3,
+        WriteCapacityUnits: 3
+    },
+    TableName: 'offers',
     StreamSpecification: {
         StreamEnabled: false
     }
@@ -119,6 +144,27 @@ ddb.deleteTable(removeCarLot, function (err, data) {
         });
     }, 5000);
 });
+ddb.deleteTable(removeOffers, function (err, data) {
+    if (err) {
+        console.error('Unable to delete table. Error JSON: ', JSON.stringify(err, null, 2));
+    }
+    else {
+        console.log('Deleted table. Table description JSON: ', JSON.stringify(data, null, 2));
+    }
+    setTimeout(function () {
+        ddb.createTable(offerSchema, function (err, data) {
+            if (err) {
+                console.log('Error', err);
+            }
+            else {
+                console.log('Table Created', data);
+                setTimeout(function () {
+                    populateOffersTable();
+                }, 5000);
+            }
+        });
+    }, 5000);
+});
 function populateUserTable() {
     user_service_1.default.addUser({ username: 'smccall', password: 'allison', role: 'Customer', ownedCars: [], pendingOffers: [], ongoingPay: [] }).then(function () { });
     user_service_1.default.addUser({ username: 'lmartin', password: 'ariel', role: 'Employee', ownedCars: [], pendingOffers: [], ongoingPay: [] }).then(function () { });
@@ -127,4 +173,6 @@ function populateCarTable() {
     car_service_1.default.addCar({ brand: 'Honda', color: 'Black', carID: 'H01', price: 20500, owner: 'dealer' }).then(function () { });
     car_service_1.default.addCar({ brand: 'Toyota', color: 'White', carID: 'T01', price: 17500, owner: 'dealer' }).then(function () { });
     car_service_1.default.addCar({ brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(function () { });
+}
+function populateOffersTable() {
 }

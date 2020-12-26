@@ -8,6 +8,7 @@ var readline_1 = __importDefault(require("readline"));
 var log_js_1 = __importDefault(require("./log.js"));
 var user_js_1 = require("./user/user.js");
 var car_js_1 = require("./car/car.js");
+var offer_js_1 = require("./offer/offer.js");
 var read = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -85,23 +86,6 @@ function logUser() {
                     start();
                 }
             });
-            // if (login) {
-            //     let inUser = login;
-            //     console.log(`Welcome back ${inUser.username}!`);
-            //     if (inUser.role === 'Customer'){
-            //         customerMenu();
-            //     }
-            //     else if (inUser.role === 'Employee'){
-            //         employeeMenu();
-            //     }
-            // }
-            // else {
-            //     logger.warn('Login failed');
-            //     console.log('Login failed. Incorrect username or password.');
-            //     read.question('Try Again: Yes | No\n', (answer: string) => {
-            //         tryAgain(answer);
-            //     });
-            // }
         });
     });
 }
@@ -194,14 +178,18 @@ function employeeMenu() {
                 break;
             case '3':
                 log_js_1.default.info('view offers');
-                user_js_1.viewOffers();
-                employeeMenu();
+                offer_js_1.viewOffers(employeeMenu);
                 break;
             case '4':
                 log_js_1.default.info('accept or reject offer');
                 read.question("Enter Offer ID: \n", function (offerID) {
                     read.question("0. Accept \n1. Reject\n", function (num) {
-                        user_js_1.pendingOffer(offerID, num);
+                        if (num === 0) {
+                        }
+                        else if (num === 1) {
+                            user_js_1.removeOffer(offerID);
+                        }
+                        //pendingOffer(offerID, num);
                         employeeMenu();
                     });
                 });
@@ -226,31 +214,27 @@ function makeOfferMenu() {
     read.question('Enter the car ID.\n', function (ID) {
         read.question('Enter your down payment.\n', function (DP) {
             read.question('Over how many months will you pay off the rest?\n', function (month) {
-                var exists = false;
-                for (var i = 0; i < user_js_1.offers.length; i++) {
-                    if (user_js_1.offers[i].offerID === ID + exports.login.username) {
-                        exists = true;
-                        i = user_js_1.offers.length;
-                    }
-                }
-                if (exists) {
-                    log_js_1.default.warn('Offer with this ID already exists');
-                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
-                        if (answer === 'Yes' || answer === 'yes') {
-                            log_js_1.default.info('replacing old offer');
-                            user_js_1.replaceOffer(ID, DP, month, exports.login.username);
-                            customerMenu();
-                        }
-                        else if (answer === 'No' || answer === 'no') {
-                            customerMenu();
-                        }
-                    });
-                }
-                else {
-                    log_js_1.default.info('making new offer');
-                    user_js_1.makeOffer(ID, DP, month, exports.login.username);
-                    customerMenu();
-                }
+                var offerID = ID + exports.login.username;
+                log_js_1.default.debug(offerID);
+                // if(offerService.getOfferByID(offerID)){
+                //     logger.warn('Offer with this ID already exists');
+                //     read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
+                //         if (answer === 'Yes' || answer === 'yes') {
+                //             logger.info('replacing old offer');
+                //             replaceOffer(ID, DP, month, login.username);
+                //             customerMenu();
+                //         }
+                //         else if (answer === 'No' || answer === 'no') {
+                //             customerMenu();
+                //         }
+                //     })
+                // }
+                // else{
+                //     logger.info('making new offer');
+                //     makeOffer(ID, DP, month, login.username,customerMenu);
+                // }
+                log_js_1.default.info('making a new offer');
+                offer_js_1.makeOffer(ID, DP, month, exports.login.username, customerMenu);
             });
         });
     });
