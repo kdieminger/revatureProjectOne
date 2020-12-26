@@ -7,6 +7,7 @@ exports.makeOfferMenu = exports.start = exports.logUser = exports.register = exp
 var readline_1 = __importDefault(require("readline"));
 var log_js_1 = __importDefault(require("./log.js"));
 var user_js_1 = require("./user/user.js");
+var car_js_1 = require("./car/car.js");
 var read = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -71,7 +72,6 @@ function logUser() {
             user_js_1.userLogin(username, password).then(function (user) {
                 if (user) {
                     exports.login = user;
-                    console.log;
                     console.log("Welcome back " + exports.login.username + "!");
                     if (exports.login.role == 'Employee') {
                         employeeMenu();
@@ -134,8 +134,7 @@ function customerMenu() {
         switch (answer) {
             case '1':
                 log_js_1.default.info('view all cars in car lot');
-                user_js_1.viewCars();
-                customerMenu();
+                car_js_1.viewCars(customerMenu);
                 break;
             case '2':
                 log_js_1.default.info('pull menu for makeOffer');
@@ -166,8 +165,7 @@ function employeeMenu() {
         switch (answer) {
             case '1':
                 log_js_1.default.info('view car lot');
-                user_js_1.viewCars();
-                employeeMenu();
+                car_js_1.viewCars(employeeMenu);
                 break;
             case '2':
                 log_js_1.default.info('add or remove car from lot');
@@ -177,8 +175,7 @@ function employeeMenu() {
                             read.question("Color:\n", function (color) {
                                 read.question("CarID:\n", function (carID) {
                                     read.question("Price:\n", function (price) {
-                                        user_js_1.addCar(brand, color, carID, price);
-                                        employeeMenu();
+                                        car_js_1.addCar(brand, color, carID, price, employeeMenu);
                                     });
                                 });
                             });
@@ -186,8 +183,7 @@ function employeeMenu() {
                     }
                     else if (answer == 2) {
                         read.question("Enter CarID:\n", function (carID) {
-                            user_js_1.removeCar(carID);
-                            employeeMenu();
+                            car_js_1.removeCar(carID, employeeMenu);
                         });
                     }
                     else {

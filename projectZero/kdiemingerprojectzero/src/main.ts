@@ -3,11 +3,11 @@ import readline from 'readline';
 import logger from './log.js';
 
 import {
-    User, lot, data, offers, loadCarLot, loadOffers, loadUsers, getUser, userLogin, viewCars, calcMonthPay, registerUser, makeOffer,
-    addCar, viewOffers, removeCar, updateCarOwner, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments, replaceOffer
+    User, lot, data, offers, loadCarLot, loadOffers, loadUsers, getUser, userLogin, calcMonthPay, registerUser, makeOffer,
+    addCarOld, viewOffers, removeCarOld, viewCarsOld, updateCarOwner, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments, replaceOffer
 } from './user/user.js';
 
-import { Car, Offer } from './car/car.js';
+import { Car, Offer, viewCars, addCar, removeCar } from './car/car.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -150,8 +150,7 @@ function customerMenu(){
             switch (answer) {
                 case '1':
                     logger.info('view all cars in car lot');    
-                    viewCars();
-                    customerMenu();
+                    viewCars(customerMenu);
                     break;
                 case '2':
                     logger.info('pull menu for makeOffer');
@@ -191,8 +190,7 @@ function employeeMenu(){
             switch (answer) {
                 case '1':
                     logger.info('view car lot');
-                    viewCars();
-                    employeeMenu();
+                    viewCars(employeeMenu);
                     break;
                 case '2':
                     logger.info('add or remove car from lot');
@@ -202,8 +200,7 @@ function employeeMenu(){
                                 read.question("Color:\n", (color) =>{
                                     read.question("CarID:\n", (carID) =>{
                                         read.question("Price:\n", (price: any) =>{
-                                            addCar(brand,color,carID,price);
-                                            employeeMenu();
+                                            addCar(brand, color, carID, price, employeeMenu);
                                         })
                                     })
                                 })
@@ -211,8 +208,7 @@ function employeeMenu(){
                         }
                         else if (answer == 2){
                             read.question("Enter CarID:\n", (carID: string) => {
-                                removeCar(carID);
-                                employeeMenu();
+                                removeCar(carID, employeeMenu);
                             })
                         }
                         else {

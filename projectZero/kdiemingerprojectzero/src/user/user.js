@@ -39,10 +39,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectPending = exports.addPending = exports.updateCarOwner = exports.pendingOffer = exports.removeOffer = exports.removeCar = exports.viewOffers = exports.addCar = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.replaceOffer = exports.makeOffer = exports.calcMonthPay = exports.viewCars = exports.userLogin = exports.registerUser = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
+exports.rejectPending = exports.addPending = exports.updateCarOwner = exports.pendingOffer = exports.removeOffer = exports.removeCarOld = exports.viewOffers = exports.addCarOld = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.replaceOffer = exports.makeOffer = exports.calcMonthPay = exports.viewCarsOld = exports.userLogin = exports.registerUser = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
 var fs_1 = __importDefault(require("fs"));
 var log_js_1 = __importDefault(require("../log.js"));
-var car_js_1 = require("../car.js");
+var car_js_1 = require("../car/car.js");
 var user_service_js_1 = __importDefault(require("./user.service.js"));
 //Class declaration
 var User = /** @class */ (function () {
@@ -139,10 +139,10 @@ function userLogin(name, pass) {
 exports.userLogin = userLogin;
 ;
 //view cars on the lot
-function viewCars() {
+function viewCarsOld() {
     console.log(exports.lot);
 }
-exports.viewCars = viewCars;
+exports.viewCarsOld = viewCarsOld;
 //calculate monthly payment
 function calcMonthPay(carID, downpay, months) {
     log_js_1.default.trace("calculate monthly payment called with parameters " + carID + ", " + downpay + ", " + months + ".");
@@ -216,7 +216,7 @@ function viewOwnPayments(username) {
 exports.viewOwnPayments = viewOwnPayments;
 //EMPLOYEE FUNCTIONS
 //adds car to carLot
-function addCar(brand, color, carID, price) {
+function addCarOld(brand, color, carID, price) {
     log_js_1.default.trace("adds a car to the lot with parameters " + brand + ", " + color + ", " + price + ", " + price);
     var newCar = new car_js_1.Car(brand, color, carID, price, 'dealer');
     var check = exports.lot.find(function (car) { return car.carID === carID; });
@@ -228,14 +228,14 @@ function addCar(brand, color, carID, price) {
         exports.lot.push(newCar);
     }
 }
-exports.addCar = addCar;
+exports.addCarOld = addCarOld;
 //view pending offers
 function viewOffers() {
     console.log(exports.offers);
 }
 exports.viewOffers = viewOffers;
 //remove car from carLot
-function removeCar(carID) {
+function removeCarOld(carID) {
     var index;
     var remove;
     remove = exports.lot.find(function (car) { return car.carID === carID; });
@@ -248,7 +248,7 @@ function removeCar(carID) {
         exports.lot.splice(index, 1);
     }
 }
-exports.removeCar = removeCar;
+exports.removeCarOld = removeCarOld;
 function removeOffer(offerID) {
     var remove = exports.offers.find(function (off) { return off.offerID === offerID; });
     var index = exports.offers.indexOf(remove);
@@ -271,7 +271,7 @@ function pendingOffer(offerID, action) {
             var newCar = exports.lot.find(function (vehicle) { return vehicle.carID === car_1; });
             var newOngoing = user.ongoingPay;
             newOngoing.push(new car_js_1.Payment(offerID, newCar, userN_1, offer.downPay, offer.months, calcMonthPay(car_1, offer.downPay, offer.months)));
-            removeCar(car_1);
+            removeCarOld(car_1);
             removeOffer(offerID);
             rejectPending(car_1);
         }

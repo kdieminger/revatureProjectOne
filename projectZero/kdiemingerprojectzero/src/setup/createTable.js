@@ -24,10 +24,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var AWS = __importStar(require("aws-sdk"));
 var user_service_1 = __importDefault(require("../user/user.service"));
+var car_service_1 = __importDefault(require("../car/car.service"));
 AWS.config.update({ region: 'us-west-2' });
 var ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 var removeUsers = {
     TableName: 'users'
+};
+var removeCarLot = {
+    TableName: 'carlot'
 };
 var userSchema = {
     AttributeDefinitions: [
@@ -47,6 +51,28 @@ var userSchema = {
         WriteCapacityUnits: 3
     },
     TableName: 'users',
+    StreamSpecification: {
+        StreamEnabled: false
+    }
+};
+var carSchema = {
+    AttributeDefinitions: [
+        {
+            AttributeName: 'carID',
+            AttributeType: 'S'
+        }
+    ],
+    KeySchema: [
+        {
+            AttributeName: 'carID',
+            KeyType: 'HASH'
+        }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 3,
+        WriteCapacityUnits: 3
+    },
+    TableName: 'carlot',
     StreamSpecification: {
         StreamEnabled: false
     }
@@ -72,6 +98,33 @@ ddb.deleteTable(removeUsers, function (err, data) {
         });
     }, 5000);
 });
+ddb.deleteTable(removeCarLot, function (err, data) {
+    if (err) {
+        console.error('Unable to delete table. Error JSON: ', JSON.stringify(err, null, 2));
+    }
+    else {
+        console.log('Deleted table. Table description JSON: ', JSON.stringify(data, null, 2));
+    }
+    setTimeout(function () {
+        ddb.createTable(carSchema, function (err, data) {
+            if (err) {
+                console.log('Error', err);
+            }
+            else {
+                console.log('Table Created', data);
+                setTimeout(function () {
+                    populateCarTable();
+                }, 5000);
+            }
+        });
+    }, 5000);
+});
 function populateUserTable() {
     user_service_1.default.addUser({ username: 'smccall', password: 'allison', role: 'Customer', ownedCars: [], pendingOffers: [], ongoingPay: [] }).then(function () { });
+    user_service_1.default.addUser({ username: 'lmartin', password: 'ariel', role: 'Employee', ownedCars: [], pendingOffers: [], ongoingPay: [] }).then(function () { });
+}
+function populateCarTable() {
+    car_service_1.default.addCar({ brand: 'Honda', color: 'Black', carID: 'H01', price: 20500, owner: 'dealer' }).then(function () { });
+    car_service_1.default.addCar({ brand: 'Toyota', color: 'White', carID: 'T01', price: 17500, owner: 'dealer' }).then(function () { });
+    car_service_1.default.addCar({ brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(function () { });
 }

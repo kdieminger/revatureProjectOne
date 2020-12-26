@@ -12,7 +12,7 @@ const removeUsers = {
 }
 
 const removeCarLot = {
-    TableName: 'car lot'
+    TableName: 'carlot'
 }
 
 const userSchema = {
@@ -55,7 +55,7 @@ const carSchema = {
         ReadCapacityUnits: 3,
         WriteCapacityUnits: 3
     },
-    TableName: 'car lot',
+    TableName: 'carlot',
     StreamSpecification: {
         StreamEnabled: false
     }
@@ -109,8 +109,11 @@ ddb.deleteTable(removeCarLot, function(err, data){
 
 function populateUserTable(){
     userService.addUser({username: 'smccall', password: 'allison', role: 'Customer', ownedCars: [], pendingOffers: [], ongoingPay: []}).then(()=>{});
+    userService.addUser({username: 'lmartin', password: 'ariel', role: 'Employee', ownedCars: [], pendingOffers:[], ongoingPay:[]}).then(() => {});
 }
 
 function populateCarTable(){
-
+    carService.addCar({brand: 'Honda', color: 'Black', carID: 'H01', price: 20500, owner: 'dealer' }).then(() => {});
+    carService.addCar({brand: 'Toyota', color: 'White', carID: 'T01', price: 17500, owner: 'dealer' }).then(() => {});
+    carService.addCar({brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(() => {});
 }

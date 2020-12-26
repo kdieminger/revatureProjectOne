@@ -1,6 +1,6 @@
 import fs from 'fs';
 import logger from '../log.js';
-import { Car, Offer, Payment } from '../car/car.jsr.js/index.js';
+import { Car, Offer, Payment } from '../car/car.js';
 import userService from './user.service.js';
 
 //Class declaration
@@ -82,7 +82,7 @@ export async function userLogin(name: string, pass: string): Promise<User | null
 };
 
 //view cars on the lot
-export function viewCars(){ 
+export function viewCarsOld(){ 
   console.log(lot);
 }
 
@@ -179,7 +179,7 @@ export function viewOffers(){
 }
 
 //remove car from carLot
-export function removeCar(carID: string){
+export function removeCarOld(carID: string){
   let index: number;
   let remove: any;
   remove = lot.find((car: Car) => car.carID === carID);
@@ -215,7 +215,7 @@ export function pendingOffer(offerID: string, action: number){
       let newCar: any = lot.find((vehicle: Car) => vehicle.carID === car);
       let newOngoing: Array<Payment> = user.ongoingPay;
       newOngoing.push(new Payment(offerID, newCar, userN, offer.downPay, offer.months, calcMonthPay(car, offer.downPay, offer.months)));
-      removeCar(car);
+      removeCarOld(car);
       removeOffer(offerID);
       rejectPending(car);
     }

@@ -1,6 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Payment = exports.Offer = exports.Car = void 0;
+exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Offer = exports.Car = void 0;
+var log_js_1 = __importDefault(require("../log.js"));
+var car_service_js_1 = __importDefault(require("./car.service.js"));
 var Car = /** @class */ (function () {
     function Car(brand, color, carID, price, owner) {
         this.brand = brand;
@@ -21,8 +26,6 @@ var Offer = /** @class */ (function () {
         this.months = months;
         this.username = username;
         this.offerID = offerID;
-        //the next line breaks when called with pendingOffer function
-        //this.mPay = calcMonthPay(carID, downPay, months);
     }
     ;
     return Offer;
@@ -42,3 +45,29 @@ var Payment = /** @class */ (function () {
     return Payment;
 }());
 exports.Payment = Payment;
+function carDisplay(car) {
+    log_js_1.default.trace("carDisplay called with parameter " + JSON.stringify(car));
+    return car.carID + ': ' + car.color + ' ' + car.brand + '- $' + car.price;
+}
+exports.carDisplay = carDisplay;
+function viewCars(callback) {
+    log_js_1.default.trace('viewCars called');
+    car_service_js_1.default.getCars().then(function (cars) {
+        cars.forEach(function (car) { console.log(carDisplay(car)); });
+        callback();
+    });
+}
+exports.viewCars = viewCars;
+function addCar(brand, color, carID, price, callback) {
+    log_js_1.default.trace("addCar called with parameters " + brand + ", " + color + ", " + carID + ", and " + price + ".");
+    var newCar = new Car(brand, color, carID, price, 'dealer');
+    car_service_js_1.default.addCar(newCar);
+    callback();
+}
+exports.addCar = addCar;
+function removeCar(carID, callback) {
+    log_js_1.default.trace("removeCar called with parameter " + carID);
+    car_service_js_1.default.removeCar(carID);
+    callback();
+}
+exports.removeCar = removeCar;

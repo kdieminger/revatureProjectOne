@@ -3,7 +3,7 @@ import dynamo from '../dynamo/dynamo';
 import logger from '../log';
 import { Car } from './car';
 
-class CarService {
+export class CarService {
     private doc: DocumentClient;
     constructor(){
         this.doc = dynamo;
@@ -11,7 +11,7 @@ class CarService {
 
     async addCar(car: Car): Promise<boolean> {
         const params = {
-            TableName: 'car lot',
+            TableName: 'carlot',
             Item: car,
             ConditionExpression: '#carID <> :carID',
             ExpressionAttributeNames: {
@@ -21,12 +21,37 @@ class CarService {
                 ':carID': car.carID
             }
         };
-        return await this.doc.put(params).promise().then((result) => {
+        return await this.doc.put(params).promise().then(() => {
             logger.info('successfully created car');
             return true;
         }).catch((error) => {
             logger.error(error);
             return false;
+        });
+    }
+
+    async removeCar(carID: string): Promise<boolean> {
+        const params = {
+            TableName: "carlot",
+            Key: {
+                carID: carID
+            }
+        };
+        return await this.doc.delete(params).promise().then(() => {
+            logger.info('succesffully deleted car');
+            return true;
+        }).catch((error) => {
+            logger.error(error);
+            return false;
+        });
+    }
+
+    async getCars(): Promise<Car[]> {
+        return await this.doc.scan({ 'TableName': 'carlot' }).promise().then((result) => {
+            return result.Items as Car[];
+        }).catch((err) => {
+            logger.error(err);
+            return [];
         });
     }
 }
