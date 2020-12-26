@@ -218,8 +218,31 @@ function makeOfferMenu() {
     read.question('Enter the car ID.\n', function (ID) {
         read.question('Enter your down payment.\n', function (DP) {
             read.question('Over how many months will you pay off the rest?\n', function (month) {
-                user_js_1.makeOffer(ID, DP, month, exports.login.username);
-                customerMenu();
+                var exists = false;
+                for (var i = 0; i < user_js_1.offers.length; i++) {
+                    if (user_js_1.offers[i].offerID === ID + exports.login.username) {
+                        exists = true;
+                        i = user_js_1.offers.length;
+                    }
+                }
+                if (exists) {
+                    log_js_1.default.warn('Offer with this ID already exists');
+                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
+                        if (answer === 'Yes' || answer === 'yes') {
+                            log_js_1.default.info('replacing old offer');
+                            user_js_1.replaceOffer(ID, DP, month, exports.login.username);
+                            customerMenu();
+                        }
+                        else if (answer === 'No' || answer === 'no') {
+                            customerMenu();
+                        }
+                    });
+                }
+                else {
+                    log_js_1.default.info('making new offer');
+                    user_js_1.makeOffer(ID, DP, month, exports.login.username);
+                    customerMenu();
+                }
             });
         });
     });

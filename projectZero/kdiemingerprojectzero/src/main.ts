@@ -2,9 +2,12 @@ import { exit } from 'process';
 import readline from 'readline';
 import logger from './log.js';
 
-import { User, loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerUser, makeOffer, 
-    addCar, viewOffers, removeCar, lot, updateCarOwner, data, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments } from './user.js';
+import {
+    User, loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerUser, makeOffer,
+    addCar, viewOffers, removeCar, lot, updateCarOwner, data, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments, offers, replaceOffer
+} from './user.js';
 
+import { Car, Offer } from './car.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -13,6 +16,7 @@ const read = readline.createInterface({
 
 
 export let login: any;
+
 
 //loads files
 export function load() {
@@ -241,8 +245,31 @@ export function makeOfferMenu() {
     read.question('Enter the car ID.\n', (ID: string) => {
         read.question('Enter your down payment.\n', (DP: any) => {
             read.question('Over how many months will you pay off the rest?\n', (month: any) => {
-                makeOffer(ID, DP, month, login.username);
-                customerMenu();
+                let exists: boolean = false;
+                for (let i: number = 0; i < offers.length; i++) {
+                    if (offers[i].offerID === ID + login.username) {
+                        exists = true;
+                        i = offers.length;
+                    }
+                }
+                if (exists) {
+                    logger.warn('Offer with this ID already exists');
+                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
+                        if (answer === 'Yes' || answer === 'yes') {
+                            logger.info('replacing old offer');
+                            replaceOffer(ID, DP, month, login.username);
+                            customerMenu();
+                        }
+                        else if (answer === 'No' || answer === 'no') {
+                            customerMenu();
+                        }
+                    })
+                }
+                else {
+                    logger.info('making new offer');
+                    makeOffer(ID, DP, month, login.username);
+                    customerMenu();
+                }
             })
         })
     })

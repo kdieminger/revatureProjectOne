@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectPending = exports.addPending = exports.updateCarOwner = exports.pendingOffer = exports.removeOffer = exports.removeCar = exports.viewOffers = exports.addCar = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.makeOffer = exports.calcMonthPay = exports.viewCars = exports.userLogin = exports.registerUser = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
+exports.rejectPending = exports.addPending = exports.updateCarOwner = exports.pendingOffer = exports.removeOffer = exports.removeCar = exports.viewOffers = exports.addCar = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.replaceOffer = exports.makeOffer = exports.calcMonthPay = exports.viewCars = exports.userLogin = exports.registerUser = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
 var fs_1 = __importDefault(require("fs"));
 var log_js_1 = __importDefault(require("./log.js"));
 var car_js_1 = require("./car.js");
@@ -100,22 +100,34 @@ function makeOffer(carID, downPay, months, user) {
         log_js_1.default.error('invalid input, NaN');
         console.log('Invalid input.');
     }
+    else if (!check) {
+        log_js_1.default.error('Car doesnt exist');
+        console.log('invalid carID');
+    }
     else {
-        if (!check) {
-            log_js_1.default.error('Car doesnt exist');
-            console.log('invalid carID');
-        }
-        else {
-            exports.offers.push(new car_js_1.Offer(carID, dPay, mnths, user));
-            var x = Number(downPay);
-            var y = Number(months);
-            var monthly = calcMonthPay(carID, x, y);
-            addPending(carID, user);
-            console.log("Thank you for your offer. You have put a downpayment of " + downPay + " on " + carID + " and your monthly payment will be " + monthly + " over " + months + " months.");
-        }
+        exports.offers.push(new car_js_1.Offer(carID, dPay, mnths, user));
+        var monthly = calcMonthPay(carID, dPay, mnths);
+        addPending(carID, user);
+        console.log("Thank you for your offer. You have put a downpayment of " + downPay + " on " + carID + " and your monthly payment will be " + monthly + " over " + months + " months.");
     }
 }
 exports.makeOffer = makeOffer;
+//replaces an existing offer
+function replaceOffer(carID, downPay, months, user) {
+    var dPay = parseInt(downPay);
+    var mnths = parseInt(months);
+    if (isNaN(dPay) || isNaN(mnths)) {
+        log_js_1.default.error('invalid input, NaN');
+        console.log('Invalid input.');
+    }
+    else {
+        removeOffer((carID + user));
+        log_js_1.default.debug('Offers after removal: ', exports.offers);
+        exports.offers.push(new car_js_1.Offer(carID, dPay, mnths, user));
+        log_js_1.default.debug('Offers after addition: ', exports.offers);
+    }
+}
+exports.replaceOffer = replaceOffer;
 //lets the user view their cars
 function viewOwnedCars(username) {
     log_js_1.default.info("view cars owned by " + username + ".");
@@ -225,10 +237,11 @@ function addPending(carID, username) {
     newUserOffer.push(userOffer);
 }
 exports.addPending = addPending;
+//rejects all offers matching carID    
 function rejectPending(carID) {
     for (var i = 0; i < exports.offers.length; i++) {
         if (exports.offers[i].carID === carID) {
-            console.log(exports.offers[i]);
+            log_js_1.default.debug(exports.offers[i]);
             exports.offers.splice(i, 1);
         }
     }

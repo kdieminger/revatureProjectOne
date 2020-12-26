@@ -85,23 +85,35 @@ export function makeOffer(carID: string, downPay: string, months: string, user: 
   let check = lot.find((car: Car) => car.carID == carID);
   let dPay: number = parseInt(downPay);
   let mnths: number = parseInt(months);
-  if(isNaN(dPay) || isNaN(mnths)){
+  if (isNaN(dPay) || isNaN(mnths)) {
+    logger.error('invalid input, NaN');
+    console.log('Invalid input.');
+  }
+  else if (!check) {
+    logger.error('Car doesnt exist');
+    console.log('invalid carID');
+  }
+  else {
+    offers.push(new Offer(carID, dPay, mnths,user));
+    let monthly = calcMonthPay(carID, dPay, mnths);
+    addPending(carID, user);
+    console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months} months.`);
+  }
+}
+
+//replaces an existing offer
+export function replaceOffer(carID: string, downPay: string, months: string, user: string){
+  let dPay: number = parseInt(downPay);
+  let mnths: number = parseInt(months);
+  if (isNaN(dPay) || isNaN(mnths)) {
     logger.error('invalid input, NaN');
     console.log('Invalid input.');
   }
   else{
-    if (!check){
-      logger.error('Car doesnt exist');
-      console.log('invalid carID');
-    }
-    else {
-      offers.push(new Offer(carID, dPay, mnths, user));
-      let x = Number(downPay);
-      let y = Number(months);
-      let monthly = calcMonthPay(carID, x, y);
-      addPending(carID, user);
-      console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months} months.`);
-    }
+    removeOffer((carID + user));
+    logger.debug('Offers after removal: ', offers);
+    offers.push(new Offer(carID, dPay, mnths, user));
+    logger.debug('Offers after addition: ', offers)
   }
 }
 
@@ -215,14 +227,16 @@ export function addPending(carID: string, username: string){
   newUserOffer.push(userOffer);
 }
 
+//rejects all offers matching carID    
 export function rejectPending(carID: string){
-  for (let i = 0; i < offers.length; i++){
+  for (let i: number = 0; i < offers.length; i++){
     if (offers[i].carID === carID){
-      console.log(offers[i]);
+      logger.debug(offers[i]);
       offers.splice(i, 1);
     }
   }
 }
+
 
 
 
