@@ -1,5 +1,5 @@
-import {start, load} from './main';
-import { getUser } from './user';
+import { start } from './main';
+import logger from './log';
 
-load();
+//load();
 start();

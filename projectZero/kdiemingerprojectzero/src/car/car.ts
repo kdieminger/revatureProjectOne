@@ -1,5 +1,5 @@
-import { calcMonthPay } from './user.js';
-import logger from './log.js';
+import { calcMonthPay } from '../user/user.js';
+import logger from '../log.js';
 
 export class Car {
     constructor(public brand: string, public color: string, public carID: string, public price: number, public owner: string){
@@ -8,8 +8,6 @@ export class Car {
 
 export class Offer {
     constructor(public carID: string, public downPay: number, public months: number, public username: string, public offerID: string = carID + username){
-        //the next line breaks when called with pendingOffer function
-        //this.mPay = calcMonthPay(carID, downPay, months);
     };
 }
 

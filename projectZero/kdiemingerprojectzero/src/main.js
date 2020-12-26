@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.makeOfferMenu = exports.start = exports.logUser = exports.register = exports.tryAgain = exports.load = exports.login = void 0;
 var readline_1 = __importDefault(require("readline"));
 var log_js_1 = __importDefault(require("./log.js"));
-var user_js_1 = require("./user.js");
+var user_js_1 = require("./user/user.js");
 var read = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -39,32 +39,28 @@ exports.tryAgain = tryAgain;
 //registers a user
 function register() {
     read.question('Username:', function (username) {
-        if (user_js_1.getUser(username)) {
-            log_js_1.default.warn('username already exists');
-            console.log('Username is taken.');
-            start();
-        }
-        else {
-            read.question('Password:', function (password) {
-                read.question('Employee Code? (enter 0 to skip)\n', function (code) {
-                    if (code === '0') {
-                        user_js_1.registerUser(username, password, 'Customer');
-                        console.log("Welcome new customer!");
-                        start();
-                    }
-                    else if (code === '1234') {
-                        user_js_1.registerUser(username, password, 'Employee');
-                        console.log("Welcome new employee!");
-                        start();
-                    }
-                    else {
-                        log_js_1.default.warn('Code did not correspond to anything.');
-                        console.log("Incorrect employee code.");
-                        start();
-                    }
-                });
+        // if (getUser(username)){
+        //     logger.warn('username already exists');
+        //     console.log('Username is taken.');
+        //     start();
+        // }
+        // else {
+        read.question('Password:', function (password) {
+            read.question('Employee Code? (enter 0 to skip)\n', function (code) {
+                if (code === '0') {
+                    user_js_1.registerUser(username, password, 'Customer', start);
+                }
+                else if (code === '1234') {
+                    user_js_1.registerUser(username, password, 'Employee', start);
+                }
+                else {
+                    log_js_1.default.warn('Code did not correspond to anything.');
+                    console.log("Incorrect employee code.");
+                    start();
+                }
             });
-        }
+        });
+        //}
     });
 }
 exports.register = register;
@@ -72,24 +68,40 @@ exports.register = register;
 function logUser() {
     read.question('Username:', function (username) {
         read.question('Password:', function (password) {
-            exports.login = user_js_1.userLogin(username, password);
-            if (exports.login) {
-                var inUser = exports.login;
-                console.log("Welcome back " + inUser.username + "!");
-                if (inUser.role === 'Customer') {
-                    customerMenu();
+            user_js_1.userLogin(username, password).then(function (user) {
+                if (user) {
+                    exports.login = user;
+                    console.log;
+                    console.log("Welcome back " + exports.login.username + "!");
+                    if (exports.login.role == 'Employee') {
+                        employeeMenu();
+                    }
+                    else {
+                        customerMenu();
+                    }
                 }
-                else if (inUser.role === 'Employee') {
-                    employeeMenu();
+                else {
+                    console.log('Login failed. Incorrect username or password.');
+                    start();
                 }
-            }
-            else {
-                log_js_1.default.warn('Login failed');
-                console.log('Login failed. Incorrect username or password.');
-                read.question('Try Again: Yes | No\n', function (answer) {
-                    tryAgain(answer);
-                });
-            }
+            });
+            // if (login) {
+            //     let inUser = login;
+            //     console.log(`Welcome back ${inUser.username}!`);
+            //     if (inUser.role === 'Customer'){
+            //         customerMenu();
+            //     }
+            //     else if (inUser.role === 'Employee'){
+            //         employeeMenu();
+            //     }
+            // }
+            // else {
+            //     logger.warn('Login failed');
+            //     console.log('Login failed. Incorrect username or password.');
+            //     read.question('Try Again: Yes | No\n', (answer: string) => {
+            //         tryAgain(answer);
+            //     });
+            // }
         });
     });
 }

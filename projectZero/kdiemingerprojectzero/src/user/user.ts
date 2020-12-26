@@ -1,6 +1,7 @@
 import fs from 'fs';
-import logger from './log.js';
-import { Car, Offer, Payment } from './car.js';
+import logger from '../log.js';
+import { Car, Offer, Payment } from '../car/car.jsr.js/index.js';
+import userService from './user.service.js';
 
 //Class declaration
 export class User{
@@ -38,8 +39,7 @@ export function loadOffers(){
     } catch (err) {
       logger.error(err);
     }
-}
-
+};
 
 
 //ROLE NEUTRAL FUNCTIONS
@@ -51,15 +51,34 @@ export function getUser(userN: string) {
 }
 
 //registers a user
-export function registerUser(userN: string, passW: string, role: string){
-  logger.trace('Attempt to register user');
-  data.push(new User(userN, passW, role, [], [], []));
+export function registerUser(userN: string, passW: string, role: string, callback: Function){
+  userService.addUser(new User(userN,passW,role, [],[],[])).then((res) => {
+    logger.trace(res);
+    callback();
+  }).catch((err) => {
+    logger.error(err);
+    console.log('Error, this probably means that the username is already taken');
+    callback();
+  })
+  if(role == 'Employee'){
+    console.log('Welcome new employee!');
+  }
+  else{
+    console.log('Welcome new customer!');
+  }
 }
 
 //logs user in
-export function userLogin (name: string, pass: string){
+export async function userLogin(name: string, pass: string): Promise<User | null> {
   logger.trace(`user login called with parameters ${name} and ${pass}`);
-  return data.find((person: User) => person.username === name && person.password === pass);
+  return await userService.getUser(name).then((user) => {
+    if (user && user.password === pass) {
+      return user;
+    }
+    else {
+      return null;
+    }
+  })
 };
 
 //view cars on the lot
@@ -141,7 +160,7 @@ export function viewOwnPayments(username: string){
 
 //EMPLOYEE FUNCTIONS
 //adds car to carLot
-export function addCar(brand: string, color: string, carID: string, price: number){
+export function addCarOld(brand: string, color: string, carID: string, price: number){
   logger.trace(`adds a car to the lot with parameters ${brand}, ${color}, ${price}, ${price}`);
   let newCar = new Car(brand, color, carID, price, 'dealer');
   let check = lot.find(car => car.carID === carID);
@@ -236,9 +255,3 @@ export function rejectPending(carID: string){
     }
   }
 }
-
-
-
-
-
-

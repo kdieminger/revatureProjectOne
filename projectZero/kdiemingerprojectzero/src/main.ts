@@ -3,11 +3,11 @@ import readline from 'readline';
 import logger from './log.js';
 
 import {
-    User, loadUsers, loadCarLot, loadOffers, getUser, userLogin, viewCars, calcMonthPay, registerUser, makeOffer,
-    addCar, viewOffers, removeCar, lot, updateCarOwner, data, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments, offers, replaceOffer
-} from './user.js';
+    User, lot, data, offers, loadCarLot, loadOffers, loadUsers, getUser, userLogin, viewCars, calcMonthPay, registerUser, makeOffer,
+    addCar, viewOffers, removeCar, updateCarOwner, viewOwnedCars, pendingOffer, rejectPending, viewUserOffers, viewOwnPayments, replaceOffer
+} from './user/user.js';
 
-import { Car, Offer } from './car.js';
+import { Car, Offer } from './car/car.js';
 
 const read = readline.createInterface({
     input: process.stdin,
@@ -15,7 +15,7 @@ const read = readline.createInterface({
 });
 
 
-export let login: any;
+export let login: User;
 
 
 //loads files
@@ -45,23 +45,19 @@ export function tryAgain(answer: string) {
 //registers a user
 export function register() {
     read.question('Username:', (username: string) => {
-        if (getUser(username)){
-            logger.warn('username already exists');
-            console.log('Username is taken.');
-            start();
-        }
-        else {
+        // if (getUser(username)){
+        //     logger.warn('username already exists');
+        //     console.log('Username is taken.');
+        //     start();
+        // }
+        // else {
             read.question('Password:', (password: string) => {
                 read.question('Employee Code? (enter 0 to skip)\n', (code: string) => {
                     if (code === '0'){
-                        registerUser(username, password, 'Customer');
-                        console.log("Welcome new customer!");
-                        start();
+                        registerUser(username, password, 'Customer', start);
                     }
                     else if (code === '1234'){
-                        registerUser(username, password, 'Employee');
-                        console.log("Welcome new employee!");
-                        start();
+                        registerUser(username, password, 'Employee', start);
                     }
                     else {
                         logger.warn('Code did not correspond to anything.');
@@ -71,7 +67,7 @@ export function register() {
                 })
                 
             })
-        }
+        //}
     })
 }
 
@@ -79,24 +75,39 @@ export function register() {
 export function logUser() {
     read.question('Username:', (username: string) => {
         read.question('Password:', (password: string) => {
-            login = userLogin(username, password);
-            if (login) {
-                let inUser = login;
-                console.log(`Welcome back ${inUser.username}!`);
-                if (inUser.role === 'Customer'){
-                    customerMenu();
+            userLogin(username, password).then((user) => {
+                if(user){
+                    login = user;
+                    console.log(`Welcome back ${login.username}!`);
+                    if(login.role == 'Employee'){
+                        employeeMenu();
+                    }
+                    else{
+                        customerMenu();
+                    }
                 }
-                else if (inUser.role === 'Employee'){
-                    employeeMenu();
+                else {
+                    console.log('Login failed. Incorrect username or password.');
+                    start();
                 }
-            }
-            else {
-                logger.warn('Login failed');
-                console.log('Login failed. Incorrect username or password.');
-                read.question('Try Again: Yes | No\n', (answer: string) => {
-                    tryAgain(answer);
-                });
-            }
+            })
+            // if (login) {
+            //     let inUser = login;
+            //     console.log(`Welcome back ${inUser.username}!`);
+            //     if (inUser.role === 'Customer'){
+            //         customerMenu();
+            //     }
+            //     else if (inUser.role === 'Employee'){
+            //         employeeMenu();
+            //     }
+            // }
+            // else {
+            //     logger.warn('Login failed');
+            //     console.log('Login failed. Incorrect username or password.');
+            //     read.question('Try Again: Yes | No\n', (answer: string) => {
+            //         tryAgain(answer);
+            //     });
+            // }
         })
     });
 }
