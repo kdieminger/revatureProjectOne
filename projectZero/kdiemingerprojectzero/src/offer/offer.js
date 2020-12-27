@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectPending = exports.acceptOffer = exports.replaceOffer = exports.viewOffers = exports.offerDisplay = exports.makeOffer = exports.Offer = void 0;
+exports.rejectPending = exports.acceptOffer = exports.replaceOffer = exports.checkOffer = exports.viewOffers = exports.offerDisplay = exports.makeOffer = exports.Offer = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var offer_service_js_1 = __importDefault(require("./offer.service.js"));
 var car_service_js_1 = __importDefault(require("../car/car.service.js"));
@@ -53,6 +53,22 @@ function viewOffers(callback) {
     });
 }
 exports.viewOffers = viewOffers;
+function checkOffer(offerID) {
+    var check = offer_service_js_1.default.getOfferByID(offerID);
+    var exists = false;
+    check.then(function (offer) {
+        if (offer) {
+            log_js_1.default.debug(offer);
+            exists = true;
+        }
+        else {
+            log_js_1.default.debug(offer);
+            exists = false;
+        }
+    });
+    return exists;
+}
+exports.checkOffer = checkOffer;
 function replaceOffer(carID, downPay, months, user) {
     offer_service_js_1.default.removeOffer(carID + user);
     log_js_1.default.debug('Offers after removal: ', viewOffers);

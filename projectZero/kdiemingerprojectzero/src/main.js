@@ -222,25 +222,24 @@ function makeOfferMenu() {
             read.question('Over how many months will you pay off the rest?\n', function (month) {
                 var offerID = ID + exports.login.username;
                 log_js_1.default.debug(offerID);
-                // if(offerService.getOfferByID(offerID)){
-                //     logger.warn('Offer with this ID already exists');
-                //     read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
-                //         if (answer === 'Yes' || answer === 'yes') {
-                //             logger.info('replacing old offer');
-                //             replaceOffer(ID, DP, month, login.username);
-                //             customerMenu();
-                //         }
-                //         else if (answer === 'No' || answer === 'no') {
-                //             customerMenu();
-                //         }
-                //     })
-                // }
-                // else{
-                //     logger.info('making new offer');
-                //     makeOffer(ID, DP, month, login.username,customerMenu);
-                // }
-                log_js_1.default.info('making a new offer');
-                offer_js_1.makeOffer(ID, DP, month, exports.login.username, customerMenu);
+                var exists = offer_js_1.checkOffer(offerID);
+                if (!exists) {
+                    log_js_1.default.warn('Offer with this ID already exists');
+                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
+                        if (answer === 'Yes' || answer === 'yes') {
+                            log_js_1.default.info('replacing old offer');
+                            offer_js_1.replaceOffer(ID, DP, month, exports.login.username);
+                            customerMenu();
+                        }
+                        else if (answer === 'No' || answer === 'no') {
+                            customerMenu();
+                        }
+                    });
+                }
+                else {
+                    log_js_1.default.info('making new offer');
+                    offer_js_1.makeOffer(ID, DP, month, exports.login.username, customerMenu);
+                }
             });
         });
     });

@@ -41,6 +41,22 @@ export function viewOffers(callback: Function){
     })
 }
 
+export function checkOffer(offerID: string): boolean{
+    let check: any = offerService.getOfferByID(offerID);
+    let exists: boolean = false;
+    check.then((offer: any) =>{
+        if(offer){
+            logger.debug(offer);
+             exists = true;
+        }
+        else{
+            logger.debug(offer);
+            exists = false;
+        }
+    })
+    return exists;
+}
+
 export function replaceOffer(carID: string, downPay: number, months: number, user: string){
     offerService.removeOffer(carID+user);
     logger.debug('Offers after removal: ', viewOffers);

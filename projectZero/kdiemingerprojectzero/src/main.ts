@@ -4,7 +4,7 @@ import logger from './log.js';
 import {
     User, offers, loadCarLot, loadOffers, loadUsers, userLogin, calcMonthPay, registerUser, viewOwnedCars, /*pendingOffer*/ rejectPending, viewUserOffers, viewOwnPayments } from './user/user.js';
 import { Car, viewCars, addCar, removeCar } from './car/car.js';
-import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, acceptOffer} from './offer/offer.js';
+import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, acceptOffer, checkOffer } from './offer/offer.js';
 import offerService from './offer/offer.service.js';
 
 const read = readline.createInterface({
@@ -244,25 +244,24 @@ export function makeOfferMenu() {
             read.question('Over how many months will you pay off the rest?\n', (month: any) => {
                 let offerID: string = ID+login.username;
                 logger.debug(offerID);
-                // if(offerService.getOfferByID(offerID)){
-                //     logger.warn('Offer with this ID already exists');
-                //     read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
-                //         if (answer === 'Yes' || answer === 'yes') {
-                //             logger.info('replacing old offer');
-                //             replaceOffer(ID, DP, month, login.username);
-                //             customerMenu();
-                //         }
-                //         else if (answer === 'No' || answer === 'no') {
-                //             customerMenu();
-                //         }
-                //     })
-                // }
-                // else{
-                //     logger.info('making new offer');
-                //     makeOffer(ID, DP, month, login.username,customerMenu);
-                // }
-                logger.info('making a new offer');
-                makeOffer(ID, DP, month, login.username, customerMenu);
+                let exists: boolean = checkOffer(offerID);
+                if(!exists) {
+                    logger.warn('Offer with this ID already exists');
+                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
+                        if (answer === 'Yes' || answer === 'yes') {
+                            logger.info('replacing old offer');
+                            replaceOffer(ID, DP, month, login.username);
+                            customerMenu();
+                        }
+                        else if (answer === 'No' || answer === 'no') {
+                            customerMenu();
+                        }
+                    })
+                }
+                else {
+                    logger.info('making new offer');
+                    makeOffer(ID, DP, month, login.username, customerMenu);
+                }
             })
         })
     })
