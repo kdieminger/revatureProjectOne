@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "tsc && node src/index.js",
+    "setup": "tsc && node src/setup/createTable.js",
     "build": "tsc",
     "test": "jest --detectOpenHandles"
   },
@@ -22,6 +23,7 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "aws-sdk": "^2.817.0",
     "log4js": "^6.3.0"
   }
 }
