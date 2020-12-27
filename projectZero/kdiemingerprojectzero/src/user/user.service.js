@@ -71,6 +71,21 @@ var UserService = /** @class */ (function () {
             });
         });
     };
+    UserService.prototype.getUsers = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.doc.scan({ 'TableName': 'users' }).promise().then(function (result) {
+                            return result.Items;
+                        }).catch(function (err) {
+                            log_1.default.error(err);
+                            return [];
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     UserService.prototype.addUser = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var params;

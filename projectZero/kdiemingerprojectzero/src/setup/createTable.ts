@@ -149,7 +149,6 @@ ddb.deleteTable(removeOffers, function(err, data){
             else {
                 console.log('Table Created', data);
                 setTimeout(() => {
-                    populateOffersTable();
                 }, 5000);
             }
         });
@@ -165,9 +164,4 @@ function populateCarTable(){
     carService.addCar({brand: 'Honda', color: 'Black', carID: 'H01', price: 20500, owner: 'dealer' }).then(() => {});
     carService.addCar({brand: 'Toyota', color: 'White', carID: 'T01', price: 17500, owner: 'dealer' }).then(() => {});
     carService.addCar({brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(() => {});
-}
-
-function populateOffersTable(){
-    offerService.addOffer({carID: 'H01', downPay: 5000, months: 5, username: 'test', offerID: 'H01test'}).then(() => {});
-    offerService.addOffer({carID: 'K01', downPay: 5000, months: 5, username: 'test', offerID: 'K01test'}).then(() => {});
 }

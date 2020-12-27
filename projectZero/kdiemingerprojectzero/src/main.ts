@@ -2,7 +2,7 @@ import { exit } from 'process';
 import readline from 'readline';
 import logger from './log.js';
 import {
-    User, offers, userLogin, registerUser, viewOwnedCars, /*pendingOffer*/ viewUserOffers, viewOwnPayments } from './user/user.js';
+    User, userLogin, registerUser, viewOwnedCars, viewUserOffers, viewOwnPayments, viewAllPayments } from './user/user.js';
 import { Car, viewCars, addCar, removeCar } from './car/car.js';
 import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, checkOffer, acceptOffer } from './offer/offer.js';
 import offerService from './offer/offer.service.js';
@@ -132,13 +132,11 @@ function customerMenu(){
                     break;
                 case '3':
                     logger.info('view current users cars');
-                    viewOwnedCars(login.username); 
-                    customerMenu();   
+                    viewOwnedCars(login.username, customerMenu);   
                     break;
                 case '4':
                     logger.info('view current users payments');
-                    viewOwnPayments(login.username);
-                    customerMenu();
+                    viewOwnPayments(login.username, customerMenu);
                     break;
                 case '5':
                     logger.info('return to start menu');
@@ -215,7 +213,7 @@ function employeeMenu(){
                     })
                     break;
                 case '5':
-                    console.log("In progress");
+                    viewAllPayments();
                     employeeMenu();
                     break;
                 case '6':
@@ -256,7 +254,7 @@ export function makeOfferMenu() {
                         })
                     }
                     else {
-                        logger.info('making new offer');
+                        logger.info('attempting to make a new offer');
                         makeOffer(ID, DP, month, login.username, customerMenu);
                     }
                 })

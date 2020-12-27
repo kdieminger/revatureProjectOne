@@ -26,19 +26,26 @@ export function viewCars(callback: Function){
 
 export function addCar(brand: string, color: string, carID: string, price: number, callback: Function){
     logger.trace(`addCar called with parameters ${brand}, ${color}, ${carID}, and ${price}.`);
-    let newCar = new Car(brand, color, carID, price, 'dealer');
-    carService.addCar(newCar);
+    carService.getCarByID(carID).then((car) => {
+        if (!car){
+            let newCar = new Car(brand, color, carID, price, 'dealer');
+            carService.addCar(newCar);
+        }
+        else{
+            logger.error('carID already exists');
+        }
+    })
     callback();
 }
 
 export function removeCar(carID: string){
     logger.trace(`removeCar called with parameter ${carID}`);
-    carService.removeCar(carID);
+    carService.getCarByID(carID).then((car)=> {
+        if(car){
+            carService.removeCar(carID);
+        }
+        else {
+            logger.error('car does not exist');
+        }
+    })
 }
-
-export function updateOwner(car: Car){
-    logger.info('updateOwner called');
-    carService.updateCarOwner(car);
-}
-
-// export function viewCarOwners(){}

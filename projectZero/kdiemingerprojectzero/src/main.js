@@ -121,13 +121,11 @@ function customerMenu() {
                 break;
             case '3':
                 log_js_1.default.info('view current users cars');
-                user_js_1.viewOwnedCars(exports.login.username);
-                customerMenu();
+                user_js_1.viewOwnedCars(exports.login.username, customerMenu);
                 break;
             case '4':
                 log_js_1.default.info('view current users payments');
-                user_js_1.viewOwnPayments(exports.login.username);
-                customerMenu();
+                user_js_1.viewOwnPayments(exports.login.username, customerMenu);
                 break;
             case '5':
                 log_js_1.default.info('return to start menu');
@@ -195,7 +193,7 @@ function employeeMenu() {
                 });
                 break;
             case '5':
-                console.log("In progress");
+                user_js_1.viewAllPayments();
                 employeeMenu();
                 break;
             case '6':
@@ -235,7 +233,7 @@ function makeOfferMenu() {
                         });
                     }
                     else {
-                        log_js_1.default.info('making new offer');
+                        log_js_1.default.info('attempting to make a new offer');
                         offer_js_1.makeOffer(ID, DP, month, exports.login.username, customerMenu);
                     }
                 });

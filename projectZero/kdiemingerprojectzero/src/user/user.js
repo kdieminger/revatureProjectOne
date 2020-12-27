@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addPending = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.userLogin = exports.registerUser = exports.offers = exports.lot = exports.data = exports.User = void 0;
+exports.viewAllPayments = exports.viewUserOffers = exports.viewOwnPayments = exports.viewOwnedCars = exports.userLogin = exports.registerUser = exports.User = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var user_service_js_1 = __importDefault(require("./user.service.js"));
 //Class declaration
@@ -56,7 +56,6 @@ var User = /** @class */ (function () {
     return User;
 }());
 exports.User = User;
-//ROLE NEUTRAL FUNCTIONS
 //registers a user
 function registerUser(userN, passW, role, callback) {
     user_service_js_1.default.addUser(new User(userN, passW, role, [], [], [])).then(function (res) {
@@ -97,35 +96,61 @@ function userLogin(name, pass) {
 }
 exports.userLogin = userLogin;
 ;
-//CUSTOMER FUNCTIONS
-//lets the user view their cars
-function viewOwnedCars(username) {
-    log_js_1.default.info("view cars owned by " + username + ".");
-    var user;
-    user = exports.data.find(function (person) { return person.username === username; });
-    console.log(user.ownedCars);
+function viewOwnedCars(username, callback) {
+    log_js_1.default.info('viewOwnedCars called');
+    user_service_js_1.default.getUser(username).then(function (user) {
+        if (user) {
+            var view = user.ownedCars;
+            for (var i = 0; i < view.length; i++) {
+                console.log(view[i]);
+            }
+        }
+        else {
+            log_js_1.default.error('user is undefined');
+        }
+    });
+    callback();
 }
 exports.viewOwnedCars = viewOwnedCars;
-function viewUserOffers(username) {
-    log_js_1.default.info("view offers made by " + username);
-    var user = exports.data.find(function (person) { return person.username === username; });
-    console.log(user.pendingOffers);
-}
-exports.viewUserOffers = viewUserOffers;
-//allows user to view their ongoing payments
-function viewOwnPayments(username) {
-    log_js_1.default.info("view outstanding payments for " + username);
-    var user = exports.data.find(function (person) { return person.username === username; });
-    console.log(user.ongoingPay);
+function viewOwnPayments(username, callback) {
+    log_js_1.default.info('viewOwnPayments called');
+    user_service_js_1.default.getUser(username).then(function (user) {
+        if (user) {
+            var view = user.ongoingPay;
+            for (var i = 0; i < view.length; i++) {
+                console.log(view[i]);
+            }
+        }
+        else {
+            log_js_1.default.error('user is undefined');
+        }
+    });
+    callback();
 }
 exports.viewOwnPayments = viewOwnPayments;
-//SYSTEM FUNCTIONS
-//add pending offer to user
-function addPending(carID, username) {
-    var pendOfferID = carID + username;
-    var userOffer = exports.offers.find(function (off) { return off.offerID === pendOfferID; });
-    var fUser = exports.data.find(function (person) { return person.username === username; });
-    var newUserOffer = fUser.pendingOffers;
-    newUserOffer.push(userOffer);
+function viewUserOffers(username, callback) {
+    log_js_1.default.info('viewUserOffers called');
+    user_service_js_1.default.getUser(username).then(function (user) {
+        if (user) {
+            var view = user.pendingOffers;
+            for (var i = 0; i < view.length; i++) {
+                console.log(view[i]);
+            }
+        }
+        else {
+            log_js_1.default.error('user is undefined');
+        }
+    });
+    callback();
 }
-exports.addPending = addPending;
+exports.viewUserOffers = viewUserOffers;
+function viewAllPayments() {
+    user_service_js_1.default.getUsers().then(function (users) {
+        users.forEach(function (user) {
+            if (user.ongoingPay.length > 0) {
+                console.log(user.ongoingPay, '\n');
+            }
+        });
+    });
+}
+exports.viewAllPayments = viewAllPayments;

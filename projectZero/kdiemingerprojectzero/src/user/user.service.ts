@@ -26,6 +26,15 @@ class UserService {
             }
         })
     }
+
+    async getUsers(): Promise<User[]>{
+        return await this.doc.scan({ 'TableName': 'users'}).promise().then((result) =>{
+            return result.Items as User[]; 
+        }).catch((err) =>{
+            logger.error(err);
+            return [];
+        });
+    }
     
     async addUser(user: User): Promise<boolean> {
         const params = {

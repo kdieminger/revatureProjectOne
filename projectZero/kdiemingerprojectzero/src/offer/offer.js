@@ -59,36 +59,38 @@ var Offer = /** @class */ (function () {
 }());
 exports.Offer = Offer;
 function makeOffer(carID, downPay, months, user, callback) {
-    var check = car_service_js_1.default.getCarByID(carID);
-    var dPay = parseInt(downPay);
-    var mnths = parseInt(months);
-    if (isNaN(dPay) || isNaN(mnths)) {
-        log_js_1.default.error('invalid input, NaN');
-        console.log('Invalid input.');
-    }
-    if (!check) {
-        log_js_1.default.error('Car doesnt exist');
-        console.log('invalid carID');
-    }
-    else {
-        var offer_1 = new Offer(carID, dPay, mnths, user);
-        offer_service_js_1.default.addOffer(offer_1);
-        user_service_js_1.default.getUser(user).then(function (person) {
-            if (person) {
-                person.pendingOffers.push(offer_1);
-                user_service_js_1.default.updateUser(person);
-            }
-        });
-        calcMonthPay(carID, dPay, mnths).then(function (pay) {
-            if (pay) {
-                console.log("Thank you for your offer. You have put a downpayment of $" + downPay + " on " + carID + ". Your monthly payment will be $" + pay + " over " + months + ".");
+    car_service_js_1.default.getCarByID(carID).then(function (car) {
+        if (car) {
+            var dPay = parseInt(downPay);
+            var mnths = parseInt(months);
+            if (isNaN(dPay) || isNaN(mnths)) {
+                log_js_1.default.error('invalid input, NaN');
+                console.log('Invalid input.');
             }
             else {
-                log_js_1.default.debug('error');
+                var offer_1 = new Offer(carID, dPay, mnths, user);
+                offer_service_js_1.default.addOffer(offer_1);
+                user_service_js_1.default.getUser(user).then(function (person) {
+                    if (person) {
+                        person.pendingOffers.push(offer_1);
+                        user_service_js_1.default.updateUser(person);
+                    }
+                });
+                calcMonthPay(carID, dPay, mnths).then(function (pay) {
+                    if (pay) {
+                        console.log("Thank you for your offer. You have put a downpayment of $" + downPay + " on " + carID + ". Your monthly payment will be $" + pay + " over " + months + ".");
+                    }
+                    else {
+                        log_js_1.default.debug('error');
+                    }
+                });
             }
-        });
-        //TO DO: Add Pending to User
-    }
+        }
+        else {
+            log_js_1.default.error('Car doesnt exist');
+            console.log('invalid carID');
+        }
+    });
     callback();
 }
 exports.makeOffer = makeOffer;
@@ -141,11 +143,13 @@ function acceptOffer(offerID, callback) {
                     log_js_1.default.debug(rac);
                     rac.owner = off.username;
                     car_js_1.removeCar(rac.carID);
-                    car_js_1.updateOwner(rac);
+                    car_service_js_1.default.updateCarOwner(rac);
                     user_service_js_1.default.getUser(off.username).then(function (user) {
                         if (user) {
                             user.ownedCars.push(rac);
                             user.ongoingPay.push(new car_js_1.Payment(offerID, rac, off.username, off.downPay, off.months));
+                            var remove = user.pendingOffers.indexOf(off);
+                            user.pendingOffers.splice(remove, 1);
                             user_service_js_1.default.updateUser(user);
                         }
                         else {

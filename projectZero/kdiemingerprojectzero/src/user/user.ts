@@ -11,14 +11,6 @@ export class User{
 }
 
 
-//variables
-export let data: Array<User>;
-export let lot: Array<Car>;
-export let offers: Array<Offer>;
-
-
-//ROLE NEUTRAL FUNCTIONS
-
 //registers a user
 export function registerUser(userN: string, passW: string, role: string, callback: Function){
   userService.addUser(new User(userN,passW,role, [],[],[])).then((res) => {
@@ -51,26 +43,60 @@ export async function userLogin(name: string, pass: string): Promise<User | null
 };
 
 
-//CUSTOMER FUNCTIONS
-
-
-//lets the user view their cars
-export function viewOwnedCars(username:string){
-  logger.info(`view cars owned by ${username}.`);
-  let user: any;
-  user = data.find((person: User) => person.username === username);
-  console.log(user.ownedCars);
+export function viewOwnedCars(username: string, callback: Function) {
+  logger.info('viewOwnedCars called');
+  userService.getUser(username).then((user) => {
+    if(user){
+      let view = user.ownedCars;
+      for(let i = 0; i < view.length; i++){
+        console.log(view[i]);
+      }
+    }
+    else{
+      logger.error('user is undefined');
+    }
+  });
+  callback();
 }
 
-export function viewUserOffers(username: string){
-  logger.info(`view offers made by ${username}`);
-  let user: any = data.find(person => person.username === username);
-  console.log(user.pendingOffers);
+export function viewOwnPayments(username: string, callback: Function){
+  logger.info('viewOwnPayments called');
+  userService.getUser(username).then((user) => {
+    if(user){
+      let view = user.ongoingPay;
+      for(let i = 0; i < view.length; i++){
+        console.log(view[i]);
+      }
+    }
+    else{
+      logger.error('user is undefined');
+    }
+  });
+  callback();
 }
 
-//allows user to view their ongoing payments
-export function viewOwnPayments(username: string){
-  logger.info(`view outstanding payments for ${username}`)
-  let user: any = data.find((person: User) => person.username === username);
-  console.log(user.ongoingPay);
+export function viewUserOffers(username: string, callback: Function){
+  logger.info('viewUserOffers called');
+  userService.getUser(username).then((user) => {
+    if(user){
+      let view = user.pendingOffers;
+      for(let i = 0; i < view.length; i++){
+        console.log(view[i]);
+      }
+    }
+    else{
+      logger.error('user is undefined');
+    }
+  });
+  callback();
+}
+
+export function viewAllPayments() {
+  userService.getUsers().then((users) => {
+    users.forEach((user) => {
+      if(user.ongoingPay.length > 0){
+        console.log(user.ongoingPay, '\n');
+      }
+    });
+  });
 }

@@ -1,7 +1,7 @@
 import logger from '../log.js';
 import offerService from './offer.service.js';
 import carService from '../car/car.service.js';
-import { Car, Payment, removeCar, updateOwner } from '../car/car.js';
+import { Car, Payment, removeCar } from '../car/car.js';
 import userService from '../user/user.service.js';
 
 export class Offer {
@@ -10,36 +10,38 @@ export class Offer {
 }
 
 export function makeOffer(carID: string, downPay: string, months: string, user: string, callback: Function) {
-    let check = carService.getCarByID(carID);
-    let dPay: number = parseInt(downPay);
-    let mnths: number = parseInt(months);
-    if (isNaN(dPay) || isNaN(mnths)) {
-        logger.error('invalid input, NaN');
-        console.log('Invalid input.');
-    }
-    if(!check){
-        logger.error('Car doesnt exist');
-        console.log('invalid carID');
-    }
-    else {
-        let offer = new Offer(carID, dPay, mnths, user);
-        offerService.addOffer(offer);
-        userService.getUser(user).then((person) => {
-            if(person){
-                person.pendingOffers.push(offer);
-                userService.updateUser(person);
-            }
-        })
-        calcMonthPay(carID, dPay, mnths).then((pay) =>{
-            if(pay){
-                console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. Your monthly payment will be $${pay} over ${months}.`);
+    carService.getCarByID(carID).then((car) => {
+        if (car) {
+            let dPay: number = parseInt(downPay);
+            let mnths: number = parseInt(months);
+            if (isNaN(dPay) || isNaN(mnths)) {
+                logger.error('invalid input, NaN');
+                console.log('Invalid input.');
             }
             else {
-                logger.debug('error');
+                let offer = new Offer(carID, dPay, mnths, user);
+                offerService.addOffer(offer);
+                userService.getUser(user).then((person) => {
+                    if (person) {
+                        person.pendingOffers.push(offer);
+                        userService.updateUser(person);
+                    }
+                })
+                calcMonthPay(carID, dPay, mnths).then((pay) => {
+                    if (pay) {
+                        console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. Your monthly payment will be $${pay} over ${months}.`);
+                    }
+                    else {
+                        logger.debug('error');
+                    }
+                });
             }
-        });
-        //TO DO: Add Pending to User
-    }
+        }
+        else {
+            logger.error('Car doesnt exist');
+            console.log('invalid carID');
+        }
+    });
     callback();
 }
 
@@ -84,11 +86,13 @@ export function acceptOffer(offerID: string, callback: Function) {
                     logger.debug(rac);
                     rac.owner = off.username;
                     removeCar(rac.carID);
-                    updateOwner(rac);
+                    carService.updateCarOwner(rac);
                     userService.getUser(off.username).then((user) => {
                         if(user){
                             user.ownedCars.push(rac);
                             user.ongoingPay.push(new Payment(offerID, rac, off.username, off.downPay, off.months));
+                            let remove = user.pendingOffers.indexOf(off);
+                            user.pendingOffers.splice(remove,1);
                             userService.updateUser(user);
                         }
                         else{

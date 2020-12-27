@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateOwner = exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
+exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var car_service_js_1 = __importDefault(require("./car.service.js"));
 var Car = /** @class */ (function () {
@@ -46,19 +46,27 @@ function viewCars(callback) {
 exports.viewCars = viewCars;
 function addCar(brand, color, carID, price, callback) {
     log_js_1.default.trace("addCar called with parameters " + brand + ", " + color + ", " + carID + ", and " + price + ".");
-    var newCar = new Car(brand, color, carID, price, 'dealer');
-    car_service_js_1.default.addCar(newCar);
+    car_service_js_1.default.getCarByID(carID).then(function (car) {
+        if (!car) {
+            var newCar = new Car(brand, color, carID, price, 'dealer');
+            car_service_js_1.default.addCar(newCar);
+        }
+        else {
+            log_js_1.default.error('carID already exists');
+        }
+    });
     callback();
 }
 exports.addCar = addCar;
 function removeCar(carID) {
     log_js_1.default.trace("removeCar called with parameter " + carID);
-    car_service_js_1.default.removeCar(carID);
+    car_service_js_1.default.getCarByID(carID).then(function (car) {
+        if (car) {
+            car_service_js_1.default.removeCar(carID);
+        }
+        else {
+            log_js_1.default.error('car does not exist');
+        }
+    });
 }
 exports.removeCar = removeCar;
-function updateOwner(car) {
-    log_js_1.default.info('updateOwner called');
-    car_service_js_1.default.updateCarOwner(car);
-}
-exports.updateOwner = updateOwner;
-// export function viewCarOwners(){}
