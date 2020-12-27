@@ -129,6 +129,7 @@ var OfferService = /** @class */ (function () {
                         };
                         return [4 /*yield*/, this.doc.get(params).promise().then(function (data) {
                                 if (data && data.Item) {
+                                    log_1.default.trace("data.Item: " + JSON.stringify(data.Item));
                                     return data.Item;
                                 }
                                 else {

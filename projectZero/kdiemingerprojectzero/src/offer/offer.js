@@ -1,12 +1,50 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectPending = exports.acceptOffer = exports.replaceOffer = exports.checkOffer = exports.viewOffers = exports.offerDisplay = exports.makeOffer = exports.Offer = void 0;
+exports.calcMonthPay = exports.rejectPending = exports.acceptOffer = exports.replaceOffer = exports.checkOffer = exports.viewOffers = exports.offerDisplay = exports.makeOffer = exports.Offer = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var offer_service_js_1 = __importDefault(require("./offer.service.js"));
 var car_service_js_1 = __importDefault(require("../car/car.service.js"));
+var car_js_1 = require("../car/car.js");
+var user_service_js_1 = __importDefault(require("../user/user.service.js"));
 var Offer = /** @class */ (function () {
     function Offer(carID, downPay, months, username, offerID) {
         if (offerID === void 0) { offerID = carID + username; }
@@ -33,10 +71,23 @@ function makeOffer(carID, downPay, months, user, callback) {
         console.log('invalid carID');
     }
     else {
-        offer_service_js_1.default.addOffer(new Offer(carID, dPay, mnths, user));
-        // let monthly = calcMonthPay(carID, dPay, mnths);
+        var offer_1 = new Offer(carID, dPay, mnths, user);
+        offer_service_js_1.default.addOffer(offer_1);
+        user_service_js_1.default.getUser(user).then(function (person) {
+            if (person) {
+                person.pendingOffers.push(offer_1);
+                user_service_js_1.default.updateUser(person);
+            }
+        });
+        calcMonthPay(carID, dPay, mnths).then(function (pay) {
+            if (pay) {
+                console.log("Thank you for your offer. You have put a downpayment of $" + downPay + " on " + carID + ". Your monthly payment will be $" + pay + " over " + months + ".");
+            }
+            else {
+                log_js_1.default.debug('error');
+            }
+        });
         //TO DO: Add Pending to User
-        console.log("Thank you for your offer. You have put a downpayment of " + downPay + " on " + carID + ".");
     }
     callback();
 }
@@ -54,19 +105,23 @@ function viewOffers(callback) {
 }
 exports.viewOffers = viewOffers;
 function checkOffer(offerID) {
-    var check = offer_service_js_1.default.getOfferByID(offerID);
-    var exists = false;
-    check.then(function (offer) {
-        if (offer) {
-            log_js_1.default.debug(offer);
-            exists = true;
-        }
-        else {
-            log_js_1.default.debug(offer);
-            exists = false;
-        }
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    log_js_1.default.info('checkOffer called');
+                    return [4 /*yield*/, offer_service_js_1.default.getOfferByID(offerID).then(function (offer) {
+                            if (offer && offer.offerID) {
+                                return offer;
+                            }
+                            else {
+                                return null;
+                            }
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
     });
-    return exists;
 }
 exports.checkOffer = checkOffer;
 function replaceOffer(carID, downPay, months, user) {
@@ -78,33 +133,37 @@ function replaceOffer(carID, downPay, months, user) {
 exports.replaceOffer = replaceOffer;
 function acceptOffer(offerID, callback) {
     log_js_1.default.info('acceptOffer called');
-    var check = offer_service_js_1.default.getOfferByID(offerID);
-    if (!check) {
-        log_js_1.default.error('offer does not exist');
-    }
-    else {
-        check.then(function (off) {
-            var ID = off === null || off === void 0 ? void 0 : off.carID;
-            var user = off === null || off === void 0 ? void 0 : off.username;
-            if (ID) {
-                var car = car_service_js_1.default.getCarByID(ID);
-                car.then(function (rac) {
-                    if (rac && user) {
-                        log_js_1.default.debug(rac.owner);
-                        console.log('just testing!');
-                        rejectPending(rac.carID);
-                    }
-                    else {
-                        log_js_1.default.error('car or user are undefined');
-                    }
-                });
-            }
-            else {
-                log_js_1.default.error('ID is undefined');
-            }
-        });
-    }
-    callback();
+    offer_service_js_1.default.getOfferByID(offerID).then(function (off) {
+        log_js_1.default.debug(off);
+        if (off === null || off === void 0 ? void 0 : off.carID) {
+            car_service_js_1.default.getCarByID(off.carID).then(function (rac) {
+                if (rac && off.username) {
+                    log_js_1.default.debug(rac);
+                    rac.owner = off.username;
+                    car_js_1.removeCar(rac.carID);
+                    car_js_1.updateOwner(rac);
+                    user_service_js_1.default.getUser(off.username).then(function (user) {
+                        if (user) {
+                            user.ownedCars.push(rac);
+                            user.ongoingPay.push(new car_js_1.Payment(offerID, rac, off.username, off.downPay, off.months));
+                            user_service_js_1.default.updateUser(user);
+                        }
+                        else {
+                            log_js_1.default.error('user is undefined');
+                        }
+                    });
+                    rejectPending(rac.carID);
+                }
+                else {
+                    log_js_1.default.error('car or user are undefined');
+                }
+            });
+        }
+        else {
+            log_js_1.default.error('ID is undefined - offer does not exist');
+        }
+        callback();
+    });
 }
 exports.acceptOffer = acceptOffer;
 function rejectPending(carID) {
@@ -119,6 +178,26 @@ function rejectPending(carID) {
     });
 }
 exports.rejectPending = rejectPending;
-// export function calcMonthPay(carID: string, downPay: number, months: number){
-//     let remain: number = 
-// }
+function calcMonthPay(carID, downPay, months) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    log_js_1.default.info('clacMonthPay called');
+                    return [4 /*yield*/, car_service_js_1.default.getCarByID(carID).then(function (car) {
+                            if (car === null || car === void 0 ? void 0 : car.price) {
+                                var remaining = (car === null || car === void 0 ? void 0 : car.price) - downPay;
+                                var monthly = remaining / months;
+                                return monthly;
+                            }
+                            else {
+                                log_js_1.default.error('Invalid input');
+                                return null;
+                            }
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.calcMonthPay = calcMonthPay;

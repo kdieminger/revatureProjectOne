@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var AWS = __importStar(require("aws-sdk"));
 var user_service_1 = __importDefault(require("../user/user.service"));
 var car_service_1 = __importDefault(require("../car/car.service"));
+var offer_service_1 = __importDefault(require("../offer/offer.service"));
 AWS.config.update({ region: 'us-west-2' });
 var ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 var removeUsers = {
@@ -175,4 +176,6 @@ function populateCarTable() {
     car_service_1.default.addCar({ brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(function () { });
 }
 function populateOffersTable() {
+    offer_service_1.default.addOffer({ carID: 'H01', downPay: 5000, months: 5, username: 'test', offerID: 'H01test' }).then(function () { });
+    offer_service_1.default.addOffer({ carID: 'K01', downPay: 5000, months: 5, username: 'test', offerID: 'K01test' }).then(function () { });
 }

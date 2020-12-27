@@ -40,9 +40,36 @@ class UserService {
             }
         };
         return await this.doc.put(params).promise().then((result) => {
-            logger.info('successfully created item');
+            logger.info('successfully created a user');
             return true;
         }).catch((error) => {
+            logger.error(error);
+            return false;
+        });
+    }
+    async updateUser(user: User): Promise<boolean>{
+        const params = {
+            TableName: 'users',
+            Key: {
+                'username': user.username
+            },
+            UpdateExpression: 'set #c = :cars, #o = :offers, #p = :payment',
+            ExpressionAttributeNames: {
+                '#c': 'ownedCars',
+                '#o': 'pendingOffers',
+                '#p': 'ongoingPay'
+            },
+            ExpressionAttributeValues: {
+                ':cars': user.ownedCars,
+                ':offers': user.pendingOffers,
+                ':payment': user.ongoingPay
+            },
+            ReturnValues: 'UPDATED_NEW'
+        };
+        return await this.doc.update(params).promise().then((data) => {
+            logger.debug(data);
+            return true;
+        }).catch(error => {
             logger.error(error);
             return false;
         });

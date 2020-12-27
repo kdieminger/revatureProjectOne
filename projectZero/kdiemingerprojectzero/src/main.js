@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeOfferMenu = exports.start = exports.logUser = exports.register = exports.tryAgain = exports.load = exports.login = void 0;
+exports.makeOfferMenu = exports.start = exports.logUser = exports.register = exports.tryAgain = exports.login = void 0;
 var readline_1 = __importDefault(require("readline"));
 var log_js_1 = __importDefault(require("./log.js"));
 var user_js_1 = require("./user/user.js");
@@ -14,13 +14,6 @@ var read = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-//loads files
-function load() {
-    user_js_1.loadUsers();
-    user_js_1.loadCarLot();
-    user_js_1.loadOffers();
-}
-exports.load = load;
 //gives the user to try to login again
 function tryAgain(answer) {
     if (answer === "Yes" || answer === "yes") {
@@ -168,7 +161,8 @@ function employeeMenu() {
                     }
                     else if (answer == 2) {
                         read.question("Enter CarID:\n", function (carID) {
-                            car_js_1.removeCar(carID, employeeMenu);
+                            car_js_1.removeCar(carID);
+                            employeeMenu();
                         });
                     }
                     else {
@@ -222,24 +216,29 @@ function makeOfferMenu() {
             read.question('Over how many months will you pay off the rest?\n', function (month) {
                 var offerID = ID + exports.login.username;
                 log_js_1.default.debug(offerID);
-                var exists = offer_js_1.checkOffer(offerID);
-                if (!exists) {
-                    log_js_1.default.warn('Offer with this ID already exists');
-                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
-                        if (answer === 'Yes' || answer === 'yes') {
-                            log_js_1.default.info('replacing old offer');
-                            offer_js_1.replaceOffer(ID, DP, month, exports.login.username);
-                            customerMenu();
-                        }
-                        else if (answer === 'No' || answer === 'no') {
-                            customerMenu();
-                        }
-                    });
-                }
-                else {
-                    log_js_1.default.info('making new offer');
-                    offer_js_1.makeOffer(ID, DP, month, exports.login.username, customerMenu);
-                }
+                log_js_1.default.debug(offer_js_1.checkOffer(offerID));
+                offer_js_1.checkOffer(offerID).then(function (offer) {
+                    if (offer) {
+                        log_js_1.default.warn('Offer with this ID already exists');
+                        read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
+                            if (answer === 'Yes' || answer === 'yes') {
+                                log_js_1.default.info('replacing old offer');
+                                offer_js_1.replaceOffer(ID, DP, month, exports.login.username);
+                                customerMenu();
+                            }
+                            else if (answer === 'No' || answer === 'no') {
+                                customerMenu();
+                            }
+                            else {
+                                customerMenu();
+                            }
+                        });
+                    }
+                    else {
+                        log_js_1.default.info('making new offer');
+                        offer_js_1.makeOffer(ID, DP, month, exports.login.username, customerMenu);
+                    }
+                });
             });
         });
     });

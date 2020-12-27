@@ -39,8 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectPending = exports.addPending = exports.viewOffersOld = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.calcMonthPay = exports.viewCarsOld = exports.userLogin = exports.registerUser = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
-var fs_1 = __importDefault(require("fs"));
+exports.addPending = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.userLogin = exports.registerUser = exports.offers = exports.lot = exports.data = exports.User = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var user_service_js_1 = __importDefault(require("./user.service.js"));
 //Class declaration
@@ -57,46 +56,7 @@ var User = /** @class */ (function () {
     return User;
 }());
 exports.User = User;
-//loads users from usersdata.json
-function loadUsers() {
-    try {
-        exports.data = JSON.parse((fs_1.default.readFileSync('./usersdata.json')).toString());
-    }
-    catch (err) {
-        log_js_1.default.error(err);
-    }
-}
-exports.loadUsers = loadUsers;
-;
-//loads cars from carLot.json
-function loadCarLot() {
-    try {
-        exports.lot = JSON.parse((fs_1.default.readFileSync('./carLot.json')).toString());
-    }
-    catch (err) {
-        log_js_1.default.error(err);
-    }
-}
-exports.loadCarLot = loadCarLot;
-;
-//loads offers from offers.json
-function loadOffers() {
-    try {
-        exports.offers = JSON.parse((fs_1.default.readFileSync('./offers.json')).toString());
-    }
-    catch (err) {
-        log_js_1.default.error(err);
-    }
-}
-exports.loadOffers = loadOffers;
-;
 //ROLE NEUTRAL FUNCTIONS
-//checks for matching username
-function getUser(userN) {
-    log_js_1.default.trace("get user called with parameter " + userN);
-    return exports.data.find(function (person) { return person.username === userN; });
-}
-exports.getUser = getUser;
 //registers a user
 function registerUser(userN, passW, role, callback) {
     user_service_js_1.default.addUser(new User(userN, passW, role, [], [], [])).then(function (res) {
@@ -137,59 +97,7 @@ function userLogin(name, pass) {
 }
 exports.userLogin = userLogin;
 ;
-//view cars on the lot
-function viewCarsOld() {
-    console.log(exports.lot);
-}
-exports.viewCarsOld = viewCarsOld;
-//calculate monthly payment
-function calcMonthPay(carID, downpay, months) {
-    log_js_1.default.trace("calculate monthly payment called with parameters " + carID + ", " + downpay + ", " + months + ".");
-    var vehicle = exports.lot.find(function (car) { return car.carID === carID; });
-    var z = vehicle.price;
-    var remain = z - downpay;
-    var monthly = remain / months;
-    monthly = monthly.toFixed(2);
-    return monthly;
-}
-exports.calcMonthPay = calcMonthPay;
 //CUSTOMER FUNCTIONS
-//makes an offer on a car
-// export function makeOffer(carID: string, downPay: string, months: string, user: string) {
-//   logger.trace(`create a new offer using parameters ${carID}, ${downPay}, ${months}, and ${user}`);
-//   let check = lot.find((car: Car) => car.carID == carID);
-//   let dPay: number = parseInt(downPay);
-//   let mnths: number = parseInt(months);
-//   if (isNaN(dPay) || isNaN(mnths)) {
-//     logger.error('invalid input, NaN');
-//     console.log('Invalid input.');
-//   }
-//   else if (!check) {
-//     logger.error('Car doesnt exist');
-//     console.log('invalid carID');
-//   }
-//   else {
-//     offers.push(new Offer(carID, dPay, mnths,user));
-//     let monthly = calcMonthPay(carID, dPay, mnths);
-//     addPending(carID, user);
-//     console.log(`Thank you for your offer. You have put a downpayment of ${downPay} on ${carID} and your monthly payment will be ${monthly} over ${months} months.`);
-//   }
-// }
-//replaces an existing offer
-// export function replaceOffer(carID: string, downPay: string, months: string, user: string){
-//   let dPay: number = parseInt(downPay);
-//   let mnths: number = parseInt(months);
-//   if (isNaN(dPay) || isNaN(mnths)) {
-//     logger.error('invalid input, NaN');
-//     console.log('Invalid input.');
-//   }
-//   else{
-//     removeOffer((carID + user));
-//     logger.debug('Offers after removal: ', offers);
-//     offers.push(new Offer(carID, dPay, mnths, user));
-//     logger.debug('Offers after addition: ', offers)
-//   }
-// }
 //lets the user view their cars
 function viewOwnedCars(username) {
     log_js_1.default.info("view cars owned by " + username + ".");
@@ -211,44 +119,6 @@ function viewOwnPayments(username) {
     console.log(user.ongoingPay);
 }
 exports.viewOwnPayments = viewOwnPayments;
-//EMPLOYEE FUNCTIONS
-//view pending offers
-function viewOffersOld() {
-    console.log(exports.offers);
-}
-exports.viewOffersOld = viewOffersOld;
-// export function removeOffer(offerID: string){
-//   let remove: any = offers.find((off: Offer) => off.offerID === offerID);
-//   let index: number = offers.indexOf(remove);
-//   offers.splice(index, 1);
-// }
-//accepts or rejects a pending offer
-// export function pendingOffer(offerID: string, action: number){
-//   let offer: any = offers.find(off => off.offerID === offerID);
-//   if(!offer){
-//     logger.error('offer does not exist');
-//     console.log('Invalid offerID');
-//   }
-//   else{
-//     let car: string = offer.carID;
-//     let userN: string = offer.username;
-//     if(action == 0){
-//       updateCarOwner(car, userN);
-//       let user: any = data.find((person: User) => person.username === userN);
-//       let newCar: any = lot.find((vehicle: Car) => vehicle.carID === car);
-//       let newOngoing: Array<Payment> = user.ongoingPay;
-//       newOngoing.push(new Payment(offerID, newCar, userN, offer.downPay, offer.months, calcMonthPay(car, offer.downPay, offer.months)));
-//       removeCarOld(car);
-//       removeOffer(offerID);
-//       rejectPending(car);
-//     }
-//     else if(action == 1){
-//       let remove: any = offers.find(offer => offer.offerID === offerID);
-//       let index: number = offers.indexOf(remove);
-//       offers.splice(index, 1);
-//     }
-//   }
-// }
 //SYSTEM FUNCTIONS
 //add pending offer to user
 function addPending(carID, username) {
@@ -259,13 +129,3 @@ function addPending(carID, username) {
     newUserOffer.push(userOffer);
 }
 exports.addPending = addPending;
-//rejects all offers matching carID    
-function rejectPending(carID) {
-    for (var i = 0; i < exports.offers.length; i++) {
-        if (exports.offers[i].carID === carID) {
-            log_js_1.default.debug(exports.offers[i]);
-            exports.offers.splice(i, 1);
-        }
-    }
-}
-exports.rejectPending = rejectPending;

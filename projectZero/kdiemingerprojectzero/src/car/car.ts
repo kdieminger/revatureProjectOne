@@ -1,4 +1,3 @@
-import { calcMonthPay } from '../user/user.js';
 import logger from '../log.js';
 import carService from './car.service.js';
 
@@ -8,7 +7,7 @@ export class Car {
 }
 
 export class Payment {
-    constructor(public payID: string, public vehicle: Car, public username: string, public downPay: number,public months: number, public monthlyPay: number, public remainingPay: any = (vehicle.price) - downPay){
+    constructor(public payID: string, public vehicle: Car, public username: string, public downPay: number,public months: number, public remainingPay: any = (vehicle.price) - downPay){
     }
 }
 
@@ -25,15 +24,6 @@ export function viewCars(callback: Function){
     })
 }
 
-//updates a car's owner - to be called when an offer is accepted
-export function updateCarOwner(car: Car, username: string){
-    carService.updateCarOwner(car).then((success) =>{
-        logger.info('car owner updated successfully');
-    }).catch((error) => {
-        logger.error(error);
-    });
-}
-
 export function addCar(brand: string, color: string, carID: string, price: number, callback: Function){
     logger.trace(`addCar called with parameters ${brand}, ${color}, ${carID}, and ${price}.`);
     let newCar = new Car(brand, color, carID, price, 'dealer');
@@ -41,10 +31,14 @@ export function addCar(brand: string, color: string, carID: string, price: numbe
     callback();
 }
 
-export function removeCar(carID: string, callback: Function){
+export function removeCar(carID: string){
     logger.trace(`removeCar called with parameter ${carID}`);
     carService.removeCar(carID);
-    callback();
 }
 
-export function viewCarOwners(){}
+export function updateOwner(car: Car){
+    logger.info('updateOwner called');
+    carService.updateCarOwner(car);
+}
+
+// export function viewCarOwners(){}

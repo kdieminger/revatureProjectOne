@@ -22,7 +22,7 @@ export class CarService {
             }
         };
         return await this.doc.put(params).promise().then(() => {
-            logger.info('successfully created car');
+            logger.info('successfully created a car');
             return true;
         }).catch((error) => {
             logger.error(error);
@@ -78,9 +78,12 @@ export class CarService {
             Key: {
                 'carID': car.carID
             },
-            UpdateExpression: 'set owner = :o',
+            UpdateExpression: 'set #o = :user',
+            ExpressionAttributeNames: {
+                '#o': 'owner'
+            },
             ExpressionAttributeValues: {
-                ':o': car.owner
+                ':user': car.owner
             },
             ReturnValues: 'UPDATED_NEW'
         };

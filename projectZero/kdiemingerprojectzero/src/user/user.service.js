@@ -89,7 +89,43 @@ var UserService = /** @class */ (function () {
                             }
                         };
                         return [4 /*yield*/, this.doc.put(params).promise().then(function (result) {
-                                log_1.default.info('successfully created item');
+                                log_1.default.info('successfully created a user');
+                                return true;
+                            }).catch(function (error) {
+                                log_1.default.error(error);
+                                return false;
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    UserService.prototype.updateUser = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            TableName: 'users',
+                            Key: {
+                                'username': user.username
+                            },
+                            UpdateExpression: 'set #c = :cars, #o = :offers, #p = :payment',
+                            ExpressionAttributeNames: {
+                                '#c': 'ownedCars',
+                                '#o': 'pendingOffers',
+                                '#p': 'ongoingPay'
+                            },
+                            ExpressionAttributeValues: {
+                                ':cars': user.ownedCars,
+                                ':offers': user.pendingOffers,
+                                ':payment': user.ongoingPay
+                            },
+                            ReturnValues: 'UPDATED_NEW'
+                        };
+                        return [4 /*yield*/, this.doc.update(params).promise().then(function (data) {
+                                log_1.default.debug(data);
                                 return true;
                             }).catch(function (error) {
                                 log_1.default.error(error);

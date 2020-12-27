@@ -2,9 +2,9 @@ import { exit } from 'process';
 import readline from 'readline';
 import logger from './log.js';
 import {
-    User, offers, loadCarLot, loadOffers, loadUsers, userLogin, calcMonthPay, registerUser, viewOwnedCars, /*pendingOffer*/ rejectPending, viewUserOffers, viewOwnPayments } from './user/user.js';
+    User, offers, userLogin, registerUser, viewOwnedCars, /*pendingOffer*/ viewUserOffers, viewOwnPayments } from './user/user.js';
 import { Car, viewCars, addCar, removeCar } from './car/car.js';
-import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, acceptOffer, checkOffer } from './offer/offer.js';
+import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, checkOffer, acceptOffer } from './offer/offer.js';
 import offerService from './offer/offer.service.js';
 
 const read = readline.createInterface({
@@ -14,14 +14,6 @@ const read = readline.createInterface({
 
 
 export let login: User;
-
-
-//loads files
-export function load() {
-    loadUsers();
-    loadCarLot();
-    loadOffers();
-}
 
 //gives the user to try to login again
 export function tryAgain(answer: string) {
@@ -189,7 +181,8 @@ function employeeMenu(){
                         }
                         else if (answer == 2){
                             read.question("Enter CarID:\n", (carID: string) => {
-                                removeCar(carID, employeeMenu);
+                                removeCar(carID);
+                                employeeMenu();
                             })
                         }
                         else {
@@ -242,26 +235,31 @@ export function makeOfferMenu() {
     read.question('Enter the car ID.\n', (ID: string) => {
         read.question('Enter your down payment.\n', (DP: any) => {
             read.question('Over how many months will you pay off the rest?\n', (month: any) => {
-                let offerID: string = ID+login.username;
+                let offerID: string = ID + login.username;
                 logger.debug(offerID);
-                let exists: boolean = checkOffer(offerID);
-                if(!exists) {
-                    logger.warn('Offer with this ID already exists');
-                    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
-                        if (answer === 'Yes' || answer === 'yes') {
-                            logger.info('replacing old offer');
-                            replaceOffer(ID, DP, month, login.username);
-                            customerMenu();
-                        }
-                        else if (answer === 'No' || answer === 'no') {
-                            customerMenu();
-                        }
-                    })
-                }
-                else {
-                    logger.info('making new offer');
-                    makeOffer(ID, DP, month, login.username, customerMenu);
-                }
+                logger.debug(checkOffer(offerID));
+                checkOffer(offerID).then((offer) => {
+                    if (offer) {
+                        logger.warn('Offer with this ID already exists');
+                        read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
+                            if (answer === 'Yes' || answer === 'yes') {
+                                logger.info('replacing old offer');
+                                replaceOffer(ID, DP, month, login.username);
+                                customerMenu();
+                            }
+                            else if (answer === 'No' || answer === 'no') {
+                                customerMenu();
+                            }
+                            else {
+                                customerMenu();
+                            }
+                        })
+                    }
+                    else {
+                        logger.info('making new offer');
+                        makeOffer(ID, DP, month, login.username, customerMenu);
+                    }
+                })
             })
         })
     })

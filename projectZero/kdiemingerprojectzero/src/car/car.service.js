@@ -64,7 +64,7 @@ var CarService = /** @class */ (function () {
                             }
                         };
                         return [4 /*yield*/, this.doc.put(params).promise().then(function () {
-                                log_1.default.info('successfully created car');
+                                log_1.default.info('successfully created a car');
                                 return true;
                             }).catch(function (error) {
                                 log_1.default.error(error);
@@ -150,9 +150,12 @@ var CarService = /** @class */ (function () {
                             Key: {
                                 'carID': car.carID
                             },
-                            UpdateExpression: 'set owner = :o',
+                            UpdateExpression: 'set #o = :user',
+                            ExpressionAttributeNames: {
+                                '#o': 'owner'
+                            },
                             ExpressionAttributeValues: {
-                                ':o': car.owner
+                                ':user': car.owner
                             },
                             ReturnValues: 'UPDATED_NEW'
                         };

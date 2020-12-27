@@ -65,6 +65,7 @@ export class OfferService {
         };
         return await this.doc.get(params).promise().then((data) => {
             if(data && data.Item){
+                logger.trace(`data.Item: ${JSON.stringify(data.Item)}`);
                 return data.Item as Offer;
             }
             else{

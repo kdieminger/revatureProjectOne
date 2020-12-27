@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.viewCarOwners = exports.removeCar = exports.addCar = exports.updateCarOwner = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
+exports.updateOwner = exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var car_service_js_1 = __importDefault(require("./car.service.js"));
 var Car = /** @class */ (function () {
@@ -19,14 +19,13 @@ var Car = /** @class */ (function () {
 }());
 exports.Car = Car;
 var Payment = /** @class */ (function () {
-    function Payment(payID, vehicle, username, downPay, months, monthlyPay, remainingPay) {
+    function Payment(payID, vehicle, username, downPay, months, remainingPay) {
         if (remainingPay === void 0) { remainingPay = (vehicle.price) - downPay; }
         this.payID = payID;
         this.vehicle = vehicle;
         this.username = username;
         this.downPay = downPay;
         this.months = months;
-        this.monthlyPay = monthlyPay;
         this.remainingPay = remainingPay;
     }
     return Payment;
@@ -45,15 +44,6 @@ function viewCars(callback) {
     });
 }
 exports.viewCars = viewCars;
-//updates a car's owner - to be called when an offer is accepted
-function updateCarOwner(car, username) {
-    car_service_js_1.default.updateCarOwner(car).then(function (success) {
-        log_js_1.default.info('car owner updated successfully');
-    }).catch(function (error) {
-        log_js_1.default.error(error);
-    });
-}
-exports.updateCarOwner = updateCarOwner;
 function addCar(brand, color, carID, price, callback) {
     log_js_1.default.trace("addCar called with parameters " + brand + ", " + color + ", " + carID + ", and " + price + ".");
     var newCar = new Car(brand, color, carID, price, 'dealer');
@@ -61,11 +51,14 @@ function addCar(brand, color, carID, price, callback) {
     callback();
 }
 exports.addCar = addCar;
-function removeCar(carID, callback) {
+function removeCar(carID) {
     log_js_1.default.trace("removeCar called with parameter " + carID);
     car_service_js_1.default.removeCar(carID);
-    callback();
 }
 exports.removeCar = removeCar;
-function viewCarOwners() { }
-exports.viewCarOwners = viewCarOwners;
+function updateOwner(car) {
+    log_js_1.default.info('updateOwner called');
+    car_service_js_1.default.updateCarOwner(car);
+}
+exports.updateOwner = updateOwner;
+// export function viewCarOwners(){}

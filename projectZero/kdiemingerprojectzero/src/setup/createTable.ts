@@ -1,6 +1,7 @@
 import * as AWS from 'aws-sdk';
 import userService from '../user/user.service';
 import carService from '../car/car.service';
+import offerService from '../offer/offer.service';
 
 
 AWS.config.update({ region: 'us-west-2' });
@@ -167,5 +168,6 @@ function populateCarTable(){
 }
 
 function populateOffersTable(){
-
+    offerService.addOffer({carID: 'H01', downPay: 5000, months: 5, username: 'test', offerID: 'H01test'}).then(() => {});
+    offerService.addOffer({carID: 'K01', downPay: 5000, months: 5, username: 'test', offerID: 'K01test'}).then(() => {});
 }
