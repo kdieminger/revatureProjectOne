@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectPending = exports.addPending = exports.removeOffer = exports.viewOffersOld = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.calcMonthPay = exports.viewCarsOld = exports.userLogin = exports.registerUser = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
+exports.rejectPending = exports.addPending = exports.viewOffersOld = exports.viewOwnPayments = exports.viewUserOffers = exports.viewOwnedCars = exports.calcMonthPay = exports.viewCarsOld = exports.userLogin = exports.registerUser = exports.getUser = exports.loadOffers = exports.loadCarLot = exports.loadUsers = exports.offers = exports.lot = exports.data = exports.User = void 0;
 var fs_1 = __importDefault(require("fs"));
 var log_js_1 = __importDefault(require("../log.js"));
 var user_service_js_1 = __importDefault(require("./user.service.js"));
@@ -217,12 +217,11 @@ function viewOffersOld() {
     console.log(exports.offers);
 }
 exports.viewOffersOld = viewOffersOld;
-function removeOffer(offerID) {
-    var remove = exports.offers.find(function (off) { return off.offerID === offerID; });
-    var index = exports.offers.indexOf(remove);
-    exports.offers.splice(index, 1);
-}
-exports.removeOffer = removeOffer;
+// export function removeOffer(offerID: string){
+//   let remove: any = offers.find((off: Offer) => off.offerID === offerID);
+//   let index: number = offers.indexOf(remove);
+//   offers.splice(index, 1);
+// }
 //accepts or rejects a pending offer
 // export function pendingOffer(offerID: string, action: number){
 //   let offer: any = offers.find(off => off.offerID === offerID);

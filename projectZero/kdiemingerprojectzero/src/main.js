@@ -9,6 +9,7 @@ var log_js_1 = __importDefault(require("./log.js"));
 var user_js_1 = require("./user/user.js");
 var car_js_1 = require("./car/car.js");
 var offer_js_1 = require("./offer/offer.js");
+var offer_service_js_1 = __importDefault(require("./offer/offer.service.js"));
 var read = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -184,13 +185,18 @@ function employeeMenu() {
                 log_js_1.default.info('accept or reject offer');
                 read.question("Enter Offer ID: \n", function (offerID) {
                     read.question("0. Accept \n1. Reject\n", function (num) {
-                        if (num === 0) {
+                        if (num == 0) {
+                            offer_js_1.acceptOffer(offerID, employeeMenu);
                         }
-                        else if (num === 1) {
-                            user_js_1.removeOffer(offerID);
+                        else if (num == 1) {
+                            offer_service_js_1.default.removeOffer(offerID);
+                            employeeMenu();
+                        }
+                        else {
+                            log_js_1.default.error('invalid input');
+                            employeeMenu();
                         }
                         //pendingOffer(offerID, num);
-                        employeeMenu();
                     });
                 });
                 break;

@@ -56,8 +56,9 @@ export class OfferService {
     }
 
     async getOfferByID(offerID: string): Promise<Offer|null> {
+        logger.debug(`getOfferByID called with param ${offerID}`);
         const params = {
-            TableName: 'carlot',
+            TableName: 'offers',
             Key: {
                 'offerID': offerID
             }

@@ -2,8 +2,6 @@ import logger from '../log.js';
 import offerService from './offer.service.js';
 import carService from '../car/car.service.js';
 import { Car } from '../car/car.js';
-import { removeOffer } from '../user/user.js';
-
 
 export class Offer {
     constructor(public carID: string, public downPay: number, public months: number, public username: string, public offerID: string = carID + username){
@@ -50,8 +48,47 @@ export function replaceOffer(carID: string, downPay: number, months: number, use
     logger.debug('Offers after addition: ', viewOffers);
 }
 
-export function acceptOffer(offerID: string){
-    
+export function acceptOffer(offerID: string, callback: Function){
+    logger.info('acceptOffer called');
+    let check = offerService.getOfferByID(offerID);
+    if(!check){
+        logger.error('offer does not exist');
+    }
+    else{
+        check.then((off) => {
+            let ID = off?.carID;
+            let user = off?.username;
+            if(ID){
+                let car = carService.getCarByID(ID);
+                car.then((rac) => {
+                    if(rac && user){
+                        logger.debug(rac.owner);
+                        console.log('just testing!');
+                        rejectPending(rac.carID);
+                    }
+                    else{
+                        logger.error('car or user are undefined')
+                    }
+                })
+            }
+            else{
+                logger.error('ID is undefined');
+            }
+        })
+    }
+    callback();
+}
+
+export function rejectPending(carID: string){
+    logger.info('rejectPending called');
+    offerService.getOffers().then((offers) => {
+        offers.forEach((offer) => {
+            if(offer.carID == carID){
+                logger.debug(offer, ' removed');
+                offerService.removeOffer(offer.offerID);
+            }
+        });
+    });
 }
 
 // export function calcMonthPay(carID: string, downPay: number, months: number){

@@ -120,8 +120,9 @@ var OfferService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        log_1.default.debug("getOfferByID called with param " + offerID);
                         params = {
-                            TableName: 'carlot',
+                            TableName: 'offers',
                             Key: {
                                 'offerID': offerID
                             }

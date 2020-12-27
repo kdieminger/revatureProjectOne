@@ -166,11 +166,11 @@ export function viewOffersOld(){
   console.log(offers);
 }
 
-export function removeOffer(offerID: string){
-  let remove: any = offers.find((off: Offer) => off.offerID === offerID);
-  let index: number = offers.indexOf(remove);
-  offers.splice(index, 1);
-}
+// export function removeOffer(offerID: string){
+//   let remove: any = offers.find((off: Offer) => off.offerID === offerID);
+//   let index: number = offers.indexOf(remove);
+//   offers.splice(index, 1);
+// }
 
 //accepts or rejects a pending offer
 // export function pendingOffer(offerID: string, action: number){

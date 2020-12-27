@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
+exports.viewCarOwners = exports.removeCar = exports.addCar = exports.updateCarOwner = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
 var car_service_js_1 = __importDefault(require("./car.service.js"));
 var Car = /** @class */ (function () {
@@ -46,18 +46,14 @@ function viewCars(callback) {
 }
 exports.viewCars = viewCars;
 //updates a car's owner - to be called when an offer is accepted
-// export function updateCarOwner(car: Car, username: string){
-//     carService.updateCarOwner(car, username).then((success) =>{
-//         logger.info('car owner updated successfully');
-//     }).catch((error) => {
-//         logger.warn('car owner not updated');
-//     });
-//     // let userCar: any = lot.find(car => car.carID === carID);
-//     // userCar.owner = username;
-//     // let fUser: any = data.find(person => person.username === username);
-//     // let newUserCar = fUser.ownedCars;
-//     // newUserCar.push(userCar);
-//   }
+function updateCarOwner(car, username) {
+    car_service_js_1.default.updateCarOwner(car).then(function (success) {
+        log_js_1.default.info('car owner updated successfully');
+    }).catch(function (error) {
+        log_js_1.default.error(error);
+    });
+}
+exports.updateCarOwner = updateCarOwner;
 function addCar(brand, color, carID, price, callback) {
     log_js_1.default.trace("addCar called with parameters " + brand + ", " + color + ", " + carID + ", and " + price + ".");
     var newCar = new Car(brand, color, carID, price, 'dealer');
@@ -71,3 +67,5 @@ function removeCar(carID, callback) {
     callback();
 }
 exports.removeCar = removeCar;
+function viewCarOwners() { }
+exports.viewCarOwners = viewCarOwners;

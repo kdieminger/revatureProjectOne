@@ -2,9 +2,9 @@ import { exit } from 'process';
 import readline from 'readline';
 import logger from './log.js';
 import {
-    User, offers, loadCarLot, loadOffers, loadUsers, userLogin, calcMonthPay, registerUser, viewOwnedCars, /*pendingOffer*/ rejectPending, viewUserOffers, viewOwnPayments, removeOffer } from './user/user.js';
+    User, offers, loadCarLot, loadOffers, loadUsers, userLogin, calcMonthPay, registerUser, viewOwnedCars, /*pendingOffer*/ rejectPending, viewUserOffers, viewOwnPayments } from './user/user.js';
 import { Car, viewCars, addCar, removeCar } from './car/car.js';
-import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer} from './offer/offer.js';
+import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, acceptOffer} from './offer/offer.js';
 import offerService from './offer/offer.service.js';
 
 const read = readline.createInterface({
@@ -206,13 +206,18 @@ function employeeMenu(){
                     logger.info('accept or reject offer');
                     read.question("Enter Offer ID: \n", (offerID: string) =>{
                             read.question("0. Accept \n1. Reject\n", (num: any) =>{
-                                if (num === 0){
+                                if (num == 0){
+                                    acceptOffer(offerID, employeeMenu);
                                 }
-                                else if(num === 1){
-                                    removeOffer(offerID);
+                                else if(num == 1){
+                                    offerService.removeOffer(offerID);
+                                    employeeMenu();
+                                }
+                                else{
+                                    logger.error('invalid input');
+                                    employeeMenu();
                                 }
                                 //pendingOffer(offerID, num);
-                                employeeMenu();
                             });
                     })
                     break;

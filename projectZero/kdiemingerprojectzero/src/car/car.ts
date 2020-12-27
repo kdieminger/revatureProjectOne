@@ -26,18 +26,13 @@ export function viewCars(callback: Function){
 }
 
 //updates a car's owner - to be called when an offer is accepted
-// export function updateCarOwner(car: Car, username: string){
-//     carService.updateCarOwner(car, username).then((success) =>{
-//         logger.info('car owner updated successfully');
-//     }).catch((error) => {
-//         logger.warn('car owner not updated');
-//     });
-//     // let userCar: any = lot.find(car => car.carID === carID);
-//     // userCar.owner = username;
-//     // let fUser: any = data.find(person => person.username === username);
-//     // let newUserCar = fUser.ownedCars;
-//     // newUserCar.push(userCar);
-//   }
+export function updateCarOwner(car: Car, username: string){
+    carService.updateCarOwner(car).then((success) =>{
+        logger.info('car owner updated successfully');
+    }).catch((error) => {
+        logger.error(error);
+    });
+}
 
 export function addCar(brand: string, color: string, carID: string, price: number, callback: Function){
     logger.trace(`addCar called with parameters ${brand}, ${color}, ${carID}, and ${price}.`);
@@ -51,3 +46,5 @@ export function removeCar(carID: string, callback: Function){
     carService.removeCar(carID);
     callback();
 }
+
+export function viewCarOwners(){}

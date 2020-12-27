@@ -72,26 +72,26 @@ export class CarService {
         })
     }
 
-//     async updateCarOwner(car: Car, user: string): Promise<boolean>{
-//         const params = {
-//             TableName: 'carlot',
-//             Key: {
-//                 'carID': car.carID
-//             },
-//             UpdateExpression: 'set owner = :o',
-//             ExpressionAttributeValues: {
-//                 ':o': user
-//             },
-//             ReturnValues: 'UPDATED_NEW'
-//         };
-//         return await this.doc.update(params).promise().then((data) => {
-//             logger.debug(data);
-//             return true;
-//         }).catch(error => {
-//             logger.error(error);
-//             return false;
-//         });
-//     }
+    async updateCarOwner(car: Car): Promise<boolean>{
+        const params = {
+            TableName: 'carlot',
+            Key: {
+                'carID': car.carID
+            },
+            UpdateExpression: 'set owner = :o',
+            ExpressionAttributeValues: {
+                ':o': car.owner
+            },
+            ReturnValues: 'UPDATED_NEW'
+        };
+        return await this.doc.update(params).promise().then((data) => {
+            logger.debug(data);
+            return true;
+        }).catch(error => {
+            logger.error(error);
+            return false;
+        });
+    }
 }
 
 const carService = new CarService();
