@@ -22,19 +22,19 @@ describe('Tests of attemptLogin', () => {
             .mockImplementationOnce((questionText, answer) => answer("password"));
     });
 
-    test('That an incorrect password results in loggedUser remaining null', () => {
+    test('That an incorrect password results in loggedUser remaining null', async () => {
         // Problem #3: test relies on login() function working correctly.
-        user.login = jest.fn().mockImplementationOnce((one, two) => false);
+        user.login = jest.fn().mockResolvedValue(false);
         expect(input.loggedUser).toBe(undefined);
-        input.attemptLogin();
+        await input.attemptLogin();
         expect(input.loggedUser).toBe(undefined);
     });
     
-    test('That an correct password results in loggedUser being set', () => {
+    test('That an correct password results in loggedUser being set', async () => {
         // Problem #3: test relies on login() function working correctly.
-        user.login = jest.fn().mockImplementationOnce((one, two) => { return {name: one, pass: two}});
+        user.login = jest.fn().mockImplementationOnce((one, two) => { return Promise.resolve({name: one, pass: two})});
         expect(input.loggedUser).toBe(undefined);
-        input.attemptLogin();
+        await input.attemptLogin();
         expect(input.loggedUser).toStrictEqual({name: 'Richard', pass: 'password'});
     });
 });
