@@ -149,22 +149,22 @@ Capacity Units ([Stolen directly from AWS](https://aws.amazon.com/dynamodb/prici
 * Read capacity unit (RCU): Each API call to read data from your table is a read request. Read requests can be strongly consistent, eventually consistent, or transactional. _For items up to 4 KB in size, one RCU can perform one strongly consistent read request per second. Items larger than 4 KB require additional RCUs. For items up to 4 KB in size, one RCU can perform two eventually consistent read requests per second._ Transactional read requests require two RCUs to perform one read per second for items up to 4 KB. For example, a strongly consistent read of an 8 KB item would require two RCUs, an eventually consistent read of an 8 KB item would require one RCU, and a transactional read of an 8 KB item would require four RCUs. See Read Consistency for more details.
 * Write capacity unit (WCU): Each API call to write data to your table is a write request. For items up to 1 KB in size, one WCU can perform one standard write request per second. Items larger than 1 KB require additional WCUs. Transactional write requests require two WCUs to perform one write per second for items up to 1 KB. For example, a standard write request of a 1 KB item would require one WCU, a standard write request of a 3 KB item would require three WCUs, and a transactional write request of a 3 KB item would require six WCUs
 
-### Partition Key
+### Key
 A Key that identifies an item.
-* Hash Key - Partitions based on a single attribute
-* Range Key - Partitions based on two items. Allows us to group multiple items under a single partition key.
+* Hash Key - Partition Key. Partitions the table for queries, based on a single attribute
+* Range Key - Sort Key. Allows us to group multiple items under a single partition key.
 
 Our Partition key will be our Hash Key. This is the primary identifier for an item in our Database.
 
 #### Local Secondary Index
 An index where the first element is the Partition Key of the database and the second is another attribute that we can used to sort. Sometimes known as a sort key.
 
-Can only be created during table creation. We can have only one.
+The default quota for local secondary indexes is 5. You would have ot contact AWS to obtain more.
 
 #### Global Secondary Indexes
-An index with any attributes. We can have as many of these as we want.
+An index with any attributes. The default quota for GSIs is 20, you have to contact AWS to obtain more.
 
-The more indexes we add, the worse performance will become.
+The more indexes we add, the worse performance will become, and the more expensive operations become, as writes have to update each index in addition to the table itself.
 Each Global Secondary Index requires additional provisioned capacity because it is using a different partition key.
 
 ### Scan vs Query

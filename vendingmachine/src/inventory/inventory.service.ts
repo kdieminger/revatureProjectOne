@@ -13,6 +13,7 @@ class InventoryService {
     async getItems(): Promise<Inventory[]> {
         // Scan retrieves every record in the table. In very large tables, this can be very resource intensive
         return await this.doc.scan({'TableName':'inventory_items'}).promise().then((result) => {
+            logger.debug(result);
             return result.Items as Inventory[];
         }).catch((err) => {
             logger.error(err);
@@ -32,7 +33,7 @@ class InventoryService {
             }
         }
         return await this.doc.scan(params).promise().then((result) => {
-            logger.debug(result.Items);
+            logger.debug(result);
             return result.Items as Inventory[];
         }).catch((err) => {
             logger.error(err);
@@ -69,10 +70,12 @@ class InventoryService {
             }
         };
         return await this.doc.get(params).promise().then((data) => {
-            if(data && data.Item)
+            if(data && data.Item) {
+                logger.debug(data);
                 return data.Item as Inventory;
-            else
+            } else {
                 return null;
+            }
         })
     }
 
@@ -131,5 +134,5 @@ class InventoryService {
 }
 
 const inventoryService = new InventoryService();
-Object.freeze(inventoryService);
+// Object.freeze(inventoryService);
 export default inventoryService;
