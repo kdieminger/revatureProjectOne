@@ -20,3 +20,9 @@ Unmodularized code is:
 
 ## Reusability
 Don't write the same code twice.
+
+## Loose-Coupling
+When we change our implementation, as little code should be affected as possible.
+If our code is modularized correctly, changing the implemention of one aspect of our code should not result in many changes to the rest of the code.
+
+Tightly-coupled code is difficult to refactor, difficult to modify to take advantage of new technology or satisfy new requirements.
