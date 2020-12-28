@@ -149,10 +149,10 @@ Capacity Units ([Stolen directly from AWS](https://aws.amazon.com/dynamodb/prici
 * Read capacity unit (RCU): Each API call to read data from your table is a read request. Read requests can be strongly consistent, eventually consistent, or transactional. _For items up to 4 KB in size, one RCU can perform one strongly consistent read request per second. Items larger than 4 KB require additional RCUs. For items up to 4 KB in size, one RCU can perform two eventually consistent read requests per second._ Transactional read requests require two RCUs to perform one read per second for items up to 4 KB. For example, a strongly consistent read of an 8 KB item would require two RCUs, an eventually consistent read of an 8 KB item would require one RCU, and a transactional read of an 8 KB item would require four RCUs. See Read Consistency for more details.
 * Write capacity unit (WCU): Each API call to write data to your table is a write request. For items up to 1 KB in size, one WCU can perform one standard write request per second. Items larger than 1 KB require additional WCUs. Transactional write requests require two WCUs to perform one write per second for items up to 1 KB. For example, a standard write request of a 1 KB item would require one WCU, a standard write request of a 3 KB item would require three WCUs, and a transactional write request of a 3 KB item would require six WCUs
 
-### Partition Key
+### Key
 A Key that identifies an item.
-* Hash Key - Partitions based on a single attribute
-* Range Key - Partitions based on two items. Allows us to group multiple items under a single partition key.
+* Hash Key - Partition Key. Partitions the table for queries, based on a single attribute
+* Range Key - Sort Key. Allows us to group multiple items under a single partition key.
 
 Our Partition key will be our Hash Key. This is the primary identifier for an item in our Database.
 
