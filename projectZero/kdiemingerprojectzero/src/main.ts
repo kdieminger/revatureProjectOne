@@ -7,7 +7,7 @@ import { Car, viewCars, addCar, removeCar } from './car/car.js';
 import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, checkOffer, acceptOffer } from './offer/offer.js';
 import offerService from './offer/offer.service.js';
 
-const read = readline.createInterface({
+export const read = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
