@@ -159,12 +159,12 @@ Our Partition key will be our Hash Key. This is the primary identifier for an it
 #### Local Secondary Index
 An index where the first element is the Partition Key of the database and the second is another attribute that we can used to sort. Sometimes known as a sort key.
 
-Can only be created during table creation. We can have only one.
+The default quota for local secondary indexes is 5. You would have ot contact AWS to obtain more.
 
 #### Global Secondary Indexes
-An index with any attributes. We can have as many of these as we want.
+An index with any attributes. The default quota for GSIs is 20, you have to contact AWS to obtain more.
 
-The more indexes we add, the worse performance will become.
+The more indexes we add, the worse performance will become, and the more expensive operations become, as writes have to update each index in addition to the table itself.
 Each Global Secondary Index requires additional provisioned capacity because it is using a different partition key.
 
 ### Scan vs Query
