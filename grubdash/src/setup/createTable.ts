@@ -77,7 +77,7 @@ ddb.deleteTable(removeUsers, function (err, data) {
                 console.log('Table Created', data);
                 setTimeout(()=>{
                     populateUserTable();
-                }, 5000);
+                }, 10000);
             }
         });
     }, 5000);
@@ -105,12 +105,15 @@ ddb.deleteTable(removeRest, function (err, data) {
                 console.log('Table Created', data);
                 setTimeout(()=>{
                     populateRestTable();
-                }, 5000);
+                }, 10000);
             }
         });
     }, 5000);
 });
 
 function populateRestTable() {
-    restaurantService.addRestaurant({name: 'McDonalds', chef: 'Ronald', rating: 4, hours: [], menu: [{name: 'McDouble', price: 1}]})
+    restaurantService.addRestaurant({name: 'McDonalds', chef: 'Ronald', rating: 4, hours: [], menu: [{name: 'McDouble', price: 1}]});
+    restaurantService.addRestaurant({name: 'Wendys', chef: 'Wendy', rating: 3.5, hours: [], menu: [{name: 'Fries', price: 2}]});
+    restaurantService.addRestaurant({name: 'The Krusty Krab', chef: 'SpongeBob', rating: 5, hours: [], menu: [{name: 'Krabby Patty', price: 5},{name: 'Krabby Patty with Cheese', price: 6}]});
+    restaurantService.addRestaurant({name: 'Central Perk', chef: 'Gunther', rating: 10, hours: [], menu: [{name: 'Richael\'s Coffee', price: 5}]});
 }
