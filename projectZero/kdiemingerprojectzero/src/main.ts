@@ -77,7 +77,7 @@ export function logUser() {
                     }
                 }
                 else {
-                    console.log('Login failed. Incorrect username or password.');
+                    logger.error('Incorrect username or password');
                     start();
                 }
             })
@@ -142,7 +142,9 @@ function customerMenu(){
                     logger.info('return to start menu');
                     start();
                     break;
-                default: customerMenu();
+                default: 
+                    logger.error('Invalid user input.');
+                    customerMenu();
             }
         });
 }
@@ -222,7 +224,9 @@ function employeeMenu(){
                 case '7':
                     start();
                     break;
-                default: employeeMenu();
+                default: 
+                    logger.error('Invalid input');
+                    employeeMenu();
             }
         })
 }

@@ -76,7 +76,7 @@ function logUser() {
                     }
                 }
                 else {
-                    console.log('Login failed. Incorrect username or password.');
+                    log_js_1.default.error('Incorrect username or password');
                     start();
                 }
             });
@@ -131,7 +131,9 @@ function customerMenu() {
                 log_js_1.default.info('return to start menu');
                 start();
                 break;
-            default: customerMenu();
+            default:
+                log_js_1.default.error('Invalid user input.');
+                customerMenu();
         }
     });
 }

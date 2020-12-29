@@ -16,7 +16,6 @@ export function makeOffer(carID: string, downPay: string, months: string, user: 
             let mnths: number = parseInt(months);
             if (isNaN(dPay) || isNaN(mnths)) {
                 logger.error('invalid input, NaN');
-                console.log('Invalid input.');
             }
             else {
                 let offer = new Offer(carID, dPay, mnths, user);
@@ -38,8 +37,7 @@ export function makeOffer(carID: string, downPay: string, months: string, user: 
             }
         }
         else {
-            logger.error('Car doesnt exist');
-            console.log('invalid carID');
+            logger.error('Invalid carID - car doesnt exist');
         }
     });
     callback();
