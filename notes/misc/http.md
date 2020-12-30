@@ -80,3 +80,7 @@ URN - Uniform Resource Name - A URI that specifies a unique name for a resource.
 #### 500 - Server Error - I did something wrong
 * 500 - Internal Server Error - Usually the code running on the server entered a error state. Maybe it threw an error or something.
 * 503 - Service Unavailable - The server went down temporarily.
+
+
+
+## Redirect vs Forward

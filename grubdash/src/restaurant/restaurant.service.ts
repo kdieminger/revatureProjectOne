@@ -20,18 +20,20 @@ class RestaurantService {
     }
 
     async addRestaurant(rest: Restaurant): Promise<boolean> {
+        const datayorb = {...rest};
+        delete datayorb.eta;
         // object to be sent to AWS.
         const params = {
             // TableName - the name of the table we are sending it to
             TableName: 'restaurants',
             // Item - the object we are sending
-            Item: rest,
+            Item: datayorb,
             ConditionExpression: '#name <> :name',
             ExpressionAttributeNames: {
                 '#name': 'name',
             },
             ExpressionAttributeValues: {
-                ':name': rest.name,
+                ':name': datayorb.name,
             }
         };
 
