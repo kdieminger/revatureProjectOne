@@ -227,7 +227,7 @@ export function makeOfferMenu() {
                                 customerMenu();
                             }
                             else{
-                                checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu)
+                                checkOffer(ID, DP, month, login.username, customerMenu, makeOffer, customerMenu)
                             }
                         }
                         else if(car && car.price < DP){
@@ -236,7 +236,7 @@ export function makeOfferMenu() {
                             customerMenu();
                         }
                         else{
-                            checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu);
+                            checkOffer(ID, DP, month, login.username, customerMenu, makeOffer, customerMenu);
                         }
                     })
                 }                

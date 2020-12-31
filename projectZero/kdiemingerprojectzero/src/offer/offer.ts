@@ -62,7 +62,8 @@ export async function checkOffer(carID: string, downPay: number, months: number,
     let offerID = carID + user;
     offerService.getOfferByID(offerID).then((offer) => {
         if(offer){
-            existant(carID, downPay, months, user, callback);
+            logger.error('OfferID already exists.');
+            existant();
         }
         else {
             nonexistant(carID, downPay, months, user, callback);

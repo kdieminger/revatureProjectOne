@@ -168,7 +168,6 @@ function employeeMenu() {
                             log_js_1.default.error('invalid input');
                             employeeMenu();
                         }
-                        //pendingOffer(offerID, num);
                     });
                 });
                 break;
@@ -205,7 +204,7 @@ function makeOfferMenu() {
                                 customerMenu();
                             }
                             else {
-                                offer_js_1.checkOffer(ID, DP, month, exports.login.username, replaceOfferMenu, offer_js_1.makeOffer, customerMenu);
+                                offer_js_1.checkOffer(ID, DP, month, exports.login.username, customerMenu, offer_js_1.makeOffer, customerMenu);
                             }
                         }
                         else if (car && car.price < DP) {
@@ -214,7 +213,7 @@ function makeOfferMenu() {
                             customerMenu();
                         }
                         else {
-                            offer_js_1.checkOffer(ID, DP, month, exports.login.username, replaceOfferMenu, offer_js_1.makeOffer, customerMenu);
+                            offer_js_1.checkOffer(ID, DP, month, exports.login.username, customerMenu, offer_js_1.makeOffer, customerMenu);
                         }
                     });
                 }

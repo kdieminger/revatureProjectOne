@@ -114,7 +114,8 @@ function checkOffer(carID, downPay, months, user, existant, nonexistant, callbac
             offerID = carID + user;
             offer_service_js_1.default.getOfferByID(offerID).then(function (offer) {
                 if (offer) {
-                    existant(carID, downPay, months, user, callback);
+                    log_js_1.default.error('OfferID already exists.');
+                    existant();
                 }
                 else {
                     nonexistant(carID, downPay, months, user, callback);
