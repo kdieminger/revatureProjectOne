@@ -39,9 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.viewAllPayments = exports.viewUserOffers = exports.viewOwnPayments = exports.viewOwnedCars = exports.userLogin = exports.registerUser = exports.User = void 0;
+exports.paymentDisplay = exports.viewAllPayments = exports.viewUserOffers = exports.viewOwnPayments = exports.viewOwnedCars = exports.userLogin = exports.registerUser = exports.User = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
+var car_js_1 = require("../car/car.js");
 var user_service_js_1 = __importDefault(require("./user.service.js"));
+var car_service_js_1 = __importDefault(require("../car/car.service.js"));
 //Class declaration
 var User = /** @class */ (function () {
     function User(username, password, role, ownedCars, pendingOffers, ongoingPay) {
@@ -57,21 +59,50 @@ var User = /** @class */ (function () {
 }());
 exports.User = User;
 //registers a user
-function registerUser(userN, passW, role, callback) {
-    user_service_js_1.default.addUser(new User(userN, passW, role, [], [], [])).then(function (res) {
-        log_js_1.default.trace(res);
-        callback();
-    }).catch(function (err) {
-        log_js_1.default.error(err);
-        console.log('Error, this probably means that the username is already taken');
-        callback();
+// export function registerUser(userN: string, passW: string, role: string, callback: Function): Promise<User | null>{
+//   logger.info('registerUser called');
+//   logger.trace(`newUser called with parameters ${userN}, ${passW}, and ${role}.`);
+//   userService.getUserByName(userN).then((person) => {
+//     logger.debug(person);
+//     if (!person) {
+//       let newUser = new User(userN, passW, role, [], [], []);
+//       userService.addUser(newUser);
+//       if(role == 'Employee'){
+//         console.log('Welcome new employee!');
+//       }
+//       else{
+//         console.log('Welcome new customer!');
+//       }
+//       return newUser;
+//     }
+//     else if (person) {
+//       logger.error('username already exists');
+//       return null;
+//     }
+//   })
+//   callback();
+// }
+//registers a user
+function registerUser(username, password, role) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    log_js_1.default.info('registerUser called');
+                    return [4 /*yield*/, user_service_js_1.default.getUserByName(username).then(function (user) {
+                            if (user && user.username === username) {
+                                return null;
+                            }
+                            else {
+                                var add = new User(username, password, role, [], [], []);
+                                user_service_js_1.default.addUser(add);
+                                return add;
+                            }
+                        })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
     });
-    if (role == 'Employee') {
-        console.log('Welcome new employee!');
-    }
-    else {
-        console.log('Welcome new customer!');
-    }
 }
 exports.registerUser = registerUser;
 //logs user in
@@ -144,13 +175,25 @@ function viewUserOffers(username, callback) {
     callback();
 }
 exports.viewUserOffers = viewUserOffers;
-function viewAllPayments() {
-    user_service_js_1.default.getUsers().then(function (users) {
-        users.forEach(function (user) {
-            if (user.ongoingPay.length > 0) {
-                console.log(user.ongoingPay, '\n');
-            }
+function viewAllPayments(callback) {
+    log_js_1.default.info('viewAllPayments called');
+    user_service_js_1.default.getPayments().then(function (payments) {
+        log_js_1.default.debug(payments);
+        payments.forEach(function (pay) {
+            log_js_1.default.debug(pay);
+            console.log(paymentDisplay(pay));
         });
+        callback();
     });
 }
 exports.viewAllPayments = viewAllPayments;
+function paymentDisplay(pay) {
+    log_js_1.default.info("paymentDisplay called with parameter " + JSON.stringify(pay));
+    car_service_js_1.default.getCarByID(pay.carID).then(function (car) {
+        if (car) {
+            return pay.payID + ': ' + car_js_1.carDisplay(car) + '\nCustomer:  ' + pay.username + '\nDown Payment- $' +
+                pay.downPay + '\nMonths Remaining- ' + pay.months + '\nRemaining Payment- $' + pay.remainingPay;
+        }
+    });
+}
+exports.paymentDisplay = paymentDisplay;

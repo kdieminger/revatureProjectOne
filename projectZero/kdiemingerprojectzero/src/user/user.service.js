@@ -86,6 +86,32 @@ var UserService = /** @class */ (function () {
             });
         });
     };
+    UserService.prototype.getPayments = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.doc.scan({ 'TableName': 'users', ProjectionExpression: 'ongoingPay' }).promise().then(function (results) {
+                            var payments = [];
+                            if (results && results.Items) {
+                                results.Items.forEach(function (user) {
+                                    user.ongoingPay.forEach(function (pay) {
+                                        payments.push(pay);
+                                    });
+                                });
+                                return payments;
+                            }
+                            else {
+                                return [];
+                            }
+                        }).catch(function (err) {
+                            log_1.default.error(err);
+                            return [];
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     UserService.prototype.addUser = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
@@ -103,12 +129,37 @@ var UserService = /** @class */ (function () {
                                 ':username': user.username
                             }
                         };
-                        return [4 /*yield*/, this.doc.put(params).promise().then(function (result) {
+                        return [4 /*yield*/, this.doc.put(params).promise().then(function () {
                                 log_1.default.info('successfully created a user');
                                 return true;
                             }).catch(function (error) {
                                 log_1.default.error(error);
                                 return false;
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    UserService.prototype.getUserByName = function (username) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            TableName: 'users',
+                            Key: {
+                                'username': username
+                            }
+                        };
+                        return [4 /*yield*/, this.doc.get(params).promise().then(function (data) {
+                                if (data && data.Item) {
+                                    return data.Item;
+                                }
+                                else {
+                                    return null;
+                                }
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }

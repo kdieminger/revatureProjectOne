@@ -1,7 +1,7 @@
 import logger from '../log.js';
 import offerService from './offer.service.js';
 import carService from '../car/car.service.js';
-import { Car, Payment, removeCar } from '../car/car.js';
+import { Car, changeOwner, Payment, removeCar } from '../car/car.js';
 import userService from '../user/user.service.js';
 
 export class Offer {
@@ -28,7 +28,8 @@ export function makeOffer(carID: string, downPay: string, months: string, user: 
                 })
                 calcMonthPay(carID, dPay, mnths).then((pay) => {
                     if (pay) {
-                        console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. Your monthly payment will be $${pay} over ${months}.`);
+                        let round: string = pay.toFixed(2);
+                        console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. If accepted, your monthly payment will be $${round} over ${months} months.`);
                     }
                     else {
                         logger.debug('error');
@@ -55,62 +56,62 @@ export function viewOffers(callback: Function){
     })
 }
 
-export async function checkOffer(offerID: string): Promise<Offer|null>{
-    logger.info('checkOffer called');
-    return await offerService.getOfferByID(offerID).then((offer) => {
-        if( offer && offer.offerID){
-            return offer;
+export async function checkOffer(carID: string, downPay: number, months: number, user: string, existant: Function, nonexistant: Function, callback?: Function){
+    let offerID = carID + user;
+    offerService.getOfferByID(offerID).then((offer) => {
+        if(offer){
+            existant(carID, downPay, months, user, callback);
         }
-        else{
-            return null;
+        else {
+            nonexistant(carID, downPay, months, user, callback);
         }
     })
 }
 
-export function replaceOffer(carID: string, downPay: number, months: number, user: string){
+export function replaceOffer(carID: string, downPay: number, months: number, user: string, callback: Function){
     offerService.removeOffer(carID+user);
     logger.debug('Offers after removal: ', viewOffers);
     offerService.addOffer(new Offer(carID, downPay, months, user));
+    // console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. If accepted, your monthly payment will be $${pay} over ${months} months.`);
     logger.debug('Offers after addition: ', viewOffers);
+    callback;
 }
 
-export function acceptOffer(offerID: string, callback: Function) {
-    logger.info('acceptOffer called');
-    offerService.getOfferByID(offerID).then((off) => {
-        logger.debug(off);
-        if (off?.carID) {
-            carService.getCarByID(off.carID).then((rac) => {
-                if (rac && off.username) {
-                    logger.debug(rac);
-                    rac.owner = off.username;
-                    removeCar(rac.carID);
-                    carService.updateCarOwner(rac);
-                    userService.getUser(off.username).then((user) => {
-                        if(user){
-                            user.ownedCars.push(rac);
-                            user.ongoingPay.push(new Payment(offerID, rac, off.username, off.downPay, off.months));
-                            let remove = user.pendingOffers.indexOf(off);
-                            user.pendingOffers.splice(remove,1);
-                            userService.updateUser(user);
-                        }
-                        else{
-                            logger.error('user is undefined');
-                        }
-                    })
-                    rejectPending(rac.carID);
-                }
-                else {
-                    logger.error('car or user are undefined')
-                }
-            })
+//accepts an offer
+export function acceptOffer(offerID: string, callback: Function){
+    offerService.getOfferByID(offerID).then((offer) => {
+        if(offer){
+            changeOwner(offer.carID, offer.username);
+            offerAccepted(offer, offer.username);
+            rejectPending(offer.carID);
         }
         else {
-            logger.error('ID is undefined - offer does not exist');
+            logger.error('Offer does not exist - check ID');
         }
         callback();
     })
 }
 
+//removes an offer and adds payment to user
+export function offerAccepted(offer: Offer, username: string) {
+    userService.getUserByName(username).then((user) => {
+        if(user){
+            carService.getCarByID(offer.carID).then((car) => {
+                if(car){
+                    user.ongoingPay.push(new Payment(offer.offerID, offer.carID, username, offer.downPay, offer.months, car?.price-offer.downPay));
+                    let remove = user.pendingOffers.indexOf(offer);
+                    user.pendingOffers.splice(remove,1);
+                    userService.updateUser(user);
+                    offerService.removeOffer(offer.offerID);
+                }
+            })
+        }
+        else{
+            logger.error('User does not exist');
+        }
+
+    })
+}
 
 export function rejectPending(carID: string){
     logger.info('rejectPending called');

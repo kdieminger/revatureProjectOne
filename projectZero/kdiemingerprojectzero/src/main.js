@@ -3,51 +3,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeOfferMenu = exports.start = exports.logUser = exports.register = exports.tryAgain = exports.login = exports.read = void 0;
+exports.replaceOfferMenu = exports.makeOfferMenu = exports.start = exports.logUser = exports.register = exports.login = exports.read = void 0;
 var readline_1 = __importDefault(require("readline"));
 var log_js_1 = __importDefault(require("./log.js"));
 var user_js_1 = require("./user/user.js");
 var car_js_1 = require("./car/car.js");
 var offer_js_1 = require("./offer/offer.js");
-var offer_service_js_1 = __importDefault(require("./offer/offer.service.js"));
+var offer_service_1 = __importDefault(require("./offer/offer.service"));
+var car_service_1 = __importDefault(require("./car/car.service"));
 exports.read = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-//gives the user to try to login again
-function tryAgain(answer) {
-    if (answer === "Yes" || answer === "yes") {
-        logUser();
-    }
-    else if (answer === "No" || answer === "no") {
-        console.log('Okay');
-        process.exit();
-    }
-    else {
-        log_js_1.default.warn('invalid input');
-        console.log('Error: Invalid response.');
-        //tryAgain();
-        logUser();
-    }
-}
-exports.tryAgain = tryAgain;
-;
 //registers a user
 function register() {
     exports.read.question('Username:', function (username) {
-        // if (getUser(username)){
-        //     logger.warn('username already exists');
-        //     console.log('Username is taken.');
-        //     start();
-        // }
-        // else {
         exports.read.question('Password:', function (password) {
             exports.read.question('Employee Code? (enter 0 to skip)\n', function (code) {
                 if (code === '0') {
-                    user_js_1.registerUser(username, password, 'Customer', start);
+                    user_js_1.registerUser(username, password, 'Customer');
+                    start();
                 }
                 else if (code === '1234') {
-                    user_js_1.registerUser(username, password, 'Employee', start);
+                    user_js_1.registerUser(username, password, 'Employee');
+                    start();
                 }
                 else {
                     log_js_1.default.warn('Code did not correspond to anything.');
@@ -87,12 +66,12 @@ exports.logUser = logUser;
 //start menu, login or register
 function start() {
     log_js_1.default.debug('Display start menu');
-    exports.read.question("Welcome! Please log in or create an account. Enter q to quit. \n    Create Account: 0\n    Login: 1\n", function (answer) {
-        if (answer == 0) {
+    exports.read.question("Welcome! Please log in or create an account. Enter q to quit. \n    Create Account: 1\n    Login: 2\n", function (answer) {
+        if (answer == 1) {
             log_js_1.default.info('Registration');
             register();
         }
-        else if (answer == 1) {
+        else if (answer == 2) {
             log_js_1.default.info('Login');
             logUser();
         }
@@ -183,7 +162,7 @@ function employeeMenu() {
                             offer_js_1.acceptOffer(offerID, employeeMenu);
                         }
                         else if (num == 1) {
-                            offer_service_js_1.default.removeOffer(offerID);
+                            offer_service_1.default.removeOffer(offerID);
                             employeeMenu();
                         }
                         else {
@@ -195,8 +174,7 @@ function employeeMenu() {
                 });
                 break;
             case '5':
-                user_js_1.viewAllPayments();
-                employeeMenu();
+                user_js_1.viewAllPayments(employeeMenu);
                 break;
             case '6':
                 customerMenu();
@@ -204,39 +182,33 @@ function employeeMenu() {
             case '7':
                 start();
                 break;
-            default: employeeMenu();
+            default:
+                log_js_1.default.error('Invalid input');
+                employeeMenu();
         }
     });
 }
-//runs if customer selects make an offer
-//TODO: make a way to exit back to main menu at any time
 function makeOfferMenu() {
     exports.read.question('Enter the car ID.\n', function (ID) {
         exports.read.question('Enter your down payment.\n', function (DP) {
             exports.read.question('Over how many months will you pay off the rest?\n', function (month) {
-                var offerID = ID + exports.login.username;
-                log_js_1.default.debug(offerID);
-                log_js_1.default.debug(offer_js_1.checkOffer(offerID));
-                offer_js_1.checkOffer(offerID).then(function (offer) {
-                    if (offer) {
-                        log_js_1.default.warn('Offer with this ID already exists');
-                        exports.read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
-                            if (answer === 'Yes' || answer === 'yes') {
-                                log_js_1.default.info('replacing old offer');
-                                offer_js_1.replaceOffer(ID, DP, month, exports.login.username);
-                                customerMenu();
-                            }
-                            else if (answer === 'No' || answer === 'no') {
-                                customerMenu();
-                            }
-                            else {
-                                customerMenu();
-                            }
-                        });
+                car_service_1.default.getCarByID(ID).then(function (car) {
+                    if (car && car.price > DP) {
+                        if (month == 0 && DP != car.price) {
+                            log_js_1.default.error('must enter a number over 0');
+                            customerMenu();
+                        }
+                        else {
+                            offer_js_1.checkOffer(ID, DP, month, exports.login.username, replaceOfferMenu, offer_js_1.makeOffer, customerMenu);
+                        }
+                    }
+                    else if (car && car.price < DP) {
+                        log_js_1.default.error('downpayment is greater than the car price');
+                        console.log('Your down payment exceeds the price of the car.');
+                        customerMenu();
                     }
                     else {
-                        log_js_1.default.info('attempting to make a new offer');
-                        offer_js_1.makeOffer(ID, DP, month, exports.login.username, customerMenu);
+                        offer_js_1.checkOffer(ID, DP, month, exports.login.username, replaceOfferMenu, offer_js_1.makeOffer, customerMenu);
                     }
                 });
             });
@@ -244,3 +216,20 @@ function makeOfferMenu() {
     });
 }
 exports.makeOfferMenu = makeOfferMenu;
+function replaceOfferMenu(ID, DP, month) {
+    log_js_1.default.warn('Offer with this ID already exists');
+    exports.read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
+        if (answer.toLowerCase() == 'yes') {
+            log_js_1.default.info('replacing old offer');
+            offer_js_1.replaceOffer(ID, DP, month, exports.login.username, customerMenu);
+            customerMenu();
+        }
+        else if (answer.toLowerCase() === 'no') {
+            customerMenu();
+        }
+        else {
+            customerMenu();
+        }
+    });
+}
+exports.replaceOfferMenu = replaceOfferMenu;

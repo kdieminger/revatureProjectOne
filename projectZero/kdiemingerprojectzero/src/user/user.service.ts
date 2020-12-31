@@ -2,6 +2,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import dynamo from '../dynamo/dynamo';
 import logger from '../log';
 import { User } from './user';
+import { Payment } from '../car/car';
 
 class UserService {
     private doc: DocumentClient;
@@ -36,6 +37,26 @@ class UserService {
         });
     }
     
+    async getPayments(): Promise<Payment[]> {
+        return await this.doc.scan({'TableName': 'users', ProjectionExpression: 'ongoingPay'}).promise().then((results) => {
+            const payments: Payment[] = [];
+           if(results && results.Items) { 
+               results.Items.forEach((user)=>{
+                    user.ongoingPay.forEach((pay: Payment) => {
+                        payments.push(pay);
+                    })
+                });
+
+                return payments;
+            } else{
+               return []; 
+            }
+        }).catch((err) => {
+            logger.error(err);
+            return [];
+        })
+    }
+
     async addUser(user: User): Promise<boolean> {
         const params = {
             TableName: 'users',
@@ -48,7 +69,7 @@ class UserService {
                 ':username': user.username
             }
         };
-        return await this.doc.put(params).promise().then((result) => {
+        return await this.doc.put(params).promise().then(() => {
             logger.info('successfully created a user');
             return true;
         }).catch((error) => {
@@ -56,6 +77,24 @@ class UserService {
             return false;
         });
     }
+
+    async getUserByName(username: string): Promise<User | null>{
+        const params ={
+            TableName: 'users',
+            Key: {
+                'username': username
+            }
+        };
+        return await this.doc.get(params).promise().then((data) => {
+            if(data && data.Item){
+                return data.Item as User;
+            }
+            else {
+                return null;
+            }
+        });
+    }
+
     async updateUser(user: User): Promise<boolean>{
         const params = {
             TableName: 'users',

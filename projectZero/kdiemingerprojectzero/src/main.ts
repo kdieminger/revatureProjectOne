@@ -5,7 +5,8 @@ import {
     User, userLogin, registerUser, viewOwnedCars, viewUserOffers, viewOwnPayments, viewAllPayments } from './user/user.js';
 import { Car, viewCars, addCar, removeCar } from './car/car.js';
 import { Offer, viewOffers, offerDisplay, makeOffer, replaceOffer, checkOffer, acceptOffer } from './offer/offer.js';
-import offerService from './offer/offer.service.js';
+import offerService from './offer/offer.service';
+import carService from './car/car.service'
 
 export const read = readline.createInterface({
     input: process.stdin,
@@ -15,39 +16,19 @@ export const read = readline.createInterface({
 
 export let login: User;
 
-//gives the user to try to login again
-export function tryAgain(answer: string) {
-    if (answer === "Yes" || answer === "yes") {
-        logUser();
-    }
-    else if (answer === "No" || answer === "no") {
-        console.log('Okay');
-        process.exit();
-    }
-    else {
-        logger.warn('invalid input');
-        console.log('Error: Invalid response.');
-        //tryAgain();
-        logUser();
-    }
-};
 
 //registers a user
 export function register() {
     read.question('Username:', (username: string) => {
-        // if (getUser(username)){
-        //     logger.warn('username already exists');
-        //     console.log('Username is taken.');
-        //     start();
-        // }
-        // else {
             read.question('Password:', (password: string) => {
                 read.question('Employee Code? (enter 0 to skip)\n', (code: string) => {
                     if (code === '0'){
-                        registerUser(username, password, 'Customer', start);
+                        registerUser(username, password, 'Customer');
+                        start();
                     }
                     else if (code === '1234'){
-                        registerUser(username, password, 'Employee', start);
+                        registerUser(username, password, 'Employee');
+                        start();
                     }
                     else {
                         logger.warn('Code did not correspond to anything.');
@@ -91,13 +72,13 @@ export function start() {
     logger.debug('Display start menu');
     read.question(
         `Welcome! Please log in or create an account. Enter q to quit. 
-    Create Account: 0
-    Login: 1\n`, (answer: any) => {
-        if (answer == 0) {
+    Create Account: 1
+    Login: 2\n`, (answer: any) => {
+        if (answer == 1) {
             logger.info('Registration');
             register();
         }
-        else if (answer == 1) {
+        else if (answer == 2) {
             logger.info('Login');
             logUser();
         }
@@ -215,8 +196,7 @@ function employeeMenu(){
                     })
                     break;
                 case '5':
-                    viewAllPayments();
-                    employeeMenu();
+                    viewAllPayments(employeeMenu);
                     break;
                 case '6':
                     customerMenu();
@@ -231,39 +211,49 @@ function employeeMenu(){
         })
 }
 
-//runs if customer selects make an offer
-//TODO: make a way to exit back to main menu at any time
 export function makeOfferMenu() {
     read.question('Enter the car ID.\n', (ID: string) => {
         read.question('Enter your down payment.\n', (DP: any) => {
             read.question('Over how many months will you pay off the rest?\n', (month: any) => {
-                let offerID: string = ID + login.username;
-                logger.debug(offerID);
-                logger.debug(checkOffer(offerID));
-                checkOffer(offerID).then((offer) => {
-                    if (offer) {
-                        logger.warn('Offer with this ID already exists');
-                        read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
-                            if (answer === 'Yes' || answer === 'yes') {
-                                logger.info('replacing old offer');
-                                replaceOffer(ID, DP, month, login.username);
-                                customerMenu();
-                            }
-                            else if (answer === 'No' || answer === 'no') {
-                                customerMenu();
-                            }
-                            else {
-                                customerMenu();
-                            }
-                        })
+                carService.getCarByID(ID).then((car) => {
+                    if(car && car.price > DP){
+                        if(month == 0 && DP != car.price){
+                            logger.error('must enter a number over 0');
+                            customerMenu();
+                        }
+                        else{
+                            checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu)
+                        }
                     }
-                    else {
-                        logger.info('attempting to make a new offer');
-                        makeOffer(ID, DP, month, login.username, customerMenu);
+                    else if(car && car.price < DP){
+                        logger.error('downpayment is greater than the car price');
+                        console.log('Your down payment exceeds the price of the car.');
+                        customerMenu();
                     }
-                })
+                    else{
+                        checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu);
+                    }
+                })                
             })
         })
     })
 }
+
+export function replaceOfferMenu(ID: string, DP: number, month: number) {
+    logger.warn('Offer with this ID already exists');
+    read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
+        if (answer.toLowerCase() == 'yes') {
+            logger.info('replacing old offer');
+            replaceOffer(ID, DP, month, login.username, customerMenu);
+            customerMenu();
+        }
+        else if (answer.toLowerCase() === 'no') {
+            customerMenu();
+        }
+        else {
+            customerMenu();
+        }
+    })
+}
+
 

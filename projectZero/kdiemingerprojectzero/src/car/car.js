@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
+exports.changeOwner = exports.removeCar = exports.addCar = exports.viewCars = exports.carDisplay = exports.Payment = exports.Car = void 0;
 var log_js_1 = __importDefault(require("../log.js"));
+var user_service_js_1 = __importDefault(require("../user/user.service.js"));
 var car_service_js_1 = __importDefault(require("./car.service.js"));
 var Car = /** @class */ (function () {
     function Car(brand, color, carID, price, owner) {
@@ -19,10 +20,9 @@ var Car = /** @class */ (function () {
 }());
 exports.Car = Car;
 var Payment = /** @class */ (function () {
-    function Payment(payID, vehicle, username, downPay, months, remainingPay) {
-        if (remainingPay === void 0) { remainingPay = (vehicle.price) - downPay; }
+    function Payment(payID, carID, username, downPay, months, remainingPay) {
         this.payID = payID;
-        this.vehicle = vehicle;
+        this.carID = carID;
         this.username = username;
         this.downPay = downPay;
         this.months = months;
@@ -70,3 +70,28 @@ function removeCar(carID) {
     });
 }
 exports.removeCar = removeCar;
+//changes owner of car and removes car from the lot
+function changeOwner(carID, username) {
+    log_js_1.default.info("changeOwner called with params " + carID + " and " + username);
+    car_service_js_1.default.getCarByID(carID).then(function (car) {
+        if (car && username) {
+            log_js_1.default.debug(car);
+            car.owner = username;
+            removeCar(car.carID);
+            car_service_js_1.default.updateCarOwner(car);
+            user_service_js_1.default.getUser(username).then(function (user) {
+                if (user) {
+                    user.ownedCars.push(car);
+                    user_service_js_1.default.updateUser(user);
+                }
+                else {
+                    log_js_1.default.error('user is undefined');
+                }
+            });
+        }
+        else {
+            log_js_1.default.error('car is undefined');
+        }
+    });
+}
+exports.changeOwner = changeOwner;

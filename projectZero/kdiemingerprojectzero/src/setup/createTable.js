@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var AWS = __importStar(require("aws-sdk"));
 var user_service_1 = __importDefault(require("../user/user.service"));
 var car_service_1 = __importDefault(require("../car/car.service"));
+var offer_service_1 = __importDefault(require("../offer/offer.service"));
 AWS.config.update({ region: 'us-west-2' });
 var ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 var removeUsers = {
@@ -139,10 +140,10 @@ ddb.deleteTable(removeCarLot, function (err, data) {
                 console.log('Table Created', data);
                 setTimeout(function () {
                     populateCarTable();
-                }, 5000);
+                }, 7000);
             }
         });
-    }, 5000);
+    }, 7000);
 });
 ddb.deleteTable(removeOffers, function (err, data) {
     if (err) {
@@ -159,10 +160,11 @@ ddb.deleteTable(removeOffers, function (err, data) {
             else {
                 console.log('Table Created', data);
                 setTimeout(function () {
-                }, 5000);
+                    populateOfferTable();
+                }, 9000);
             }
         });
-    }, 5000);
+    }, 9000);
 });
 function populateUserTable() {
     user_service_1.default.addUser({ username: 'smccall', password: 'allison', role: 'Customer', ownedCars: [], pendingOffers: [], ongoingPay: [] }).then(function () { });
@@ -172,4 +174,9 @@ function populateCarTable() {
     car_service_1.default.addCar({ brand: 'Honda', color: 'Black', carID: 'H01', price: 20500, owner: 'dealer' }).then(function () { });
     car_service_1.default.addCar({ brand: 'Toyota', color: 'White', carID: 'T01', price: 17500, owner: 'dealer' }).then(function () { });
     car_service_1.default.addCar({ brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(function () { });
+}
+function populateOfferTable() {
+    offer_service_1.default.addOffer({ carID: 'H01', downPay: 5000, months: 5, username: 'smccall', offerID: 'H01smccall' });
+    offer_service_1.default.addOffer({ carID: 'K01', downPay: 5000, months: 5, username: 'lmartin', offerID: 'K01lmartin' });
+    offer_service_1.default.addOffer({ carID: 'K01', downPay: 5000, months: 5, username: 'smccall', offerID: 'K01smccall' });
 }

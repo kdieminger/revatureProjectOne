@@ -128,10 +128,10 @@ ddb.deleteTable(removeCarLot, function(err, data){
                 console.log('Table Created', data);
                 setTimeout(() => {
                     populateCarTable();
-                }, 5000);
+                }, 7000);
             }
         });
-    }, 5000)
+    }, 7000)
 });
 
 ddb.deleteTable(removeOffers, function(err, data){
@@ -149,10 +149,11 @@ ddb.deleteTable(removeOffers, function(err, data){
             else {
                 console.log('Table Created', data);
                 setTimeout(() => {
-                }, 5000);
+                    populateOfferTable();
+                }, 9000);
             }
         });
-    }, 5000)
+    }, 9000)
 });
 
 function populateUserTable(){
@@ -164,4 +165,10 @@ function populateCarTable(){
     carService.addCar({brand: 'Honda', color: 'Black', carID: 'H01', price: 20500, owner: 'dealer' }).then(() => {});
     carService.addCar({brand: 'Toyota', color: 'White', carID: 'T01', price: 17500, owner: 'dealer' }).then(() => {});
     carService.addCar({brand: 'Kia', color: 'Red', carID: 'K01', price: 15700, owner: 'dealer' }).then(() => {});
+}
+
+function populateOfferTable(){
+    offerService.addOffer({carID: 'H01', downPay: 5000, months: 5, username: 'smccall', offerID: 'H01smccall'});
+    offerService.addOffer({carID: 'K01', downPay: 5000, months: 5, username: 'lmartin', offerID: 'K01lmartin'});
+    offerService.addOffer({carID: 'K01', downPay: 5000, months: 5, username: 'smccall', offerID: 'K01smccall'});
 }

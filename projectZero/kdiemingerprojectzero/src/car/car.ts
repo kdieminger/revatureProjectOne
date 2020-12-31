@@ -1,4 +1,5 @@
 import logger from '../log.js';
+import userService from '../user/user.service.js';
 import carService from './car.service.js';
 
 export class Car {
@@ -7,7 +8,7 @@ export class Car {
 }
 
 export class Payment {
-    constructor(public payID: string, public vehicle: Car, public username: string, public downPay: number,public months: number, public remainingPay: any = (vehicle.price) - downPay){
+    constructor(public payID: string, public carID: string, public username: string, public downPay: number,public months: number, public remainingPay: number){
     }
 }
 
@@ -46,6 +47,32 @@ export function removeCar(carID: string){
         }
         else {
             logger.error('car does not exist');
+        }
+    })
+}
+
+
+//changes owner of car and removes car from the lot
+export function changeOwner(carID: string, username: string) {
+    logger.info(`changeOwner called with params ${carID} and ${username}`);
+    carService.getCarByID(carID).then((car) => {
+        if (car && username) {
+            logger.debug(car);
+            car.owner = username;
+            removeCar(car.carID);
+            carService.updateCarOwner(car);
+            userService.getUser(username).then((user) => {
+                if (user) {
+                    user.ownedCars.push(car);
+                    userService.updateUser(user);
+                }
+                else{
+                    logger.error('user is undefined');
+                }
+            })
+        }
+        else{
+            logger.error('car is undefined');
         }
     })
 }
