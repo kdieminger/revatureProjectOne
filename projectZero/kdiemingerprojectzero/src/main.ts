@@ -215,25 +215,32 @@ export function makeOfferMenu() {
     read.question('Enter the car ID.\n', (ID: string) => {
         read.question('Enter your down payment.\n', (DP: any) => {
             read.question('Over how many months will you pay off the rest?\n', (month: any) => {
-                carService.getCarByID(ID).then((car) => {
-                    if(car && car.price > DP){
-                        if(month == 0 && DP != car.price){
-                            logger.error('must enter a number over 0');
+                let dPay: number = parseInt(DP);
+                let mnths: number = parseInt(month);
+                if (isNaN(dPay) || isNaN(mnths)) {
+                    logger.error('invalid input, NaN');
+                }
+                else{
+                    carService.getCarByID(ID).then((car) => {
+                        if(car && car.price > DP){
+                            if(month == 0 && DP != car.price){
+                                logger.error('must enter a number over 0');
+                                customerMenu();
+                            }
+                            else{
+                                checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu)
+                            }
+                        }
+                        else if(car && car.price < DP){
+                            logger.error('downpayment is greater than the car price');
+                            console.log('Your down payment exceeds the price of the car.');
                             customerMenu();
                         }
                         else{
-                            checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu)
+                            checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu);
                         }
-                    }
-                    else if(car && car.price < DP){
-                        logger.error('downpayment is greater than the car price');
-                        console.log('Your down payment exceeds the price of the car.');
-                        customerMenu();
-                    }
-                    else{
-                        checkOffer(ID, DP, month, login.username, replaceOfferMenu, makeOffer, customerMenu);
-                    }
-                })                
+                    })
+                }                
             })
         })
     })

@@ -11,39 +11,37 @@ export class Offer {
 
 //TODO: modularize?
 //creates a new offer
-export function makeOffer(carID: string, downPay: string, months: string, user: string, callback: Function) {
+export function makeOffer(carID: string, downPay: number, months: number, user: string, callback: Function) {
     carService.getCarByID(carID).then((car) => {
         if (car) {
-            let dPay: number = parseInt(downPay);
-            let mnths: number = parseInt(months);
-            if (isNaN(dPay) || isNaN(mnths)) {
-                logger.error('invalid input, NaN');
-            }
-            else {
-                let offer = new Offer(carID, dPay, mnths, user);
-                offerService.addOffer(offer);
-                userService.getUser(user).then((person) => {
-                    if (person) {
-                        person.pendingOffers.push(offer);
-                        userService.updateUser(person);
-                    }
-                })
-                calcMonthPay(carID, dPay, mnths).then((pay) => {
-                    if (pay) {
-                        let round: string = pay.toFixed(2);
-                        console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. If accepted, your monthly payment will be $${round} over ${months} months.`);
-                    }
-                    else {
-                        logger.debug('error');
-                    }
-                });
-            }
+            let offer = new Offer(carID, downPay, months, user);
+            userOffer(offer);
+            calcMonthPay(carID, downPay, months).then((pay) => {
+                if (pay) {
+                    let round: string = pay.toFixed(2);
+                    console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. If accepted, your monthly payment will be $${round} over ${months} months.`);
+                }
+                else {
+                    logger.debug('error');
+                }
+            });
         }
         else {
             logger.error('Invalid carID - car doesnt exist');
         }
     });
     callback();
+}
+
+//makes a new offer and adds a new pending offer to user
+export function userOffer(offer: Offer) {
+    offerService.addOffer(new Offer(offer.carID, offer.downPay, offer.months, offer.username));
+    userService.getUser(offer.username).then((person) => {
+        if (person) {
+            person.pendingOffers.push(offer);
+            userService.updateUser(person);
+        }
+    })
 }
 
 //formats offers for display
