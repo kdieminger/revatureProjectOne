@@ -11,6 +11,10 @@ router.get('/login', function(req, res, next) {
   res.sendFile('login.html', {root: publicDir});
 });
 
+router.get('/', (req, resp, next) => {
+  resp.redirect('/users/login');
+});
+
 
 router.post('/', function(req, res, next) {
   logger.debug(req.body);

@@ -124,7 +124,7 @@ function populateRestTable() {
     restaurantService.addRestaurant(
         {name: 'Wendys', chef: 'Wendy', rating: 3.5, hours: [], img:'https://img.foodlogistics.com/files/base/acbm/fl/image/2015/08/wendys_co_logo.55d5ec69667bb.png?auto=format&fit=max&w=1200', menu: [{name: 'Fries', price: 2}], type: 'American'});
     restaurantService.addRestaurant(
-        {name: 'The Krusty Krab', chef: 'SpongeBob', rating: 5, img:'https://static.wikia.nocookie.net/logopedia/images/f/fd/The_Krusty_Krab_Logo.jpg/revision/latest/scale-to-width-down/200?cb=20171120181643', hours: [], menu: [{name: 'Krabby Patty', price: 5},{name: 'Krabby Patty with Cheese', price: 6}], type: 'Seafood'});
+        {name: 'The Krusty Krab', chef: 'SpongeBob', rating: 5, img:'https://thefreshtoast.com/wp-content/uploads/2017/01/krusty-krab-1-1068x580.jpg', hours: [], menu: [{name: 'Krabby Patty', price: 5},{name: 'Krabby Patty with Cheese', price: 6}], type: 'Seafood'});
     restaurantService.addRestaurant(
         {name: 'Central Perk', chef: 'Gunther', rating: 10, img:'https://i.etsystatic.com/13571447/r/il/b9f2e8/2071038622/il_570xN.2071038622_j4vn.jpg', hours: [], menu: [{name: 'Richael\'s Coffee', price: 5}], type: 'Coffee'});
 }

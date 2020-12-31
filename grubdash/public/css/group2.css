@@ -49,12 +49,17 @@ h2 {
 }
 
 .restaurants {
-	display: flex;
+	/* display: flex; */
 	justify-content: space-evenly;
 }
 
-.restaurant {
+/* .restaurant {
 	height:30vh;
 	padding: 20px;
 	margin: 5vh;
+} */
+
+.rest-logo {
+	height:auto;
+	width:100%;
 }

@@ -84,3 +84,28 @@ URN - Uniform Resource Name - A URI that specifies a unique name for a resource.
 
 
 ## Redirect vs Forward
+When a browser sends in a request, many things can happen, but you get a response, most of the time.
+This response can (in success situations) be either a 200 or 300 level response.
+A 300 level response, tells the user to resend the same request to a different location, this is called a redirect.
+
+Normal:
+```
+Browser => Request => Server => 200 => Browser
+```
+
+Redirect:
+
+```
+Browser => Request => Server => 300 => Browser => Resend to new location => Server => 200 => Browser
+```
+
+In a redirect scenario, the browser sent the request to the wrong place and the server made it resend. 2 requests get sent, 2 responses come back. The URL will change.
+
+In a forward scenario, the browser sends the request to the wrong place, the server sends the request over to that resource itself.
+
+Forward:
+```
+Browswer => Request => Server => Other part of Server => 200 => Browser
+```
+
+One request, one response, the url will not change.

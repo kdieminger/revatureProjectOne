@@ -1,4 +1,5 @@
 import Express from 'express';
+import logger from '../log';
 import restaurantService from '../restaurant/restaurant.service'
 
 const router = Express.Router();
@@ -11,4 +12,14 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.post('/', (req, res, next) => {
+    logger.debug(req.body);
+    restaurantService.addRestaurant(req.body).then((data)=> {
+        logger.debug(data);
+        res.sendStatus(201); // Created
+    }).catch((err) => {
+        logger.error(err);
+        res.sendStatus(500);
+    })
+})
 export default router;
