@@ -46,6 +46,7 @@ var CarService = /** @class */ (function () {
     function CarService() {
         this.doc = dynamo_1.default;
     }
+    //adds car to table
     CarService.prototype.addCar = function (car) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
@@ -75,6 +76,7 @@ var CarService = /** @class */ (function () {
             });
         });
     };
+    //removes car from table
     CarService.prototype.removeCar = function (carID) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
@@ -99,6 +101,7 @@ var CarService = /** @class */ (function () {
             });
         });
     };
+    //gets all the cars in the table
     CarService.prototype.getCars = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -114,6 +117,7 @@ var CarService = /** @class */ (function () {
             });
         });
     };
+    //gets a specific car by the carID
     CarService.prototype.getCarByID = function (carID) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
@@ -139,6 +143,7 @@ var CarService = /** @class */ (function () {
             });
         });
     };
+    //updates the car - can only update the owner
     CarService.prototype.updateCarOwner = function (car) {
         return __awaiter(this, void 0, void 0, function () {
             var params;

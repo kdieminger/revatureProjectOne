@@ -8,7 +8,8 @@ export class CarService {
     constructor(){
         this.doc = dynamo;
     }
-
+    
+    //adds car to table
     async addCar(car: Car): Promise<boolean> {
         const params = {
             TableName: 'carlot',
@@ -30,6 +31,7 @@ export class CarService {
         });
     }
 
+    //removes car from table
     async removeCar(carID: string): Promise<boolean> {
         const params = {
             TableName: 'carlot',
@@ -46,6 +48,7 @@ export class CarService {
         });
     }
 
+    //gets all the cars in the table
     async getCars(): Promise<Car[]> {
         return await this.doc.scan({ 'TableName': 'carlot' }).promise().then((result) => {
             return result.Items as Car[];
@@ -55,6 +58,7 @@ export class CarService {
         });
     }
 
+    //gets a specific car by the carID
     async getCarByID(carID: string): Promise<Car|null> {
         const params = {
             TableName: 'carlot',
@@ -72,6 +76,7 @@ export class CarService {
         })
     }
 
+    //updates the car - can only update the owner
     async updateCarOwner(car: Car): Promise<boolean>{
         const params = {
             TableName: 'carlot',

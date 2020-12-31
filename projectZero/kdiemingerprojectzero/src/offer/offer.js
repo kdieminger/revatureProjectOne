@@ -58,6 +58,8 @@ var Offer = /** @class */ (function () {
     return Offer;
 }());
 exports.Offer = Offer;
+//TODO: modularize?
+//creates a new offer
 function makeOffer(carID, downPay, months, user, callback) {
     car_service_js_1.default.getCarByID(carID).then(function (car) {
         if (car) {
@@ -93,6 +95,7 @@ function makeOffer(carID, downPay, months, user, callback) {
     callback();
 }
 exports.makeOffer = makeOffer;
+//formats offers for display
 function offerDisplay(offer) {
     return offer.offerID + ': Downpayment: ' + offer.downPay + ' Months: ' + offer.months + ' on ' + offer.carID + '.';
 }
@@ -105,6 +108,7 @@ function viewOffers(callback) {
     });
 }
 exports.viewOffers = viewOffers;
+//checks if an offer exists and performs a function based on whether it exists or not
 function checkOffer(carID, downPay, months, user, existant, nonexistant, callback) {
     return __awaiter(this, void 0, void 0, function () {
         var offerID;
@@ -123,6 +127,7 @@ function checkOffer(carID, downPay, months, user, existant, nonexistant, callbac
     });
 }
 exports.checkOffer = checkOffer;
+//replaces an existing offer
 function replaceOffer(carID, downPay, months, user, callback) {
     offer_service_js_1.default.removeOffer(carID + user);
     log_js_1.default.debug('Offers after removal: ', viewOffers);
@@ -132,48 +137,12 @@ function replaceOffer(carID, downPay, months, user, callback) {
     callback;
 }
 exports.replaceOffer = replaceOffer;
-// export function acceptOffer(offerID: string, callback: Function) {
-//     logger.info('acceptOffer called');
-//     offerService.getOfferByID(offerID).then((off) => {
-//         logger.debug(off);
-//         if (off?.carID) {
-//             carService.getCarByID(off.carID).then((rac) => {
-//                 if (rac && off.username) {
-//                     logger.debug(rac);
-//                     rac.owner = off.username;
-//                     removeCar(rac.carID);
-//                     carService.updateCarOwner(rac);
-//                     userService.getUser(off.username).then((user) => {
-//                         if(user){
-//                             user.ownedCars.push(rac);
-//                             user.ongoingPay.push(new Payment(offerID, off.carID, off.username, off.downPay, off.months, rac.price - off.downPay));
-//                             let remove = user.pendingOffers.indexOf(off);
-//                             user.pendingOffers.splice(remove,1);
-//                             userService.updateUser(user);
-//                         }
-//                         else{
-//                             logger.error('user is undefined');
-//                         }
-//                     })
-//                     rejectPending(rac.carID);
-//                 }
-//                 else {
-//                     logger.error('car or user are undefined')
-//                 }
-//             })
-//         }
-//         else {
-//             logger.error('ID is undefined - offer does not exist');
-//         }
-//         callback();
-//     })
-// }
 //accepts an offer
 function acceptOffer(offerID, callback) {
     offer_service_js_1.default.getOfferByID(offerID).then(function (offer) {
         if (offer) {
             car_js_1.changeOwner(offer.carID, offer.username);
-            offerAccepted(offer, offer.username);
+            setTimeout(function () { offerAccepted(offer, offer.username); }, 5000);
             rejectPending(offer.carID);
         }
         else {
@@ -183,10 +152,11 @@ function acceptOffer(offerID, callback) {
     });
 }
 exports.acceptOffer = acceptOffer;
-//removes an offer and adds payment to user
+//removes an offer and the corresponding car and adds payment to user
 function offerAccepted(offer, username) {
-    user_service_js_1.default.getUserByName(username).then(function (user) {
+    user_service_js_1.default.getUser(username).then(function (user) {
         if (user) {
+            console.log(JSON.stringify(user));
             car_service_js_1.default.getCarByID(offer.carID).then(function (car) {
                 if (car) {
                     user.ongoingPay.push(new car_js_1.Payment(offer.offerID, offer.carID, username, offer.downPay, offer.months, (car === null || car === void 0 ? void 0 : car.price) - offer.downPay));
@@ -194,6 +164,10 @@ function offerAccepted(offer, username) {
                     user.pendingOffers.splice(remove, 1);
                     user_service_js_1.default.updateUser(user);
                     offer_service_js_1.default.removeOffer(offer.offerID);
+                    car_js_1.removeCar(car.carID);
+                }
+                else {
+                    log_js_1.default.error('car does not exist');
                 }
             });
         }
@@ -203,6 +177,7 @@ function offerAccepted(offer, username) {
     });
 }
 exports.offerAccepted = offerAccepted;
+//rejects a pending offer
 function rejectPending(carID) {
     log_js_1.default.info('rejectPending called');
     offer_service_js_1.default.getOffers().then(function (offers) {
@@ -215,6 +190,7 @@ function rejectPending(carID) {
     });
 }
 exports.rejectPending = rejectPending;
+//calculates the monthly payment of an offer
 function calcMonthPay(carID, downPay, months) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

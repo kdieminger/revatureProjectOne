@@ -10,6 +10,7 @@ class UserService {
         this.doc = dynamo;
     }
     
+    //gets a specific user by username
     async getUser(username: string): Promise<User | null> {
         const params = {
             TableName: 'users',
@@ -28,6 +29,7 @@ class UserService {
         })
     }
 
+    //gets all the users in the table
     async getUsers(): Promise<User[]>{
         return await this.doc.scan({ 'TableName': 'users'}).promise().then((result) =>{
             return result.Items as User[]; 
@@ -37,6 +39,7 @@ class UserService {
         });
     }
     
+    //gets the payments for each user
     async getPayments(): Promise<Payment[]> {
         return await this.doc.scan({'TableName': 'users', ProjectionExpression: 'ongoingPay'}).promise().then((results) => {
             const payments: Payment[] = [];
@@ -57,6 +60,7 @@ class UserService {
         })
     }
 
+    //adds a user to the table
     async addUser(user: User): Promise<boolean> {
         const params = {
             TableName: 'users',
@@ -78,23 +82,7 @@ class UserService {
         });
     }
 
-    async getUserByName(username: string): Promise<User | null>{
-        const params ={
-            TableName: 'users',
-            Key: {
-                'username': username
-            }
-        };
-        return await this.doc.get(params).promise().then((data) => {
-            if(data && data.Item){
-                return data.Item as User;
-            }
-            else {
-                return null;
-            }
-        });
-    }
-
+    //updates a user
     async updateUser(user: User): Promise<boolean>{
         const params = {
             TableName: 'users',

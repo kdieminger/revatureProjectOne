@@ -45,6 +45,7 @@ var UserService = /** @class */ (function () {
     function UserService() {
         this.doc = dynamo_1.default;
     }
+    //gets a specific user by username
     UserService.prototype.getUser = function (username) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
@@ -71,6 +72,7 @@ var UserService = /** @class */ (function () {
             });
         });
     };
+    //gets all the users in the table
     UserService.prototype.getUsers = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -86,6 +88,7 @@ var UserService = /** @class */ (function () {
             });
         });
     };
+    //gets the payments for each user
     UserService.prototype.getPayments = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -112,6 +115,7 @@ var UserService = /** @class */ (function () {
             });
         });
     };
+    //adds a user to the table
     UserService.prototype.addUser = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
@@ -141,31 +145,7 @@ var UserService = /** @class */ (function () {
             });
         });
     };
-    UserService.prototype.getUserByName = function (username) {
-        return __awaiter(this, void 0, void 0, function () {
-            var params;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        params = {
-                            TableName: 'users',
-                            Key: {
-                                'username': username
-                            }
-                        };
-                        return [4 /*yield*/, this.doc.get(params).promise().then(function (data) {
-                                if (data && data.Item) {
-                                    return data.Item;
-                                }
-                                else {
-                                    return null;
-                                }
-                            })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
+    //updates a user
     UserService.prototype.updateUser = function (user) {
         return __awaiter(this, void 0, void 0, function () {
             var params;

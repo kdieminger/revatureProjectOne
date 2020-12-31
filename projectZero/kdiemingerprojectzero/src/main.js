@@ -15,7 +15,7 @@ exports.read = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout
 });
-//registers a user
+//registers a user as either customer or employee
 function register() {
     exports.read.question('Username:', function (username) {
         exports.read.question('Password:', function (password) {
@@ -35,11 +35,10 @@ function register() {
                 }
             });
         });
-        //}
     });
 }
 exports.register = register;
-//logs a user in
+//logs a user in - sets login to the user
 function logUser() {
     exports.read.question('Username:', function (username) {
         exports.read.question('Password:', function (password) {
@@ -85,7 +84,7 @@ function start() {
     });
 }
 exports.start = start;
-//runs after login or register as customer
+//menu for customer role
 function customerMenu() {
     exports.read.question("What would you like to do?\n        1. View Car Lot\n        2. Make an Offer\n        3. View Owned cars\n        4. View remaining payments \n        5. Logout\n", function (answer) {
         switch (answer) {
@@ -116,7 +115,7 @@ function customerMenu() {
         }
     });
 }
-//runs after login or register as employee
+//menu for employee role
 function employeeMenu() {
     exports.read.question("What would you like to do?\n        1. View Car Lot\n        2. Add or Remove Car from Lot\n        3. View Pending Offers\n        4. Accept or Reject a Pending Offer\n        5. View All Payments\n        6. Switch to Customer View\n        7. Logout\n", function (answer) {
         switch (answer) {
@@ -188,6 +187,7 @@ function employeeMenu() {
         }
     });
 }
+//menu to accept input for making an offer
 function makeOfferMenu() {
     exports.read.question('Enter the car ID.\n', function (ID) {
         exports.read.question('Enter your down payment.\n', function (DP) {
@@ -216,6 +216,7 @@ function makeOfferMenu() {
     });
 }
 exports.makeOfferMenu = makeOfferMenu;
+//menu to handle replacing an existing offer
 function replaceOfferMenu(ID, DP, month) {
     log_js_1.default.warn('Offer with this ID already exists');
     exports.read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {

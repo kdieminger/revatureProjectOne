@@ -11,42 +11,18 @@ export class User{
   };
 }
 
-
 //registers a user
-// export function registerUser(userN: string, passW: string, role: string, callback: Function): Promise<User | null>{
-//   logger.info('registerUser called');
-//   logger.trace(`newUser called with parameters ${userN}, ${passW}, and ${role}.`);
-//   userService.getUserByName(userN).then((person) => {
-//     logger.debug(person);
-//     if (!person) {
-//       let newUser = new User(userN, passW, role, [], [], []);
-//       userService.addUser(newUser);
-//       if(role == 'Employee'){
-//         console.log('Welcome new employee!');
-//       }
-//       else{
-//         console.log('Welcome new customer!');
-//       }
-//       return newUser;
-//     }
-//     else if (person) {
-//       logger.error('username already exists');
-//       return null;
-//     }
-//   })
-//   callback();
-// }
-
-//registers a user
-export async function registerUser(username: string, password: string, role: string): Promise<User|null> {
+export async function registerUser(username: string, password: string, role: string): Promise<User | null> {
   logger.info('registerUser called');
-  return await userService.getUserByName(username).then((user) => {
+  return await userService.getUser(username).then((user) => {
     if(user && user.username === username){
+      logger.error('username already exists');
       return null;
     }
     else {
       let add = new User(username, password, role, [], [], [])
       userService.addUser(add);
+      console.log(`Welcome new ${role}!`);
       return add;
     }
   })
@@ -65,7 +41,7 @@ export async function userLogin(name: string, pass: string): Promise<User | null
   })
 };
 
-
+//allows user to view their owned cars
 export function viewOwnedCars(username: string, callback: Function) {
   logger.info('viewOwnedCars called');
   userService.getUser(username).then((user) => {
@@ -82,6 +58,7 @@ export function viewOwnedCars(username: string, callback: Function) {
   callback();
 }
 
+//allows the user to view their ongoing payments
 export function viewOwnPayments(username: string, callback: Function){
   logger.info('viewOwnPayments called');
   userService.getUser(username).then((user) => {
@@ -98,6 +75,7 @@ export function viewOwnPayments(username: string, callback: Function){
   callback();
 }
 
+//allows the user to view their pending offers
 export function viewUserOffers(username: string, callback: Function){
   logger.info('viewUserOffers called');
   userService.getUser(username).then((user) => {
@@ -114,6 +92,7 @@ export function viewUserOffers(username: string, callback: Function){
   callback();
 }
 
+//allows an employee to view all ongoing payments
 export function viewAllPayments(callback: Function){
   logger.info('viewAllPayments called');
   userService.getPayments().then((payments) => {
@@ -126,6 +105,7 @@ export function viewAllPayments(callback: Function){
   })
 }
 
+//formats ongoing payments for display
 export function paymentDisplay(pay: Payment){
   logger.info(`paymentDisplay called with parameter ${JSON.stringify(pay)}`);
   carService.getCarByID(pay.carID).then((car) => {

@@ -59,43 +59,21 @@ var User = /** @class */ (function () {
 }());
 exports.User = User;
 //registers a user
-// export function registerUser(userN: string, passW: string, role: string, callback: Function): Promise<User | null>{
-//   logger.info('registerUser called');
-//   logger.trace(`newUser called with parameters ${userN}, ${passW}, and ${role}.`);
-//   userService.getUserByName(userN).then((person) => {
-//     logger.debug(person);
-//     if (!person) {
-//       let newUser = new User(userN, passW, role, [], [], []);
-//       userService.addUser(newUser);
-//       if(role == 'Employee'){
-//         console.log('Welcome new employee!');
-//       }
-//       else{
-//         console.log('Welcome new customer!');
-//       }
-//       return newUser;
-//     }
-//     else if (person) {
-//       logger.error('username already exists');
-//       return null;
-//     }
-//   })
-//   callback();
-// }
-//registers a user
 function registerUser(username, password, role) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     log_js_1.default.info('registerUser called');
-                    return [4 /*yield*/, user_service_js_1.default.getUserByName(username).then(function (user) {
+                    return [4 /*yield*/, user_service_js_1.default.getUser(username).then(function (user) {
                             if (user && user.username === username) {
+                                log_js_1.default.error('username already exists');
                                 return null;
                             }
                             else {
                                 var add = new User(username, password, role, [], [], []);
                                 user_service_js_1.default.addUser(add);
+                                console.log("Welcome new " + role + "!");
                                 return add;
                             }
                         })];
@@ -127,6 +105,7 @@ function userLogin(name, pass) {
 }
 exports.userLogin = userLogin;
 ;
+//allows user to view their owned cars
 function viewOwnedCars(username, callback) {
     log_js_1.default.info('viewOwnedCars called');
     user_service_js_1.default.getUser(username).then(function (user) {
@@ -143,6 +122,7 @@ function viewOwnedCars(username, callback) {
     callback();
 }
 exports.viewOwnedCars = viewOwnedCars;
+//allows the user to view their ongoing payments
 function viewOwnPayments(username, callback) {
     log_js_1.default.info('viewOwnPayments called');
     user_service_js_1.default.getUser(username).then(function (user) {
@@ -159,6 +139,7 @@ function viewOwnPayments(username, callback) {
     callback();
 }
 exports.viewOwnPayments = viewOwnPayments;
+//allows the user to view their pending offers
 function viewUserOffers(username, callback) {
     log_js_1.default.info('viewUserOffers called');
     user_service_js_1.default.getUser(username).then(function (user) {
@@ -175,6 +156,7 @@ function viewUserOffers(username, callback) {
     callback();
 }
 exports.viewUserOffers = viewUserOffers;
+//allows an employee to view all ongoing payments
 function viewAllPayments(callback) {
     log_js_1.default.info('viewAllPayments called');
     user_service_js_1.default.getPayments().then(function (payments) {
@@ -187,6 +169,7 @@ function viewAllPayments(callback) {
     });
 }
 exports.viewAllPayments = viewAllPayments;
+//formats ongoing payments for display
 function paymentDisplay(pay) {
     log_js_1.default.info("paymentDisplay called with parameter " + JSON.stringify(pay));
     car_service_js_1.default.getCarByID(pay.carID).then(function (car) {

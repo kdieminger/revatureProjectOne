@@ -12,11 +12,13 @@ export class Payment {
     }
 }
 
+//formats cars for display
 export function carDisplay(car: Car){
     logger.trace(`carDisplay called with parameter ${JSON.stringify(car)}`);
     return car.carID + ': ' + car.color + ' ' + car.brand + '- $' + car.price;
 }
 
+//allows user to view all cars on the lot
 export function viewCars(callback: Function){
     logger.trace('viewCars called');
     carService.getCars().then((cars) =>{
@@ -25,6 +27,7 @@ export function viewCars(callback: Function){
     })
 }
 
+//adds a car to the car lot
 export function addCar(brand: string, color: string, carID: string, price: number, callback: Function){
     logger.trace(`addCar called with parameters ${brand}, ${color}, ${carID}, and ${price}.`);
     carService.getCarByID(carID).then((car) => {
@@ -39,6 +42,7 @@ export function addCar(brand: string, color: string, carID: string, price: numbe
     callback();
 }
 
+//removes a car from the lot
 export function removeCar(carID: string){
     logger.trace(`removeCar called with parameter ${carID}`);
     carService.getCarByID(carID).then((car)=> {
@@ -52,19 +56,20 @@ export function removeCar(carID: string){
 }
 
 
-//changes owner of car and removes car from the lot
-export function changeOwner(carID: string, username: string) {
+//changes owner of car and moves the car to the new owner with optional callback to remove car from lot
+export function changeOwner(carID: string, username: string, callback?: Function) {
     logger.info(`changeOwner called with params ${carID} and ${username}`);
-    carService.getCarByID(carID).then((car) => {
+    carService.getCarByID(carID).then(async (car) => {
         if (car && username) {
             logger.debug(car);
             car.owner = username;
-            removeCar(car.carID);
             carService.updateCarOwner(car);
-            userService.getUser(username).then((user) => {
+            userService.getUser(username).then(async (user) => {
                 if (user) {
                     user.ownedCars.push(car);
+                    logger.debug('this is ownedCars: ' + user.ownedCars);
                     userService.updateUser(user);
+                    callback;
                 }
                 else{
                     logger.error('user is undefined');

@@ -13,36 +13,35 @@ export const read = readline.createInterface({
     output: process.stdout
 });
 
-
+//will be set to the current user upon login
 export let login: User;
 
 
-//registers a user
+//registers a user as either customer or employee
 export function register() {
     read.question('Username:', (username: string) => {
-            read.question('Password:', (password: string) => {
-                read.question('Employee Code? (enter 0 to skip)\n', (code: string) => {
-                    if (code === '0'){
-                        registerUser(username, password, 'Customer');
-                        start();
-                    }
-                    else if (code === '1234'){
-                        registerUser(username, password, 'Employee');
-                        start();
-                    }
-                    else {
-                        logger.warn('Code did not correspond to anything.');
-                        console.log("Incorrect employee code.");
-                        start();
-                    }
-                })
-                
+        read.question('Password:', (password: string) => {
+            read.question('Employee Code? (enter 0 to skip)\n', (code: string) => {
+                if (code === '0') {
+                    registerUser(username, password, 'Customer');
+                    start();
+                }
+                else if (code === '1234') {
+                    registerUser(username, password, 'Employee');
+                    start();
+                }
+                else {
+                    logger.warn('Code did not correspond to anything.');
+                    console.log("Incorrect employee code.");
+                    start();
+                }
             })
-        //}
+
+        })
     })
 }
 
-//logs a user in
+//logs a user in - sets login to the user
 export function logUser() {
     read.question('Username:', (username: string) => {
         read.question('Password:', (password: string) => {
@@ -92,7 +91,7 @@ export function start() {
     });
 }
 
-//runs after login or register as customer
+//menu for customer role
 function customerMenu(){
     read.question( 
         `What would you like to do?
@@ -130,7 +129,7 @@ function customerMenu(){
         });
 }
 
-//runs after login or register as employee
+//menu for employee role
 function employeeMenu(){
     read.question(
         `What would you like to do?
@@ -211,6 +210,7 @@ function employeeMenu(){
         })
 }
 
+//menu to accept input for making an offer
 export function makeOfferMenu() {
     read.question('Enter the car ID.\n', (ID: string) => {
         read.question('Enter your down payment.\n', (DP: any) => {
@@ -239,6 +239,7 @@ export function makeOfferMenu() {
     })
 }
 
+//menu to handle replacing an existing offer
 export function replaceOfferMenu(ID: string, DP: number, month: number) {
     logger.warn('Offer with this ID already exists');
     read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {

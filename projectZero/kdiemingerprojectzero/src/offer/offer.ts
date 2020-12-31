@@ -9,6 +9,8 @@ export class Offer {
     };
 }
 
+//TODO: modularize?
+//creates a new offer
 export function makeOffer(carID: string, downPay: string, months: string, user: string, callback: Function) {
     carService.getCarByID(carID).then((car) => {
         if (car) {
@@ -44,6 +46,7 @@ export function makeOffer(carID: string, downPay: string, months: string, user: 
     callback();
 }
 
+//formats offers for display
 export function offerDisplay(offer: Offer){
     return offer.offerID + ': Downpayment: ' + offer.downPay + ' Months: ' + offer.months + ' on ' + offer.carID + '.';
 }
@@ -56,6 +59,7 @@ export function viewOffers(callback: Function){
     })
 }
 
+//checks if an offer exists and performs a function based on whether it exists or not
 export async function checkOffer(carID: string, downPay: number, months: number, user: string, existant: Function, nonexistant: Function, callback?: Function){
     let offerID = carID + user;
     offerService.getOfferByID(offerID).then((offer) => {
@@ -68,6 +72,7 @@ export async function checkOffer(carID: string, downPay: number, months: number,
     })
 }
 
+//replaces an existing offer
 export function replaceOffer(carID: string, downPay: number, months: number, user: string, callback: Function){
     offerService.removeOffer(carID+user);
     logger.debug('Offers after removal: ', viewOffers);
@@ -82,7 +87,7 @@ export function acceptOffer(offerID: string, callback: Function){
     offerService.getOfferByID(offerID).then((offer) => {
         if(offer){
             changeOwner(offer.carID, offer.username);
-            offerAccepted(offer, offer.username);
+            setTimeout(() => {offerAccepted(offer, offer.username)}, 5000);
             rejectPending(offer.carID);
         }
         else {
@@ -92,10 +97,11 @@ export function acceptOffer(offerID: string, callback: Function){
     })
 }
 
-//removes an offer and adds payment to user
+//removes an offer and the corresponding car and adds payment to user
 export function offerAccepted(offer: Offer, username: string) {
-    userService.getUserByName(username).then((user) => {
+    userService.getUser(username).then((user) => {
         if(user){
+            console.log(JSON.stringify(user));
             carService.getCarByID(offer.carID).then((car) => {
                 if(car){
                     user.ongoingPay.push(new Payment(offer.offerID, offer.carID, username, offer.downPay, offer.months, car?.price-offer.downPay));
@@ -103,6 +109,10 @@ export function offerAccepted(offer: Offer, username: string) {
                     user.pendingOffers.splice(remove,1);
                     userService.updateUser(user);
                     offerService.removeOffer(offer.offerID);
+                    removeCar(car.carID);
+                }
+                else{
+                    logger.error('car does not exist');
                 }
             })
         }
@@ -113,6 +123,7 @@ export function offerAccepted(offer: Offer, username: string) {
     })
 }
 
+//rejects a pending offer
 export function rejectPending(carID: string){
     logger.info('rejectPending called');
     offerService.getOffers().then((offers) => {
@@ -125,6 +136,7 @@ export function rejectPending(carID: string){
     });
 }
 
+//calculates the monthly payment of an offer
 export async function calcMonthPay(carID: string, downPay: number, months: number){
     logger.info('clacMonthPay called');
     return await carService.getCarByID(carID).then((car) => {
