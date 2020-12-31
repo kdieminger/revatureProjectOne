@@ -178,5 +178,4 @@ function populateCarTable() {
 function populateOfferTable() {
     offer_service_1.default.addOffer({ carID: 'H01', downPay: 5000, months: 5, username: 'smccall', offerID: 'H01smccall' });
     offer_service_1.default.addOffer({ carID: 'K01', downPay: 5000, months: 5, username: 'lmartin', offerID: 'K01lmartin' });
-    offer_service_1.default.addOffer({ carID: 'K01', downPay: 5000, months: 5, username: 'smccall', offerID: 'K01smccall' });
 }

@@ -126,13 +126,11 @@ function checkOffer(carID, downPay, months, user, existant, nonexistant, callbac
 }
 exports.checkOffer = checkOffer;
 //replaces an existing offer
-function replaceOffer(carID, downPay, months, user, callback) {
+function replaceOffer(carID, downPay, months, user) {
     offer_service_js_1.default.removeOffer(carID + user);
     log_js_1.default.debug('Offers after removal: ', viewOffers);
     offer_service_js_1.default.addOffer(new Offer(carID, downPay, months, user));
-    // console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. If accepted, your monthly payment will be $${pay} over ${months} months.`);
     log_js_1.default.debug('Offers after addition: ', viewOffers);
-    callback;
 }
 exports.replaceOffer = replaceOffer;
 //accepts an offer
@@ -154,7 +152,6 @@ exports.acceptOffer = acceptOffer;
 function offerAccepted(offer, username) {
     user_service_js_1.default.getUser(username).then(function (user) {
         if (user) {
-            console.log(JSON.stringify(user));
             car_service_js_1.default.getCarByID(offer.carID).then(function (car) {
                 if (car) {
                     user.ongoingPay.push(new car_js_1.Payment(offer.offerID, offer.carID, username, offer.downPay, offer.months, (car === null || car === void 0 ? void 0 : car.price) - offer.downPay));

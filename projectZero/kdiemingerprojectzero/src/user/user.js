@@ -43,7 +43,6 @@ exports.paymentDisplay = exports.viewAllPayments = exports.viewUserOffers = expo
 var log_js_1 = __importDefault(require("../log.js"));
 var car_js_1 = require("../car/car.js");
 var user_service_js_1 = __importDefault(require("./user.service.js"));
-var car_service_js_1 = __importDefault(require("../car/car.service.js"));
 //Class declaration
 var User = /** @class */ (function () {
     function User(username, password, role, ownedCars, pendingOffers, ongoingPay) {
@@ -112,7 +111,7 @@ function viewOwnedCars(username, callback) {
         if (user) {
             var view = user.ownedCars;
             for (var i = 0; i < view.length; i++) {
-                console.log(view[i]);
+                console.log(car_js_1.carDisplay(view[i]));
             }
         }
         else {
@@ -129,7 +128,7 @@ function viewOwnPayments(username, callback) {
         if (user) {
             var view = user.ongoingPay;
             for (var i = 0; i < view.length; i++) {
-                console.log(view[i]);
+                console.log(paymentDisplay(view[i]));
             }
         }
         else {
@@ -172,11 +171,7 @@ exports.viewAllPayments = viewAllPayments;
 //formats ongoing payments for display
 function paymentDisplay(pay) {
     log_js_1.default.info("paymentDisplay called with parameter " + JSON.stringify(pay));
-    car_service_js_1.default.getCarByID(pay.carID).then(function (car) {
-        if (car) {
-            return pay.payID + ': ' + car_js_1.carDisplay(car) + '\nCustomer:  ' + pay.username + '\nDown Payment- $' +
-                pay.downPay + '\nMonths Remaining- ' + pay.months + '\nRemaining Payment- $' + pay.remainingPay;
-        }
-    });
+    return pay.payID + ': ' + pay.carID + '\nCustomer:  ' + pay.username + '\nDown Payment- $' +
+        pay.downPay + '\nMonths Remaining- ' + pay.months + '\nRemaining Payment- $' + pay.remainingPay;
 }
 exports.paymentDisplay = paymentDisplay;

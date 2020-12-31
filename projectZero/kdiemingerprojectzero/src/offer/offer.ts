@@ -71,13 +71,11 @@ export async function checkOffer(carID: string, downPay: number, months: number,
 }
 
 //replaces an existing offer
-export function replaceOffer(carID: string, downPay: number, months: number, user: string, callback: Function){
+export function replaceOffer(carID: string, downPay: number, months: number, user: string){
     offerService.removeOffer(carID+user);
     logger.debug('Offers after removal: ', viewOffers);
     offerService.addOffer(new Offer(carID, downPay, months, user));
-    // console.log(`Thank you for your offer. You have put a downpayment of $${downPay} on ${carID}. If accepted, your monthly payment will be $${pay} over ${months} months.`);
     logger.debug('Offers after addition: ', viewOffers);
-    callback;
 }
 
 //accepts an offer
@@ -99,7 +97,6 @@ export function acceptOffer(offerID: string, callback: Function){
 export function offerAccepted(offer: Offer, username: string) {
     userService.getUser(username).then((user) => {
         if(user){
-            console.log(JSON.stringify(user));
             carService.getCarByID(offer.carID).then((car) => {
                 if(car){
                     user.ongoingPay.push(new Payment(offer.offerID, offer.carID, username, offer.downPay, offer.months, car?.price-offer.downPay));

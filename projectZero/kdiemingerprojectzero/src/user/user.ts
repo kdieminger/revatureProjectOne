@@ -48,7 +48,7 @@ export function viewOwnedCars(username: string, callback: Function) {
     if(user){
       let view = user.ownedCars;
       for(let i = 0; i < view.length; i++){
-        console.log(view[i]);
+        console.log(carDisplay(view[i]));
       }
     }
     else{
@@ -65,7 +65,7 @@ export function viewOwnPayments(username: string, callback: Function){
     if(user){
       let view = user.ongoingPay;
       for(let i = 0; i < view.length; i++){
-        console.log(view[i]);
+        console.log(paymentDisplay(view[i]));
       }
     }
     else{
@@ -106,12 +106,8 @@ export function viewAllPayments(callback: Function){
 }
 
 //formats ongoing payments for display
-export function paymentDisplay(pay: Payment){
+export function paymentDisplay(pay: Payment) {
   logger.info(`paymentDisplay called with parameter ${JSON.stringify(pay)}`);
-  carService.getCarByID(pay.carID).then((car) => {
-    if(car){
-      return pay.payID + ': ' + carDisplay(car) + '\nCustomer:  ' + pay.username + '\nDown Payment- $' + 
-      pay.downPay + '\nMonths Remaining- ' + pay.months + '\nRemaining Payment- $' + pay.remainingPay;
-    }  
-  })
+  return pay.payID + ': ' + pay.carID + '\nCustomer:  ' + pay.username + '\nDown Payment- $' +
+    pay.downPay + '\nMonths Remaining- ' + pay.months + '\nRemaining Payment- $' + pay.remainingPay;
 }

@@ -229,7 +229,7 @@ function replaceOfferMenu(ID, DP, month) {
     exports.read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', function (answer) {
         if (answer.toLowerCase() == 'yes') {
             log_js_1.default.info('replacing old offer');
-            offer_js_1.replaceOffer(ID, DP, month, exports.login.username, customerMenu);
+            offer_js_1.replaceOffer(ID, DP, month, exports.login.username);
             customerMenu();
         }
         else if (answer.toLowerCase() === 'no') {

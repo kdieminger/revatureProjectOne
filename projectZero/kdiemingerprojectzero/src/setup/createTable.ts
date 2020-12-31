@@ -169,6 +169,5 @@ function populateCarTable(){
 
 function populateOfferTable(){
     offerService.addOffer({carID: 'H01', downPay: 5000, months: 5, username: 'smccall', offerID: 'H01smccall'});
-    offerService.addOffer({carID: 'K01', downPay: 5000, months: 5, username: 'lmartin', offerID: 'K01lmartin'});
-    offerService.addOffer({carID: 'K01', downPay: 5000, months: 5, username: 'smccall', offerID: 'K01smccall'});
+    offerService.addOffer({carID: 'K01', downPay: 5000, months: 5, username: 'lmartin', offerID: 'K01lmartin'})
 }

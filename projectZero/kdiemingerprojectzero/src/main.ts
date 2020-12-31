@@ -190,7 +190,6 @@ function employeeMenu(){
                                     logger.error('invalid input');
                                     employeeMenu();
                                 }
-                                //pendingOffer(offerID, num);
                             });
                     })
                     break;
@@ -252,7 +251,7 @@ export function replaceOfferMenu(ID: string, DP: number, month: number) {
     read.question('You have already made an offer on this car. Would you like to replace it? Yes | No\n', (answer) => {
         if (answer.toLowerCase() == 'yes') {
             logger.info('replacing old offer');
-            replaceOffer(ID, DP, month, login.username, customerMenu);
+            replaceOffer(ID, DP, month, login.username);
             customerMenu();
         }
         else if (answer.toLowerCase() === 'no') {
