@@ -20,7 +20,7 @@
       }
     },
     "categories": {
-      "default": { "appenders": ["app", "errors", "console"], "level": "WARN" }
+      "default": { "appenders": ["app", "errors", "console"], "level": "ERROR" }
     }
   }
   
