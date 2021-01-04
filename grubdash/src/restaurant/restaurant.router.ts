@@ -19,7 +19,7 @@ router.post('/', (req, res, next) => {
         res.sendStatus(201); // Created
     }).catch((err) => {
         logger.error(err);
-        res.sendStatus(500);
+        res.sendStatus(500); // Server error, sorry
     })
 });
 export default router;

@@ -16,7 +16,10 @@ class RestaurantService {
         };
         return await this.doc.scan(params).promise().then((data) => {
             return data.Items as Restaurant[];
-        })
+        }).catch((err) => {
+            logger.error(err);
+            return [];
+        });
     }
 
     async addRestaurant(rest: Restaurant): Promise<boolean> {
