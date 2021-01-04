@@ -21,5 +21,5 @@ router.post('/', (req, res, next) => {
         logger.error(err);
         res.sendStatus(500);
     })
-})
+});
 export default router;
