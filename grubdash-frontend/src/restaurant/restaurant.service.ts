@@ -4,6 +4,7 @@ import { RestaurantType } from './restaurant.types';
 class RestaurantService {
     private URI: string;
     constructor() {
+        // URL of the express server
         this.URI = 'http://localhost:3000/restaurants';
     }
 
