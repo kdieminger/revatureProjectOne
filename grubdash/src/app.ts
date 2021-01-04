@@ -1,8 +1,10 @@
 import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
-import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import session from 'express-session';
+import MemoryStore from 'memorystore';
+import cors from 'cors';
 
 import indexRouter from './staticrouter/index';
 import usersRouter from './user/user.router';
@@ -15,12 +17,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-
 app.use(express.static(publicDir));
+app.use(session({
+  secret: 'whatever',
+  store: new (MemoryStore(session))({checkPeriod: 86400000}),
+  cookie: {}}));
 
 /*
  Set routers: First argument takes a 'route' string. 

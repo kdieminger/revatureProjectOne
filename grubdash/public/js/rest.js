@@ -3,8 +3,10 @@ window.onload = () => { // The onload event triggers after the webpage is finish
     // document <- An object representation of the DOM.
     //ajaxGetRestaurants();
     //createRestaurantList(restaurants);
+    createNavBar();
     document.getElementById('addRestLink').onclick= addRestaurantForm;
     fetchGetRestaurants();
+    authenticate();
 }
 function fetchGetRestaurants(){
     // Fetch is an API for sending requests to servers that utilizes promises.
