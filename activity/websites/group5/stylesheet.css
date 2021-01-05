@@ -1,0 +1,57 @@
+/*Group 5 stylesheet*/
+
+h1 {
+    color: #0e6161;
+    background-color: grey;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40pt;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+h2 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #008080;
+    background-color: lightgrey;
+    
+}
+
+h3 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*https://www.w3schools.com/css/css_website_layout.asp*/
+/* Create three equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 32%;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    border-width: 5px;
+    border-style: dotted;
+    border-color: #008080;
+    background-color: lightgrey;
+}
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+    }
+  }
