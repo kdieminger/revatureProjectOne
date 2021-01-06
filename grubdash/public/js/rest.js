@@ -10,7 +10,13 @@ window.onload = () => { // The onload event triggers after the webpage is finish
 }
 function fetchGetRestaurants(){
     // Fetch is an API for sending requests to servers that utilizes promises.
-    fetch('/restaurants').then(rest=> rest.json()).then(data => createRestaurantList(data));
+    fetch('/restaurants').then((resp)=> {
+            // The data that gets passed into the promise is basically a response object.
+            // the response object has metadata (like the status code) and the body of the response
+            // as well as useful methods like .json() which will create a promise with the data
+            // as an object.
+            return resp.json();
+        }).then(data => createRestaurantList(data));
 }
 function ajaxGetRestaurants(){
     // Asynchronous Java and XML
