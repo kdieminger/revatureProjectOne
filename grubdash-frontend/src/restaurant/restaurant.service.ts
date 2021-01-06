@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RestaurantType } from './restaurant.types';
+import { Restaurant } from './restaurant';
 
 class RestaurantService {
     private URI: string;
@@ -8,8 +8,11 @@ class RestaurantService {
         this.URI = 'http://localhost:3000/restaurants';
     }
 
-    getRestaurants(): Promise<RestaurantType []> {
+    getRestaurants(): Promise<Restaurant []> {
         return axios.get(this.URI).then(result => result.data);
+    }
+    addRestaurant(r: Restaurant): Promise<null> {
+        return axios.post(this.URI, r).then(result => null);
     }
 }
 

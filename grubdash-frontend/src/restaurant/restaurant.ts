@@ -1,4 +1,4 @@
-export interface RestaurantType {
+export interface Restaurant {
     name: string;
     chef: string;
     menu: Food[];

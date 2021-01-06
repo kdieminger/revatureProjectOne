@@ -1,37 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import { RestaurantType } from './restaurant/restaurant.types';
-import RestRow from './restaurant/RestRow';
-import restaurantService from './restaurant/restaurant.service';
-
-function groupIntoThrees(restaurants: RestaurantType[]): RestaurantType[][] {
-  let arr: RestaurantType[][] = [];
-  for(let i = 0; i < restaurants.length/3; i++) {
-    arr.push(restaurants.slice(i*3, (i+1)*3));
-  }
-
-  return arr;
-}
+import { Restaurant } from './restaurant/restaurant';
+import TableComponent from './restaurant/table.component';
+import RestaurantClassComponent from './restaurant/restaurantclass.component';
+import AddRestaurantComponent from './restaurant/add-restaurant.component';
+import RouterComponent from './routing.component';
 
 function App() {
-  let r: RestaurantType[] = []
-  const [restaurants, setRestaurants] = useState(r);
 
-  useEffect(()=> {
-    restaurantService.getRestaurants().then((data)=> {
-      setRestaurants(data);
-    });
-  }, []);
+  /* useState: A hook that can create a variable and a 
+      setter to add to the state of the application and modify
+      that state to trigger a render.*/
+  const [cond, setCond] = useState(true);
 
+  
   return (
     <div className="container">
-		  <h2>Local Restaurants</h2>
-		  <section className="restaurants container" id="restaurants">
-        { groupIntoThrees(restaurants).map( (value, index:number) => {
-            return <RestRow key={'rest-row-'+index} restaurants={value}></RestRow>
-          }) 
-        }
-      </section>
+      <RouterComponent></RouterComponent>
+      {cond ? <RestaurantClassComponent which={1}></RestaurantClassComponent>: ''}
+      <button onClick={()=>{setCond(!cond);}}>Click Me.</button>
 		</div>
   );
 }
