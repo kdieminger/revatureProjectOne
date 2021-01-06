@@ -3,10 +3,13 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-
+import session from 'express-session';
+import MemoryStore from 'memorystore';
+import cors from 'cors';
 
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
+import usersRouter from './user/usersroute';
+import publicDir from './constants';
 
 var app = express();
 
@@ -18,7 +21,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(publicDir));
 
 //set routers
 app.use('/', indexRouter);
@@ -37,7 +40,7 @@ app.use(function(err: any, req: any, res: any, next: Function) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.sendFile('/error.html', {root:publicDir});
 });
 
 module.exports = app;
