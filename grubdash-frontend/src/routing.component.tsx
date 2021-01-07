@@ -1,5 +1,11 @@
 import React from 'react';
-import { Route, BrowserRouter, Link, useHistory } from 'react-router-dom';
+import {
+    Route,
+    BrowserRouter,
+    Link,
+    useHistory,
+    Redirect,
+} from 'react-router-dom';
 import AddRestaurantComponent from './restaurant/add-restaurant.component';
 import EditRestaurantComponent from './restaurant/edit-restaurant.component';
 import TableComponent from './restaurant/table.component';
@@ -41,10 +47,10 @@ function EditRestaurantWrapper() {
 
 export default function RouterComponent() {
     const [user, setUser] = React.useContext(UserContext);
-
-    function logout(){
-        userService.logout().then(()=>{
-            setUser({user: null, pass: null});
+    const history = useHistory();
+    function logout() {
+        userService.logout().then(() => {
+            setUser({ user: null, pass: null });
         });
     }
     return (
@@ -59,9 +65,13 @@ export default function RouterComponent() {
                     </div>
                     <nav id='nav'>
                         <ul>
-                            <li>
-                                <Link to='/addRestaurant'>Add Restaurant</Link>
-                            </li>
+                            {user.role === 'Employee' && (
+                                <li>
+                                    <Link to='/addRestaurant'>
+                                        Add Restaurant
+                                    </Link>
+                                </li>
+                            )}
                             <li>
                                 <Link to='/restaurants'>View Restaurants</Link>
                             </li>
@@ -78,7 +88,9 @@ export default function RouterComponent() {
                             ) : (null) }
                             <li>
                                 {user.name ? (
-                                    <a className='link' onClick={logout}>Logout</a>
+                                    <a className='link' onClick={logout}>
+                                        Logout
+                                    </a>
                                 ) : (
                                     <Link to='/login'>Login</Link>
                                 )}
@@ -87,8 +99,23 @@ export default function RouterComponent() {
                     </nav>
                     <div id='restForm'></div>
                 </header>
-                <Route path='/addRestaurant' component={AddRestaurantWrapper} />
-                <Route exact path='/restaurants/:id' component={RestaurantDetailComponent} />
+
+                <Route
+                    path='/addRestaurant'
+                    render={() =>
+                        user.role !== 'Employee' ? (
+                            <Redirect to='/restaurants' />
+                        ) : (
+                            <AddRestaurantWrapper />
+                        )
+                    }
+                />
+
+                <Route
+                    exact
+                    path='/restaurants/:id'
+                    component={RestaurantDetailComponent}
+                />
                 <Route exact path='/restaurants' component={TableComponent} />
                 <Route path='/login' component={LoginComponent} />
                 <Route exact path='/editRestaurant' component={EditRestaurantWrapper}/>

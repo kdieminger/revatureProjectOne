@@ -92,6 +92,20 @@ class RestaurantService {
             return false;
         })
     }
+    async deleteRestaurant(id: string): Promise<Boolean> {
+        const params = {
+            TableName: 'restaurants',
+            Key: {
+                'name': id
+            }
+        }
+        return await this.doc.delete(params).promise().then((data) => {
+            return true;
+        }).catch((err) => {
+            logger.error(err);
+            return false;
+        });
+    }
 }
 
 const restaurantService = new RestaurantService();

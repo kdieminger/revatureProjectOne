@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { User } from './user';
 import userService from './user.service';
 import UserContext from '../user.context';
@@ -25,8 +25,13 @@ function LoginComponent(props: any) {
             history.push('/restaurants');
         });
     }
-
+    useEffect(() => {
+        userService.getLogin().then((user)=> {
+            setUserContext(user);
+        })
+    }, []);
     return (
+        
         <div className='col restaurant card'>
            Username <input type='text' className='form-control' onChange={handleFormInput} name='username'/>
            <br/>
