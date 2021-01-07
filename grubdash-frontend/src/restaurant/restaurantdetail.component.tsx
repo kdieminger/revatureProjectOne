@@ -13,9 +13,6 @@ export default function RestaurantDetailComponent(props: RestaurantDetailProps) 
     const [rest, setRest] = useState(new Restaurant());
     const history = useHistory();
     const [userContext, setUserContext]= useContext(UserContext);
-    // useEffect(() => {
-    //    setUserContext({money: 0, name: "Cynthia", password: "pass", role: 'Employee'});
-    // }, []);
     useEffect(()=>{
         console.log(props);
         console.log(props.match.params.id);
