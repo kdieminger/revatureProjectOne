@@ -1,11 +1,11 @@
-export interface Restaurant {
-    name: string;
-    chef: string;
-    menu: Food[];
-    rating: number;
-    hours: Hours[];
-    img: string;
-    type: string;
+export class Restaurant {
+    name: string = '';
+    chef: string = '';
+    menu: Food[] = [];
+    rating: number = 0;
+    hours: Hours[] = [];
+    img: string = '';
+    type: string = '';
     eta?: number;
 }
 export interface Food {

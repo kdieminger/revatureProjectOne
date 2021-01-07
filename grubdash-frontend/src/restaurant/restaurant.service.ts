@@ -11,6 +11,9 @@ class RestaurantService {
     getRestaurants(): Promise<Restaurant []> {
         return axios.get(this.URI).then(result => result.data);
     }
+    getRestaurant(id: number): Promise<Restaurant> {
+        return axios.get(this.URI+'/'+id).then(result=>result.data);
+    }
     addRestaurant(r: Restaurant): Promise<null> {
         return axios.post(this.URI, r).then(result => null);
     }

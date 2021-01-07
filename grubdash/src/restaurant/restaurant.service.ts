@@ -22,8 +22,23 @@ class RestaurantService {
         });
     }
 
+    async getRestaurant(id: string): Promise<Restaurant | null> {
+        const params = {
+            TableName: 'restaurants',
+            Key: {
+                'name': id
+            }
+        }
+        return await this.doc.get(params).promise().then((data) => {
+            return data.Item as Restaurant;
+        }).catch((err) => {
+            logger.error(err);
+            return null;
+        });
+    }
+
     async addRestaurant(rest: Restaurant): Promise<boolean> {
-        const datayorb = {...rest};
+        const datayorb = { ...rest };
         delete datayorb.eta;
         // object to be sent to AWS.
         const params = {
