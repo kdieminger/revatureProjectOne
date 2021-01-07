@@ -12,6 +12,12 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/:id', function(req, res, next) {
+    restaurantService.getRestaurant(req.params.id).then((rest)=>{
+        res.send(JSON.stringify(rest));
+    });
+})
+
 router.post('/', (req, res, next) => {
     logger.debug(req.body);
     restaurantService.addRestaurant(req.body).then((data)=> {

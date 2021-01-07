@@ -48,3 +48,4 @@ What this does is add the allow origin header to all of our responses so that th
 2. `npx create-react-app my-app-name --template typescript`
 3. `cd my-app-name`
 4. `npm install --save axios`
+5. `npm install --save react-router-dom`

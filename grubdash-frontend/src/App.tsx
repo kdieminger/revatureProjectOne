@@ -1,38 +1,39 @@
-import React, {useEffect, useState} from 'react';
-import './App.css';
-import { RestaurantType } from './restaurant/restaurant.types';
-import RestRow from './restaurant/RestRow';
-import restaurantService from './restaurant/restaurant.service';
-
-function groupIntoThrees(restaurants: RestaurantType[]): RestaurantType[][] {
-  let arr: RestaurantType[][] = [];
-  for(let i = 0; i < restaurants.length/3; i++) {
-    arr.push(restaurants.slice(i*3, (i+1)*3));
-  }
-
-  return arr;
-}
+import React, { useState } from "react";
+import "./App.css";
+import RestaurantClassComponent from "./restaurant/restaurantclass.component";
+import RouterComponent from "./routing.component";
+import userContext from "./user.context";
+import { User } from "./user/user";
 
 function App() {
-  let r: RestaurantType[] = []
-  const [restaurants, setRestaurants] = useState(r);
+  /* useState: A hook that can create a variable and a 
+      setter to add to the state of the application and modify
+      that state to trigger a render.*/
+  const [cond, setCond] = useState(true);
 
-  useEffect(()=> {
-    restaurantService.getRestaurants().then((data)=> {
-      setRestaurants(data);
-    });
-  }, []);
+  // I'm defining state here in the app
+  const [user, setUser] = useState(new User());
 
   return (
-    <div className="container">
-		  <h2>Local Restaurants</h2>
-		  <section className="restaurants container" id="restaurants">
-        { groupIntoThrees(restaurants).map( (value, index:number) => {
-            return <RestRow key={'rest-row-'+index} restaurants={value}></RestRow>
-          }) 
-        }
-      </section>
-		</div>
+    // I'm using the context to provide that state to the children of this component.
+    <userContext.Provider value={[user, setUser]}>
+      <div className="container">
+        {/* {'user'+user?.name} */}
+        <RouterComponent></RouterComponent>
+        {cond ? (
+          <RestaurantClassComponent which={1}></RestaurantClassComponent>
+        ) : (
+          ""
+        )}
+        <button
+          onClick={() => {
+            setCond(!cond);
+          }}
+        >
+          Click Me.
+        </button>
+      </div>
+    </userContext.Provider>
   );
 }
 

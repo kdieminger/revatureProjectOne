@@ -6,8 +6,7 @@ export class Restaurant {
     hours: Hours[] = [];
     img: string = '';
     type: string = '';
-    eta?: number = 0;
-    constructor(){}
+    eta?: number;
 }
 export interface Food {
     name: string;
