@@ -43,7 +43,7 @@ export default function RouterComponent() {
 					</div>
 					<nav id="nav">
 						<ul>
-							{user.role === 'employee' && (
+							{user.role === 'Employee' && (
 								<li>
 									<Link to="/addRestaurant">Add Restaurant</Link>
 								</li>
