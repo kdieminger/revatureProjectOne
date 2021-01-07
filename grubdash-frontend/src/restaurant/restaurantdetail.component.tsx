@@ -40,6 +40,17 @@ export default function RestaurantDetailComponent(props: RestaurantDetailProps) 
                 <p className='deliverytime'>{rest.eta}</p>
                 <p className='rating'>{rest.rating}</p>
                 <p className='foodtype'>{rest.type}</p>
+                <p className='chef'>{rest.chef}</p>
+                <div className = "menu"> <label id = "labelMenu">Menu:</label> {rest.menu.map(item => {
+                   return (<div>
+                   <div>{`${item.name}`}</div>
+                   <div>{`price:$${item.price}`}</div>
+                   </div>
+                   )
+                })}
+                </div>
+               
+                <p className='hours'>{JSON.stringify(rest.hours)}</p> 
             </div>
             {userContext.role === 'Employee' && 
             (<button className='btn btn-danger' 
