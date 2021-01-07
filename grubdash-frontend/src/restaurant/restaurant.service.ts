@@ -20,7 +20,7 @@ class RestaurantService {
 
     deleteRestaurant(id: string): Promise<null> {
         console.log(id);
-        return axios.delete(this.URI+'/'+id).then(result => null)
+        return axios.delete(this.URI+'/'+id, {withCredentials: true}).then(result => null)
     }
 }
 

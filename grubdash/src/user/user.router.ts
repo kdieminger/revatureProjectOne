@@ -17,7 +17,8 @@ router.get('/login', function(req: any, res, next) {
 
 router.get('/', (req: any, res, next) => {
   let u = {...req.session.user};
-  delete u.password;
+  logger.debug(u);
+  //delete u.password;
   res.send(JSON.stringify(u));
 });
 

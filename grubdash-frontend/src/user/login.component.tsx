@@ -25,8 +25,8 @@ function LoginComponent(props: any) {
             history.push('/restaurants');
         });
     }
-
     return (
+        
         <div className='col restaurant card'>
            Username <input type='text' className='form-control' onChange={handleFormInput} name='username'/>
            <br/>
