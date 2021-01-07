@@ -27,6 +27,9 @@ export default function RestaurantDetailComponent(props: RestaurantDetailProps) 
                 <p className='deliverytime'>{rest.eta}</p>
                 <p className='rating'>{rest.rating}</p>
                 <p className='foodtype'>{rest.type}</p>
+                <p className='chef'>{rest.chef}</p>
+                <p className='menu'>{JSON.stringify(rest.menu)}</p>
+                <p className='hours'>{JSON.stringify(rest.hours)}</p> 
             </div>
         </div>
     );
