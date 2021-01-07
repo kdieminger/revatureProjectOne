@@ -29,8 +29,8 @@ const userSchema = {
         }
     ],
     ProvisionedThroughput: {
-        ReadCapacityUnits: 5,
-        WriteCapacityUnits: 5
+        ReadCapacityUnits: 3,
+        WriteCapacityUnits: 3
     },
     TableName: 'users',
     StreamSpecification: {
@@ -52,8 +52,8 @@ const restSchema = {
         }
     ],
     ProvisionedThroughput: {
-        ReadCapacityUnits: 5,
-        WriteCapacityUnits: 5
+        ReadCapacityUnits: 3,
+        WriteCapacityUnits: 3
     },
     TableName: 'restaurants',
     StreamSpecification: {
