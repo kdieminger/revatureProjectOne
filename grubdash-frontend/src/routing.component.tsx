@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter, Link, useHistory } from 'react-router-dom';
 import AddRestaurantComponent from './restaurant/add-restaurant.component';
+import EditRestaurantComponent from './restaurant/edit-restaurant.component';
 import TableComponent from './restaurant/table.component';
 import LoginComponent from './user/login.component';
 import UserContext from './user.context';
@@ -9,6 +10,21 @@ import RestaurantDetailComponent from './restaurant/restaurantdetail.component';
 
 // A component. This is a component that wraps another component. Container Component
 function AddRestaurantWrapper() {
+    // Hook that gives us access to modify the url programatically (as opposed to dom events)
+    const history = useHistory();
+    console.log(history);
+    function navigateRestaurants() {
+        console.log(history);
+        history.push('/restaurants');
+    }
+    return (
+        <AddRestaurantComponent
+            formSubmit={navigateRestaurants}
+        ></AddRestaurantComponent>
+    );
+}
+
+function EditRestaurantWrapper() {
     // Hook that gives us access to modify the url programatically (as opposed to dom events)
     const history = useHistory();
     console.log(history);
@@ -55,6 +71,11 @@ export default function RouterComponent() {
                             <li>
                                 <Link to='/contact'>Contact</Link>
                             </li>
+                            {user.role==='Employee' ? (
+                                <li>
+                                    <Link to='/editRestaurant'>Edit Restaurant</Link>
+                                </li>
+                            ) : (null) }
                             <li>
                                 {user.name ? (
                                     <a className='link' onClick={logout}>Logout</a>
@@ -70,6 +91,7 @@ export default function RouterComponent() {
                 <Route exact path='/restaurants/:id' component={RestaurantDetailComponent} />
                 <Route exact path='/restaurants' component={TableComponent} />
                 <Route path='/login' component={LoginComponent} />
+                <Route exact path='/editRestaurant' component={EditRestaurantWrapper}/>
             </div>
         </BrowserRouter>
     );

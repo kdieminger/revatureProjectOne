@@ -63,6 +63,35 @@ class RestaurantService {
             return false;
         });
     }
+
+    async updateRestaurant(rest: Restaurant): Promise<boolean> {
+        console.log(rest);
+        const params = {
+            TableName: 'restaurants',
+            Key: {
+                'name': rest.name
+            },
+            UpdateExpression: 'set chef=:c, menu=:m, rating=:r, hours=:h, img=:i, type=:t, eta=:e',
+            ExpressionAttributeValues: {
+                ':c': rest.chef,
+                ':m': rest.menu,
+                ':r': rest.rating,
+                ':h': rest.hours,
+                ':i': rest.img,
+                ':t': rest.type,
+                ':e': rest.eta
+            },
+            ReturnValue: 'UPDATED_NEW'
+        };
+
+        return await this.doc.update(params).promise().then(() => {
+            logger.info('Successfully updated restaurant');
+            return true;
+        }).catch((error) => {
+            logger.error(error);
+            return false;
+        })
+    }
 }
 
 const restaurantService = new RestaurantService();
