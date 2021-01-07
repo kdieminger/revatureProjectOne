@@ -2,18 +2,17 @@ import React, { useState } from "react";
 import "./App.css";
 import RestaurantClassComponent from "./restaurant/restaurantclass.component";
 import RouterComponent from "./routing.component";
-import userContext from "./userContext";
-import { User } from "./users/user";
+import userContext from "./user.context";
+import { User } from "./user/user";
 
 function App() {
   /* useState: A hook that can create a variable and a 
       setter to add to the state of the application and modify
       that state to trigger a render.*/
   const [cond, setCond] = useState(true);
-  let u: User = {name: '', password: ''};
 
   // I'm defining state here in the app
-  const [user, setUser] = useState(u);
+  const [user, setUser] = useState(new User());
 
   return (
     // I'm using the context to provide that state to the children of this component.

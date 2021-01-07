@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, BrowserRouter, Link, useHistory } from 'react-router-dom';
 import AddRestaurantComponent from './restaurant/add-restaurant.component';
 import TableComponent from './restaurant/table.component';
-import LoginComponent from './users/login.component';
-import UserContext from './userContext';
-import userService from './users/user.service';
+import LoginComponent from './user/login.component';
+import UserContext from './user.context';
+import userService from './user/user.service';
 import RestaurantDetailComponent from './restaurant/restaurantdetail.component';
 
 // A component. This is a component that wraps another component. Container Component
