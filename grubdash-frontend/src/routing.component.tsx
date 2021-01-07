@@ -1,5 +1,11 @@
 import React from 'react';
-import { Route, BrowserRouter, Link, useHistory, Redirect } from 'react-router-dom';
+import {
+	Route,
+	BrowserRouter,
+	Link,
+	useHistory,
+	Redirect,
+} from 'react-router-dom';
 import AddRestaurantComponent from './restaurant/add-restaurant.component';
 import TableComponent from './restaurant/table.component';
 import LoginComponent from './user/login.component';
@@ -25,7 +31,7 @@ function AddRestaurantWrapper() {
 
 export default function RouterComponent() {
 	const [user, setUser] = React.useContext(UserContext);
-    const history = useHistory(); 
+	const history = useHistory();
 	function logout() {
 		userService.logout().then(() => {
 			setUser({ user: null, pass: null });
@@ -70,9 +76,17 @@ export default function RouterComponent() {
 					</nav>
 					<div id="restForm"></div>
 				</header>
-               
 
-				<Route path="/addRestaurant" render={() => (user.role !== "Employee" && <Redirect to="/restaurants" />)} />
+				<Route
+					path="/addRestaurant"
+					render={() =>
+						user.role !== 'Employee' ? (
+							<Redirect to="/restaurants" />
+						) : (
+							<AddRestaurantWrapper />
+						)
+					}
+				/>
 
 				<Route
 					exact
