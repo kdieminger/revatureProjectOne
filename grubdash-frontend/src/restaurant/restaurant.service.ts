@@ -17,6 +17,9 @@ class RestaurantService {
     addRestaurant(r: Restaurant): Promise<null> {
         return axios.post(this.URI, r).then(result => null);
     }
+    updateRestaurant(r: Restaurant): Promise<null> {
+        return axios.post(this.URI, r).then(result => null);
+    }
 }
 
 export default new RestaurantService();

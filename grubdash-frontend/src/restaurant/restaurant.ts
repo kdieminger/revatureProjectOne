@@ -1,4 +1,5 @@
 export class Restaurant {
+    // [key: string]: any;
     name: string = '';
     chef: string = '';
     menu: Food[] = [];
