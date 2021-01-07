@@ -1,13 +1,17 @@
 import React, { SyntheticEvent, useState, useEffect } from 'react';
 import './restaurant.css';
 import restaurantService from './restaurant.service';
-import { Restaurant } from './restaurant';
+import {withRouter} from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 interface EditRestaurantProp {
     formSubmit: Function;
 }
+interface Params {
+    id: string;
+}
 // Function Component
-function EditRestaurantComponent(props: EditRestaurantProp) {
+function EditRestaurantComponent(props: EditRestaurantProp & RouteComponentProps<Params>) {
     // const [rest, setRest] = useState(new Restaurant());
     const rTemplate: any = {
         img: '',
@@ -20,14 +24,14 @@ function EditRestaurantComponent(props: EditRestaurantProp) {
         chef: '',
     };
     let [restaurant, setRestaurant] = useState(rTemplate);
-    // useEffect(()=>{
-    //     console.log(props);
-    //     console.log(props.match.params.id);
-    //     restaurantService.getRestaurant(props.match.params.id).then((rest)=> {
-    //         console.log(rest);
-    //         setRest(rest);
-    //     })
-    // }, [props.match.params.id]);
+    useEffect(()=>{
+        console.log(props);
+        console.log(props.match.params.id);
+        restaurantService.getRestaurant(props.match.params.id).then((rest)=> {
+            console.log(rest);
+            setRestaurant(rest);
+        })
+    }, [props.match.params.id]);
     const FIELDS = ['img', 'name', 'eta', 'rating', 'type'];
     // This function is going to handle my onChange event.
     // SyntheticEvent is how React simulates events.
@@ -71,4 +75,4 @@ function EditRestaurantComponent(props: EditRestaurantProp) {
     );
 }
 
-export default EditRestaurantComponent;
+export default withRouter(EditRestaurantComponent);

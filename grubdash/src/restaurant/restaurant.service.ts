@@ -71,7 +71,7 @@ class RestaurantService {
             Key: {
                 'name': rest.name
             },
-            UpdateExpression: 'set chef=:c, menu=:m, rating=:r, hours=:h, img=:i, type=:t, eta=:e',
+            UpdateExpression: 'set #chef=:c, #menu=:m, #rating=:r, #hours=:h, #img=:i, #type=:t',
             ExpressionAttributeValues: {
                 ':c': rest.chef,
                 ':m': rest.menu,
@@ -79,7 +79,14 @@ class RestaurantService {
                 ':h': rest.hours,
                 ':i': rest.img,
                 ':t': rest.type,
-                ':e': rest.eta
+            },
+            ExpressionAttributeNames: {
+                '#chef': 'chef',
+                '#menu': 'menu',
+                '#rating': 'rating',
+                '#hours': 'hours',
+                '#img': 'img',
+                '#type': 'type'
             },
             ReturnValue: 'UPDATED_NEW'
         };

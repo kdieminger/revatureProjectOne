@@ -18,7 +18,7 @@ class RestaurantService {
         return axios.post(this.URI, r).then(result => null);
     }
     updateRestaurant(r: Restaurant): Promise<null> {
-        return axios.post(this.URI, r).then(result => null);
+        return axios.put(this.URI, r).then(result => null);
     }
 
     deleteRestaurant(id: string): Promise<null> {

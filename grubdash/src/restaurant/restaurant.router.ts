@@ -39,4 +39,11 @@ router.post('/', (req, res, next) => {
         res.sendStatus(500); // Server error, sorry
     })
 });
+
+router.put('/', (req, res, next) => {
+    logger.debug(req.body);
+    restaurantService.updateRestaurant(req.body).then((data)=> {
+        res.send(data);
+    })
+})
 export default router;

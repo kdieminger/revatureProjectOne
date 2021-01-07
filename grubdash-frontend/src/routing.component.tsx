@@ -5,6 +5,7 @@ import {
     Link,
     useHistory,
     Redirect,
+    withRouter,
 } from 'react-router-dom';
 import AddRestaurantComponent from './restaurant/add-restaurant.component';
 import EditRestaurantComponent from './restaurant/edit-restaurant.component';
@@ -30,7 +31,7 @@ function AddRestaurantWrapper() {
     );
 }
 
-function EditRestaurantWrapper() {
+function EditRestaurantWrapper(params: any) {
     // Hook that gives us access to modify the url programatically (as opposed to dom events)
     const history = useHistory();
     console.log(history);
@@ -39,9 +40,9 @@ function EditRestaurantWrapper() {
         history.push('/restaurants');
     }
     return (
-        <AddRestaurantComponent
+        <EditRestaurantComponent
             formSubmit={navigateRestaurants}
-        ></AddRestaurantComponent>
+        ></EditRestaurantComponent>
     );
 }
 
@@ -81,11 +82,6 @@ export default function RouterComponent() {
                             <li>
                                 <Link to='/contact'>Contact</Link>
                             </li>
-                            {user.role==='Employee' ? (
-                                <li>
-                                    <Link to='/editRestaurant'>Edit Restaurant</Link>
-                                </li>
-                            ) : (null) }
                             <li>
                                 {user.name ? (
                                     <a className='link' onClick={logout}>
@@ -118,7 +114,7 @@ export default function RouterComponent() {
                 />
                 <Route exact path='/restaurants' component={TableComponent} />
                 <Route path='/login' component={LoginComponent} />
-                <Route exact path='/editRestaurant' component={EditRestaurantWrapper}/>
+                <Route exact path='/restaurants/:id/edit' component={EditRestaurantWrapper}/>
             </div>
         </BrowserRouter>
     );
