@@ -17,6 +17,11 @@ class RestaurantService {
     addRestaurant(r: Restaurant): Promise<null> {
         return axios.post(this.URI, r).then(result => null);
     }
+
+    deleteRestaurant(id: string): Promise<null> {
+        console.log(id);
+        return axios.delete(this.URI+'/'+id).then(result => null)
+    }
 }
 
 export default new RestaurantService();

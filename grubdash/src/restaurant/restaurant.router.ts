@@ -18,6 +18,17 @@ router.get('/:id', function(req, res, next) {
     });
 })
 
+router.delete('/:id', function (req, res, next) {
+    logger.debug(req.body);
+    restaurantService.deleteRestaurant(req.params.id).then((data)=> {
+        logger.debug(data);
+        res.sendStatus(200); // Created
+    }).catch((err) => {
+        logger.error(err);
+        res.sendStatus(500); // Server error, sorry
+    })
+});
+
 router.post('/', (req, res, next) => {
     logger.debug(req.body);
     restaurantService.addRestaurant(req.body).then((data)=> {
