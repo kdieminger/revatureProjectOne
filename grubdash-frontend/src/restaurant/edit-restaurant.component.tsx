@@ -1,10 +1,16 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import './restaurant.css';
 import restaurantService from './restaurant.service';
+import {withRouter, useHistory} from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
+
+interface Params {
+    id: string;
+}
 // Function Component
-function AddRestaurantComponent(props: object) {
+function EditRestaurantComponent(props: RouteComponentProps<Params>) {
+    // const [rest, setRest] = useState(new Restaurant());
     const rTemplate: any = {
         img: '',
         name: '',
@@ -16,6 +22,14 @@ function AddRestaurantComponent(props: object) {
         chef: '',
     };
     let [restaurant, setRestaurant] = useState(rTemplate);
+    useEffect(()=>{
+        console.log(props);
+        console.log(props.match.params.id);
+        restaurantService.getRestaurant(props.match.params.id).then((rest)=> {
+            console.log(rest);
+            setRestaurant(rest);
+        })
+    }, [props.match.params.id]);
     const FIELDS = ['img', 'name', 'eta', 'rating', 'type'];
     const history = useHistory();
     // This function is going to handle my onChange event.
@@ -28,8 +42,9 @@ function AddRestaurantComponent(props: object) {
         setRestaurant(r);
     }
     function submitForm() {
-        restaurantService.addRestaurant(restaurant).then(() => {
+        restaurantService.updateRestaurant(restaurant).then(() => {
             setRestaurant(rTemplate);
+            console.log('Updating restaurant!')
             // call the callback function from the parent component so that it will re-render
             history.push('/restaurants');
         });
@@ -47,15 +62,16 @@ function AddRestaurantComponent(props: object) {
                             id={'r_' + fieldName}
                             value={restaurant[fieldName]}
                             onChange={handleFormInput}
+                            //placeholder='blabla'//{rest.fieldName}
                         ></input>
                     </div>
                 );
             })}
             <button className='btn btn-primary' onClick={submitForm}>
-                Add Restaurant
+                Edit Restaurant
             </button>
         </div>
     );
 }
 
-export default AddRestaurantComponent;
+export default withRouter(EditRestaurantComponent);
