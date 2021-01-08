@@ -24,13 +24,8 @@ export default function TableComponent() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        restaurantService.getRestaurants().then((data) => {
-            dispatch(getRestaurants(data));
-        });
+        dispatch(thunkGetRestaurants())
     }, [dispatch]);
-    // useEffect(()=>{
-    //     dispatch(thunkGetRestaurants());
-    // },[])
 
     return (
         <section className='restaurants container' id='restaurants'>
