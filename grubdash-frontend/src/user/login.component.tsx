@@ -1,35 +1,37 @@
 import React, { SyntheticEvent, useEffect } from 'react';
 import { User } from './user';
 import userService from './user.service';
-import UserContext from '../user.context';
 import { useHistory } from 'react-router-dom';
+import { UserState } from '../reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../actions';
+
+interface Params {
+    id: string;
+}
 
 // Function Component
 function LoginComponent(props: any) {
-    const [userInfo, setUserInfo] = React.useState(new User());
-    const [userContext, setUserContext] = React.useContext(UserContext)
+    const userSelector = (state: UserState) => state.user;
+    const user = useSelector(userSelector);
+    const dispatch = useDispatch();
     const history = useHistory();
 
     function handleFormInput(e: SyntheticEvent) {
-        let u: any = { ...userInfo };
+        let u: any = { ...user };
         if((e.target as HTMLInputElement).name === 'username'){
             u.name = (e.target as HTMLInputElement).value;
         } else {
             u.password = (e.target as HTMLInputElement).value;
         }
-        setUserInfo(u);
+        dispatch(getUser(u));
     }
     function submitForm() {
-        userService.login(userInfo).then((user) => {
-            setUserContext(user);
+        userService.login(user).then((user) => {
+            dispatch(getUser(user));
             history.push('/restaurants');
         });
     }
-    useEffect(() => {
-        userService.getLogin().then((user)=> {
-            setUserContext(user);
-        })
-    }, []);
     return (
         
         <div className='col restaurant card'>
