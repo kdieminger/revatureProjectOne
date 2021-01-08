@@ -1,6 +1,6 @@
 window.onload = () => {
     document.getElementById('submit').onclick = login;
-                                   //.addEventListenter('click', login);
+//.addEventListenter('click', login);
 }
 
 function login() {
