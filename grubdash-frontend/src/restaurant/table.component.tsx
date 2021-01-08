@@ -5,6 +5,7 @@ import restaurantService from './restaurant.service';
 import RestRow from './rest-row';
 import {RestaurantState} from '../reducer'
 import { getRestaurants } from '../actions';
+import { thunkGetRestaurants } from '../thunks';
 
 function groupIntoThrees(restaurants: Restaurant[]): Restaurant[][] {
     let arr: Restaurant[][] = [];
@@ -27,6 +28,9 @@ export default function TableComponent() {
             dispatch(getRestaurants(data));
         });
     }, [dispatch]);
+    // useEffect(()=>{
+    //     dispatch(thunkGetRestaurants());
+    // },[])
 
     return (
         <section className='restaurants container' id='restaurants'>
