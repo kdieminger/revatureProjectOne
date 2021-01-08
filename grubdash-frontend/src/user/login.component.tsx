@@ -1,17 +1,12 @@
-import React, { SyntheticEvent, useEffect } from 'react';
-import { User } from './user';
+import { SyntheticEvent } from 'react';
 import userService from './user.service';
 import { useHistory } from 'react-router-dom';
 import { UserState } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../actions';
 
-interface Params {
-    id: string;
-}
-
 // Function Component
-function LoginComponent(props: any) {
+function LoginComponent() {
     const userSelector = (state: UserState) => state.user;
     const user = useSelector(userSelector);
     const dispatch = useDispatch();

@@ -26,7 +26,7 @@ export default function TableComponent() {
         restaurantService.getRestaurants().then((data) => {
             dispatch(getRestaurants(data));
         });
-    }, []);
+    }, [dispatch]);
 
     return (
         <section className='restaurants container' id='restaurants'>

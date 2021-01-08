@@ -3,15 +3,12 @@ import {
     Route,
     BrowserRouter,
     Link,
-    useHistory,
     Redirect,
-    withRouter,
 } from 'react-router-dom';
 import AddRestaurantComponent from './restaurant/add-restaurant.component';
 import EditRestaurantComponent from './restaurant/edit-restaurant.component';
 import TableComponent from './restaurant/table.component';
 import LoginComponent from './user/login.component';
-import UserContext from './user.context';
 import userService from './user/user.service';
 import RestaurantDetailComponent from './restaurant/restaurantdetail.component';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,9 +55,9 @@ export default function RouterComponent() {
                             </li>
                             <li>
                                 {user.name ? (
-                                    <a className='link' onClick={logout}>
+                                    <button className='link' onClick={logout}>
                                         Logout
-                                    </a>
+                                    </button>
                                 ) : (
                                     <Link to='/login'>Login</Link>
                                 )}

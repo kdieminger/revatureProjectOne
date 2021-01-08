@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState, useEffect } from 'react';
+import { SyntheticEvent, useEffect } from 'react';
 import './restaurant.css';
 import restaurantService from './restaurant.service';
 import {withRouter, useHistory} from 'react-router-dom';
@@ -24,7 +24,7 @@ function EditRestaurantComponent(props: RouteComponentProps<Params>) {
             console.log(rest);
             dispatch(changeRestaurant(rest));
         })
-    }, [props.match.params.id]);
+    }, [dispatch, props, props.match.params.id]);
     const FIELDS = ['img', 'name', 'eta', 'rating', 'type'];
     const history = useHistory();
     // This function is going to handle my onChange event.
