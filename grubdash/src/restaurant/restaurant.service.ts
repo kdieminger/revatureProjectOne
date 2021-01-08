@@ -63,6 +63,56 @@ class RestaurantService {
             return false;
         });
     }
+
+    async updateRestaurant(rest: Restaurant): Promise<boolean> {
+        console.log(rest);
+        const params = {
+            TableName: 'restaurants',
+            Key: {
+                'name': rest.name
+            },
+            UpdateExpression: 'set #chef=:c, #menu=:m, #rating=:r, #hours=:h, #img=:i, #type=:t',
+            ExpressionAttributeValues: {
+                ':c': rest.chef,
+                ':m': rest.menu,
+                ':r': rest.rating,
+                ':h': rest.hours,
+                ':i': rest.img,
+                ':t': rest.type,
+            },
+            ExpressionAttributeNames: {
+                '#chef': 'chef',
+                '#menu': 'menu',
+                '#rating': 'rating',
+                '#hours': 'hours',
+                '#img': 'img',
+                '#type': 'type'
+            },
+            ReturnValue: 'UPDATED_NEW'
+        };
+
+        return await this.doc.update(params).promise().then(() => {
+            logger.info('Successfully updated restaurant');
+            return true;
+        }).catch((error) => {
+            logger.error(error);
+            return false;
+        })
+    }
+    async deleteRestaurant(id: string): Promise<Boolean> {
+        const params = {
+            TableName: 'restaurants',
+            Key: {
+                'name': id
+            }
+        }
+        return await this.doc.delete(params).promise().then((data) => {
+            return true;
+        }).catch((err) => {
+            logger.error(err);
+            return false;
+        });
+    }
 }
 
 const restaurantService = new RestaurantService();

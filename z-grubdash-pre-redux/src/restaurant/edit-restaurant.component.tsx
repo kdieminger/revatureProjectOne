@@ -1,40 +1,50 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
-import { RestaurantState } from '../reducer';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import './restaurant.css';
 import restaurantService from './restaurant.service';
-import { changeRestaurant } from '../actions';
-import { Restaurant } from './restaurant';
+import {withRouter, useHistory} from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
-// This is the prop I want to connect from redux
-const restaurantProp = (state: RestaurantState) => ({restaurant: state.restaurant});
-// This is the dispatcher I want to use from redux
-const mapDispatch = {
-    updateRestaurant: (restaurant: Restaurant) => changeRestaurant(restaurant),
-};
-// Put them in the connector
-const connector = connect(restaurantProp, mapDispatch);
 
+interface Params {
+    id: string;
+}
 // Function Component
-// get the types of the props we created above so we can tell our component about them.
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function AddRestaurantComponent(props: PropsFromRedux) {
+function EditRestaurantComponent(props: RouteComponentProps<Params>) {
+    // const [rest, setRest] = useState(new Restaurant());
+    const rTemplate: any = {
+        img: '',
+        name: '',
+        eta: 0,
+        rating: 0,
+        menu: [],
+        hours: [],
+        type: '',
+        chef: '',
+    };
+    let [restaurant, setRestaurant] = useState(rTemplate);
+    useEffect(()=>{
+        console.log(props);
+        console.log(props.match.params.id);
+        restaurantService.getRestaurant(props.match.params.id).then((rest)=> {
+            console.log(rest);
+            setRestaurant(rest);
+        })
+    }, [props.match.params.id]);
     const FIELDS = ['img', 'name', 'eta', 'rating', 'type'];
     const history = useHistory();
     // This function is going to handle my onChange event.
     // SyntheticEvent is how React simulates events.
     function handleFormInput(e: SyntheticEvent) {
-        let r: any = { ...props.restaurant };
+        let r = { ...restaurant };
         r[
             (e.target as HTMLInputElement).name
         ] = (e.target as HTMLInputElement).value;
-        props.updateRestaurant(r);
+        setRestaurant(r);
     }
     function submitForm() {
-        restaurantService.addRestaurant(props.restaurant).then(() => {
-            props.updateRestaurant(new Restaurant());
+        restaurantService.updateRestaurant(restaurant).then(() => {
+            setRestaurant(rTemplate);
+            console.log('Updating restaurant!')
             // call the callback function from the parent component so that it will re-render
             history.push('/restaurants');
         });
@@ -50,18 +60,18 @@ function AddRestaurantComponent(props: PropsFromRedux) {
                             className='form-control'
                             name={fieldName}
                             id={'r_' + fieldName}
-                            value={(props.restaurant as any)[fieldName]}
+                            value={restaurant[fieldName]}
                             onChange={handleFormInput}
+                            //placeholder='blabla'//{rest.fieldName}
                         ></input>
                     </div>
                 );
             })}
             <button className='btn btn-primary' onClick={submitForm}>
-                Add Restaurant
+                Edit Restaurant
             </button>
         </div>
     );
 }
 
-//connect my prop and dispatcher to my component
-export default connector(AddRestaurantComponent);
+export default withRouter(EditRestaurantComponent);

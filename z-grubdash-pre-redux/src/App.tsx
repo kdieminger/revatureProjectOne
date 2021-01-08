@@ -5,7 +5,6 @@ import RouterComponent from './routing.component';
 import userContext from './user.context';
 import userService from './user/user.service';
 import { User } from './user/user';
-import * as something from './actions';
 
 function App() {
     /* useState: A hook that can create a variable and a 
@@ -15,7 +14,7 @@ function App() {
 
     // I'm defining state here in the app
     const [user, setUser] = useState(new User());
-    console.log(something.RestaurantActions);
+
     useEffect(() => {
         userService.getLogin().then((user) => {
             console.log(user);
