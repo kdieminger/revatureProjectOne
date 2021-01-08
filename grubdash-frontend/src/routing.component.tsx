@@ -3,24 +3,26 @@ import {
     Route,
     BrowserRouter,
     Link,
-    useHistory,
     Redirect,
-    withRouter,
 } from 'react-router-dom';
 import AddRestaurantComponent from './restaurant/add-restaurant.component';
 import EditRestaurantComponent from './restaurant/edit-restaurant.component';
 import TableComponent from './restaurant/table.component';
 import LoginComponent from './user/login.component';
-import UserContext from './user.context';
 import userService from './user/user.service';
 import RestaurantDetailComponent from './restaurant/restaurantdetail.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from './actions';
+import { UserState } from './reducer';
+import { User } from './user/user';
 
 export default function RouterComponent() {
-    const [user, setUser] = React.useContext(UserContext);
-    const history = useHistory();
+    const userSelector = (state: UserState) => state.user;
+    const user = useSelector(userSelector);
+    const dispatch = useDispatch();
     function logout() {
         userService.logout().then(() => {
-            setUser({ user: null, pass: null });
+            dispatch(getUser(new User()));
         });
     }
     return (
@@ -53,9 +55,9 @@ export default function RouterComponent() {
                             </li>
                             <li>
                                 {user.name ? (
-                                    <a className='link' onClick={logout}>
+                                    <button className='link' onClick={logout}>
                                         Logout
-                                    </a>
+                                    </button>
                                 ) : (
                                     <Link to='/login'>Login</Link>
                                 )}

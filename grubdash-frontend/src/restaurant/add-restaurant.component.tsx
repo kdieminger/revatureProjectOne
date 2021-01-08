@@ -1,5 +1,5 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { SyntheticEvent } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { RestaurantState } from '../reducer';
 import './restaurant.css';

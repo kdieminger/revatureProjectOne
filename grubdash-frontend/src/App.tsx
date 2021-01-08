@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import RestaurantClassComponent from './restaurant/restaurantclass.component';
 import RouterComponent from './routing.component';
-import userContext from './user.context';
 import userService from './user/user.service';
-import { User } from './user/user';
-import * as something from './actions';
+import { useDispatch } from 'react-redux';
+import { getUser } from './actions';
 
 function App() {
     /* useState: A hook that can create a variable and a 
@@ -13,19 +12,15 @@ function App() {
       that state to trigger a render.*/
     const [cond, setCond] = useState(true);
 
-    // I'm defining state here in the app
-    const [user, setUser] = useState(new User());
-    console.log(something.RestaurantActions);
+    const dispatch = useDispatch();
     useEffect(() => {
         userService.getLogin().then((user) => {
             console.log(user);
-            setUser(user);
+            dispatch(getUser(user));
         });
-    }, []);
+    }, [dispatch]);
 
     return (
-        // I'm using the context to provide that state to the children of this component.
-        <userContext.Provider value={[user, setUser]}>
             <div className='container'>
                 {/* {'user'+user?.name} */}
                 <RouterComponent></RouterComponent>
@@ -44,7 +39,6 @@ function App() {
                     Click Me.
                 </button>
             </div>
-        </userContext.Provider>
     );
 }
 

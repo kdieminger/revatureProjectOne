@@ -1,5 +1,6 @@
 import * as Actions from './actions';
 import { Restaurant } from './restaurant/restaurant';
+import { User } from './user/user';
 
 // Define the items that are in our state
 export interface RestaurantState {
@@ -9,7 +10,7 @@ export interface RestaurantState {
     restaurant: Restaurant;
 }
 export interface UserState {
-
+    user: User;
 }
 export interface AppState extends UserState, RestaurantState { }
 
@@ -17,12 +18,14 @@ export interface AppState extends UserState, RestaurantState { }
 // state should include everything that the application might keep track of.
 
 const initialState: AppState = {
+    user: new User(),
     restaurants: [],
     restaurant: new Restaurant()
 }
 
 // Make sure that the reducer has a default argument of the inital state or it will not work.
-const reducer = (state: AppState = initialState, action: Actions.RestaurantAction): AppState => {
+const reducer = (state: AppState = initialState, action: Actions.AppAction): AppState => {
+    console.log(action);
     // We want to call setState. (redux will do that when we return a new state object from the reducer)
     const newState = {...state}; // If we return this, it will re render the application. (call setState)
 
@@ -32,6 +35,9 @@ const reducer = (state: AppState = initialState, action: Actions.RestaurantActio
             return newState;
         case Actions.RestaurantActions.ChangeRestaurant:
             newState.restaurant = action.payload as Restaurant;
+            return newState;
+        case Actions.UserActions.GetUser:
+            newState.user = action.payload as User;
             return newState;
         default: 
             return state;

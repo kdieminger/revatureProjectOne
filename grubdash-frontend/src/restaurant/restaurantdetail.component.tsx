@@ -3,7 +3,9 @@ import { useHistory, Link } from 'react-router-dom';
 import { Restaurant } from './restaurant';
 import restaurantService from './restaurant.service';
 import UserContext from '../user.context';
-import { User } from '../user/user';
+import { RestaurantState, UserState } from '../reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeRestaurant } from '../actions';
 
 interface RestaurantDetailProps {
     match: any;
@@ -12,20 +14,23 @@ interface RestaurantDetailProps {
 export default function RestaurantDetailComponent(
     props: RestaurantDetailProps
 ) {
-    const [rest, setRest] = useState(new Restaurant());
+    const restaurantSelector = (state: RestaurantState) => state.restaurant;
+    const rest = useSelector(restaurantSelector);
+    const userContext = useSelector((state: UserState) => state.user);
+    const dispatch = useDispatch();
     const history = useHistory();
-    const [userContext, setUserContext] = useContext(UserContext);
-    useEffect(() => {
-        console.log(props);
+
+    useEffect(()=>{
         console.log(props.match.params.id);
-        restaurantService.getRestaurant(props.match.params.id).then((rest) => {
+        restaurantService.getRestaurant(props.match.params.id).then((rest)=> {
             console.log(rest);
-            setRest(rest);
-        });
-    }, [props.match.params.id]);
+            dispatch(changeRestaurant(rest));
+        })
+    }, [dispatch, props.match.params.id]);
 
     function handleDelete() {
         restaurantService.deleteRestaurant(rest.name).then(() => {
+            dispatch(changeRestaurant(new Restaurant()))
             history.push('/restaurants');
         });
     }
