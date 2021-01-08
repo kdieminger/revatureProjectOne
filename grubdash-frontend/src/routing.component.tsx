@@ -14,13 +14,18 @@ import LoginComponent from './user/login.component';
 import UserContext from './user.context';
 import userService from './user/user.service';
 import RestaurantDetailComponent from './restaurant/restaurantdetail.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from './actions';
+import { UserState } from './reducer';
+import { User } from './user/user';
 
 export default function RouterComponent() {
-    const [user, setUser] = React.useContext(UserContext);
-    const history = useHistory();
+    const userSelector = (state: UserState) => state.user;
+    const user = useSelector(userSelector);
+    const dispatch = useDispatch();
     function logout() {
         userService.logout().then(() => {
-            setUser({ user: null, pass: null });
+            dispatch(getUser(new User()));
         });
     }
     return (
