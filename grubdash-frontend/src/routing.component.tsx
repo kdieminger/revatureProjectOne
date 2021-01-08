@@ -71,7 +71,7 @@ export default function RouterComponent() {
                         user.role !== 'Employee' ? (
                             <Redirect to='/restaurants' />
                         ) : (
-                            <AddRestaurantComponent />
+                            <AddRestaurantComponent/>
                         )
                     }
                 />

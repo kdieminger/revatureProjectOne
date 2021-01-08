@@ -3,6 +3,10 @@ import './restaurant.css';
 import restaurantService from './restaurant.service';
 import {withRouter, useHistory} from 'react-router-dom';
 import { RouteComponentProps } from 'react-router-dom';
+import { RestaurantState } from '../reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeRestaurant } from '../actions';
+import { Restaurant } from './restaurant';
 
 
 interface Params {
@@ -10,24 +14,15 @@ interface Params {
 }
 // Function Component
 function EditRestaurantComponent(props: RouteComponentProps<Params>) {
-    // const [rest, setRest] = useState(new Restaurant());
-    const rTemplate: any = {
-        img: '',
-        name: '',
-        eta: 0,
-        rating: 0,
-        menu: [],
-        hours: [],
-        type: '',
-        chef: '',
-    };
-    let [restaurant, setRestaurant] = useState(rTemplate);
+    const restaurantSelector = (state: RestaurantState) => state.restaurant;
+    const restaurant = useSelector(restaurantSelector);
+    const dispatch = useDispatch();
     useEffect(()=>{
         console.log(props);
         console.log(props.match.params.id);
         restaurantService.getRestaurant(props.match.params.id).then((rest)=> {
             console.log(rest);
-            setRestaurant(rest);
+            dispatch(changeRestaurant(rest));
         })
     }, [props.match.params.id]);
     const FIELDS = ['img', 'name', 'eta', 'rating', 'type'];
@@ -35,15 +30,15 @@ function EditRestaurantComponent(props: RouteComponentProps<Params>) {
     // This function is going to handle my onChange event.
     // SyntheticEvent is how React simulates events.
     function handleFormInput(e: SyntheticEvent) {
-        let r = { ...restaurant };
+        let r: any = { ...restaurant };
         r[
             (e.target as HTMLInputElement).name
         ] = (e.target as HTMLInputElement).value;
-        setRestaurant(r);
+        dispatch(changeRestaurant(r));
     }
     function submitForm() {
         restaurantService.updateRestaurant(restaurant).then(() => {
-            setRestaurant(rTemplate);
+            dispatch(changeRestaurant(new Restaurant()));
             console.log('Updating restaurant!')
             // call the callback function from the parent component so that it will re-render
             history.push('/restaurants');
@@ -60,7 +55,7 @@ function EditRestaurantComponent(props: RouteComponentProps<Params>) {
                             className='form-control'
                             name={fieldName}
                             id={'r_' + fieldName}
-                            value={restaurant[fieldName]}
+                            value={(restaurant as any)[fieldName]}
                             onChange={handleFormInput}
                             //placeholder='blabla'//{rest.fieldName}
                         ></input>

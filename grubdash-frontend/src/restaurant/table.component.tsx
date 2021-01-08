@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Restaurant } from './restaurant';
 import restaurantService from './restaurant.service';
 import RestRow from './rest-row';
+import {RestaurantState} from '../reducer'
+import { getRestaurants } from '../actions';
 
 function groupIntoThrees(restaurants: Restaurant[]): Restaurant[][] {
     let arr: Restaurant[][] = [];
@@ -12,21 +15,19 @@ function groupIntoThrees(restaurants: Restaurant[]): Restaurant[][] {
     return arr;
 }
 export default function TableComponent() {
-    let r: Restaurant[] = [];
-    const [restaurants, setRestaurants] = useState(r);
+    // Create a constant that is of the type of state.restaurants
+    const selectRestaurant = (state: RestaurantState) => state.restaurants;
+    // Retrieve the restaurants array from redux.
+    const restaurants = useSelector(selectRestaurant);
+    // Get access to the dispatcher. Feed the dispatcher Actions for your Reducer.
+    const dispatch = useDispatch();
+
     useEffect(() => {
         restaurantService.getRestaurants().then((data) => {
-            setRestaurants(data);
+            dispatch(getRestaurants(data));
         });
     }, []);
 
-    function updateRestaurants() {
-        console.log('hello from outside the promise.');
-        restaurantService.getRestaurants().then((data) => {
-            console.log('hello from the update restaurants function');
-            setRestaurants(data);
-        });
-    }
     return (
         <section className='restaurants container' id='restaurants'>
             {groupIntoThrees(restaurants).map((value, index: number) => {

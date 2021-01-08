@@ -11,7 +11,7 @@ export interface RestaurantAction {
     payload: Restaurant | Restaurant[];
 }
 
-export function GetRestaurants(rests: Restaurant[]): RestaurantAction {
+export function getRestaurants(rests: Restaurant[]): RestaurantAction {
     const action: RestaurantAction = {
         type: RestaurantActions.GetRestaurants,
         payload: rests
@@ -19,9 +19,9 @@ export function GetRestaurants(rests: Restaurant[]): RestaurantAction {
     return action;
 }
 
-export function GetRestaurant(rest: Restaurant): RestaurantAction {
+export function changeRestaurant(rest: Restaurant): RestaurantAction {
     const action: RestaurantAction = {
-        type: RestaurantActions.GetRestaurant,
+        type: RestaurantActions.ChangeRestaurant,
         payload: rest
     }
     return action;
