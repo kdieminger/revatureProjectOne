@@ -5,8 +5,13 @@ export enum RestaurantActions {
     ChangeRestaurant = 'CHANGE_RESTAURANT'
 }
 
+export interface AppAction {
+    type: string;
+    payload: any;
+}
+
 // All of our restaurant actions need to follow this interface.
-export interface RestaurantAction {
+export interface RestaurantAction extends AppAction {
     type: RestaurantActions;
     payload: Restaurant | Restaurant[];
 }

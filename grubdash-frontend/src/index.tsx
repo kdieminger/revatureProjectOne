@@ -9,9 +9,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 import reducer, {AppState} from './reducer';
-import {RestaurantAction} from './actions';
+import {AppAction} from './actions';
 
-const store: Store<AppState, RestaurantAction> = createStore(reducer, applyMiddleware(thunk));
+const store: Store<AppState, AppAction> = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
