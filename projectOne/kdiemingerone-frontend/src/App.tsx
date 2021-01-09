@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import RouterComponent from './routing.component';
+import userService from './user/user.service';
+import { useDispatch } from 'react-redux';
+import { getUser } from './actions';
 
 function App() {
+  const [cond, setCond] = useState(true);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    userService.getLogin().then((user) => {
+      console.log(user);
+      dispatch(getUser(user));
+    });
+  }, [dispatch]);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <RouterComponent></RouterComponent>
+      
     </div>
-  );
+  )
 }
 
 export default App;

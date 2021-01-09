@@ -105,8 +105,8 @@ ddb.deleteTable(removeRequests, function(err, data) {
 });
 
 function populateUserTable(){
-    userService.addUser({username: 'smccall', password: 'allison', role: 'Customer'}).then(()=>{});
-    userService.addUser({username: 'lmartin', password: 'ariel', role: 'Employee'}).then(() => {});
+    userService.addUser({username: 'smccall', password: 'allison', role: 'Employee'}).then(()=>{});
+    userService.addUser({username: 'lmartin', password: 'ariel', role: 'Supervisor'}).then(() => {});
 }
 
 function populateRequestTable(){

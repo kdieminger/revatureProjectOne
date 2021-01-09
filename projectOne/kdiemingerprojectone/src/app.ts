@@ -7,7 +7,7 @@ import session from 'express-session';
 import MemoryStore from 'memorystore';
 import cors from 'cors';
 
-import indexRouter from './routes/index';
+import indexRouter from './staticrouter/index';
 import usersRouter from './user/user.router';
 import publicDir from './constants';
 
