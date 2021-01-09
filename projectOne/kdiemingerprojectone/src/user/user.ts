@@ -9,7 +9,7 @@ export class User{
 }
 
 //registers a user
-export async function registerUser(username: string, password: string, role: string): Promise<User | null> {
+export async function register(username: string, password: string, role: string): Promise<User | null> {
   logger.info('registerUser called');
   return await userService.getUser(username).then((user) => {
     if(user && user.username === username){
@@ -26,7 +26,7 @@ export async function registerUser(username: string, password: string, role: str
 }
 
 //logs user in
-export async function userLogin(name: string, pass: string): Promise<User | null> {
+export async function login(name: string, pass: string): Promise<User | null> {
   logger.trace(`user login called with parameters ${name} and ${pass}`);
   return await userService.getUser(name).then((user) => {
     if (user && user.password === pass) {

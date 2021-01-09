@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import userService from '../user/user.service';
+import requestService from '../request/request.service';
 
 AWS.config.update({ region: 'us-west-2' });
 
@@ -7,6 +8,10 @@ const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10'});
 
 const removeUsers = {
     TableName: 'users'
+}
+
+const removeRequests = {
+    TableName: 'requests'
 }
 
 const userSchema = {
@@ -27,6 +32,29 @@ const userSchema = {
         WriteCapacityUnits: 3
     },
     TableName: 'users',
+    StreamSpecification: {
+        StreamEnabled: false
+    }
+};
+
+const requestSchema = {
+    AttributeDefinitions: [
+        {
+            AttributeName: 'requestID',
+            AttributeType: 'S'
+        }
+    ],
+    KeySchema : [
+        {
+            AttributeName: 'requestID',
+            KeyType: 'HASH'
+        }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 3,
+        WriteCapacityUnits: 3
+    },
+    TableName: 'requests',
     StreamSpecification: {
         StreamEnabled: false
     }
@@ -54,7 +82,34 @@ ddb.deleteTable(removeUsers, function(err, data) {
     }, 5000)
 });
 
+ddb.deleteTable(removeRequests, function(err, data) {
+    if (err){
+        console.error('Unable to delete table. Error JSON: ', JSON.stringify(err, null, 2));
+    }
+    else {
+        console.log('Deleted table. Table description JSON: ', JSON.stringify(data, null, 2));
+    }
+    setTimeout(()=>{
+        ddb.createTable(requestSchema, (err, data) => {
+            if (err) {
+                console.log('Error', err);
+            }
+            else {
+                console.log('Table Created', data);
+                setTimeout(() => {
+                    populateRequestTable();
+                }, 5000);
+            }
+        });
+    }, 5000)
+});
+
 function populateUserTable(){
     userService.addUser({username: 'smccall', password: 'allison', role: 'Customer'}).then(()=>{});
     userService.addUser({username: 'lmartin', password: 'ariel', role: 'Employee'}).then(() => {});
+}
+
+function populateRequestTable(){
+    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0,approval: [],RFI: ''}).then(() => {});
+    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0,approval: [],RFI: ''}).then(() => {});
 }
