@@ -5,7 +5,7 @@ import requestService from './request.service.js';
 
 export class Request {
     constructor(public requestID: string, public username: string, public type: string, public date: string, public time: string, public location: string,
-        public description: string, public cost: number, public justification: string, public projectedRe: number, public approval: string[], public RFI: string) {
+        public description: string, public cost: number, public justification: string, public projectedRe: number, public approval: string[]) {
     };
 }
 
@@ -17,27 +17,27 @@ export function makeRequest(username: string, type: number, date: string, time: 
         case 0:
             logger.info('Creating a request');
             typeOf = 'University Course';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], ''));
+            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, []));
         case 1:
             logger.info('Creating a request');
             typeOf = 'Seminar';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], ''));
+            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, []));
         case 2:
             logger.info('Creating a request');
             typeOf = 'Certification Preparation Course';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], ''));
+            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, []));
         case 3:
             logger.info('Creating a request');
             typeOf = 'Certification';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], ''));
+            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, []));
         case 4:
             logger.info('Technical Training');
             typeOf = 'Technical Training';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], ''));
+            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, []));
         case 4:
             logger.info('Technical Training');
             typeOf = 'Other';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], ''));
+            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, []));
     }
 }
 

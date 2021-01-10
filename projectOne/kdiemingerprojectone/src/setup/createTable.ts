@@ -110,6 +110,6 @@ function populateUserTable(){
 }
 
 function populateRequestTable(){
-    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0,approval: [],RFI: ''}).then(() => {});
-    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0,approval: [],RFI: ''}).then(() => {});
+    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: []}).then(() => {});
+    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: []}).then(() => {});
 }

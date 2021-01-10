@@ -8,6 +8,7 @@ import MemoryStore from 'memorystore';
 import cors from 'cors';
 
 import indexRouter from './staticrouter/index';
+import requestsRouter from './request/request.router';
 import usersRouter from './user/user.router';
 import publicDir from './constants';
 
@@ -35,6 +36,7 @@ app.use(session({
 //set routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/requests', requestsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
