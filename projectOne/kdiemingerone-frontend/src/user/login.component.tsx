@@ -29,7 +29,7 @@ function LoginComponent() {
     }
     return (
         
-        <div className='col restaurant card'>
+        <div className='col login card'>
            Username <input type='text' className='form-control' onChange={handleFormInput} name='username'/>
            <br/>
            Password <input type='password' className='form-control' onChange={handleFormInput} name='password'/>

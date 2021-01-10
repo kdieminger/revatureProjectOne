@@ -11,7 +11,7 @@ import './index.css';
 import reducer, {AppState} from './reducer';
 import {AppAction} from './actions';
 
-const store: Store<AppState, AppAction> = createStore(reducer, applyMiddleware(thunk));
+const store: Store<AppState, AppAction> = createStore(reducer);
 
 ReactDOM.render(
   <Provider store={store}>

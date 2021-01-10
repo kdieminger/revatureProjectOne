@@ -26,18 +26,18 @@ export interface RequestAction extends AppAction {
     payload: Request | Request[];
 }
 
-export function getRestaurants(rests: Request[]): RequestAction {
+export function getRequest(reqs: Request[]): RequestAction {
     const action: RequestAction = {
         type: RequestActions.GetRequests,
-        payload: rests
+        payload: reqs
     }
     return action;
 }
 
-export function changeRestaurant(rest: Request): RequestAction {
+export function changeRequest(req: Request): RequestAction {
     const action: RequestAction = {
         type: RequestActions.ChangeRequest,
-        payload: rest
+        payload: req
     }
     return action;
 }

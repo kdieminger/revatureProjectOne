@@ -6,6 +6,7 @@ import {
     Link,
     Redirect,
 } from 'react-router-dom';
+import AddRequestComponent from './request/add-request.component';
 import { getUser } from './actions';
 import { UserState } from './reducer';
 import LoginComponent from './user/login.component';
@@ -28,14 +29,28 @@ export default function RouterComponent() {
                 <header>
                     <h1>Company Name</h1>
                     <p>Tuition Reimbursement</p>
-                    <div className='input'>
-                        <Link to='/login'>
-                            Login
-                        </Link>
-                    </div>
+                    <nav id='nav'>
+                        <ul>
+                            {user.role ==='Employee'  && (
+                                <li>
+                                <Link to='/requestform'>Make a Reimbursement Request</Link>
+                                </li>
+                            )}
+                            <li>
+                                {user.username ? (
+                                    <button className='link' onClick={logout}>
+                                        Logout
+                                    </button>
+                                ) : (
+                                    <Link to='/login'>Login</Link>
+                                )}
+                            </li>
+                        </ul>
+                    </nav>
                 </header>
 
                 <Route path='/login' component={LoginComponent} />
+                <Route path='/requestform' component={AddRequestComponent}/>
             </div>
         </BrowserRouter>
     )

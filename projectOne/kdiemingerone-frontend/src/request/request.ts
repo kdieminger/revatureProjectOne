@@ -10,6 +10,5 @@ export class Request {
     justification: string = '';
     projectedRe: number = 0;
     approval: string[] = [];
-    RFI: string = '';
     constructor() {};
 }
