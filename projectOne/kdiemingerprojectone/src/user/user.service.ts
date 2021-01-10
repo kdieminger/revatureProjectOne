@@ -59,6 +59,25 @@ class UserService {
             return false;
         });
     }
+
+    async getUsersBySupervisor(supervisor: string): Promise<string[]> {
+        return await this.doc.scan({TableName: 'users'}).promise().then((results) => {
+            const users: string[] = [];
+            if(results && results.Items){
+                results.Items.forEach((user) => {
+                    if(user.supervisor === supervisor){
+                        users.push(user.username);
+                    }
+                })
+                return users;
+            } else {
+                return [];
+            }
+        }).catch((err) => {
+            logger.error(err);
+            return [];
+        })
+    }
 }
 
 const userService = new UserService();

@@ -11,6 +11,7 @@ export interface RequestState {
 }
 export interface UserState {
     user: User;
+    users: string[];
 }
 export interface AppState extends UserState, RequestState { }
 
@@ -19,6 +20,7 @@ export interface AppState extends UserState, RequestState { }
 
 const initialState: AppState = {
     user: new User(),
+    users: [],
     requests: [],
     request: new Request()
 }
@@ -38,6 +40,9 @@ const reducer = (state: AppState = initialState, action: Actions.AppAction): App
             return newState;
         case Actions.UserActions.GetUser:
             newState.user = action.payload as User;
+            return newState;
+        case Actions.UserActions.GetUsers:
+            newState.users = action.payload as string[];
             return newState;
         default: 
             return state;

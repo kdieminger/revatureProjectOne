@@ -28,6 +28,25 @@ class RequestService {
         })
     }
 
+    async getRequestByName(username: string): Promise<Request[]> {
+        return await this.doc.scan({'TableName': 'requests'}).promise().then((results) => {
+            const requests: Request[] = [];
+            if(results && results.Items) {
+                results.Items.forEach((request) => {
+                    if(request.username === username){
+                        requests.push(request as Request);
+                    }
+                })
+                return requests;
+            } else {
+                return [];
+            }
+        }).catch((err) => {
+            logger.error(err);
+            return [];
+        })
+    }
+
     //gets all the requests (not recommended)
     async getRequests(): Promise<Request[]>{
         return await this.doc.scan({ 'TableName': 'requests'}).promise().then((result) =>{

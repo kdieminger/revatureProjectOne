@@ -105,11 +105,11 @@ ddb.deleteTable(removeRequests, function(err, data) {
 });
 
 function populateUserTable(){
-    userService.addUser({username: 'smccall', password: 'allison', role: 'Employee'}).then(()=>{});
-    userService.addUser({username: 'lmartin', password: 'ariel', role: 'Supervisor'}).then(() => {});
+    userService.addUser({username: 'smccall', password: 'allison', role: 'Employee', supervisor: 'lmartin', department: 'dummy'}).then(()=>{});
+    userService.addUser({username: 'lmartin', password: 'ariel', role: 'Supervisor', supervisor: '', department: 'dummy'}).then(() => {});
 }
 
 function populateRequestTable(){
-    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: []}).then(() => {});
-    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: []}).then(() => {});
+    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: 'University Course', date: 'Jan 15th',time: '1:00pm',location: 'Clemson University',description: 'Learn a thing',cost: 100,justification: 'I would like this',projectedRe: 80, approval: [], status: 'pending'}).then(() => {});
+    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: [], status: ''}).then(() => {});
 }

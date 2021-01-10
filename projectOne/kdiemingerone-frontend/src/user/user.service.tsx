@@ -21,6 +21,9 @@ class UserService {
     logout(): Promise<null> {
         return axios.delete(this.URI, {withCredentials: true}).then(result => null);
     }
+    getBySupervisor(username: string): Promise<string[]> {
+        return axios.get(this.URI+'/'+username).then(result => result.data);
+    }
 }
 
 export default new UserService();

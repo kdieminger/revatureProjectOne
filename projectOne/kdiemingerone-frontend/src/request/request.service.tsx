@@ -5,7 +5,7 @@ class RequestService {
     private URI: string;
     constructor() {
         // URL of the express server
-        this.URI = 'http://localhost:3000/request';
+        this.URI = 'http://localhost:3000/requests';
     }
 
     getRequests(): Promise<Request []> {

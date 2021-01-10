@@ -7,7 +7,8 @@ export enum RequestActions {
 }
 
 export enum UserActions {
-    GetUser = 'GET_USER'
+    GetUser = 'GET_USER',
+    GetUsers = 'GET_USERS'
 }
 
 export interface AppAction {
@@ -17,7 +18,7 @@ export interface AppAction {
 
 export interface UserAction extends AppAction {
     type: UserActions;
-    payload: User;
+    payload: User | User[] | string[];
 }
 
 // All of our restaurant actions need to follow this interface.
@@ -46,6 +47,14 @@ export function getUser(user: User): UserAction {
     const action: UserAction = {
         type: UserActions.GetUser,
         payload: user
+    }
+    return action;
+}
+
+export function getUsers(users: string[]): UserAction {
+    const action: UserAction = {
+        type: UserActions.GetUsers,
+        payload: users
     }
     return action;
 }

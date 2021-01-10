@@ -4,12 +4,13 @@ import userService from './user.service.js';
 
 //Class declaration
 export class User{
-  constructor(public username: string, public password: string, public role: string){
+  constructor(public username: string, public password: string, public role: string, public supervisor: string,
+    public department: string){
   };
 }
 
 //registers a user
-export async function register(username: string, password: string, role: string): Promise<User | null> {
+export async function register(username: string, password: string, role: string, supervisor: string, department: string): Promise<User | null> {
   logger.info('registerUser called');
   return await userService.getUser(username).then((user) => {
     if(user && user.username === username){
@@ -17,7 +18,7 @@ export async function register(username: string, password: string, role: string)
       return null;
     }
     else {
-      let add = new User(username, password, role)
+      let add = new User(username, password, role, supervisor, department)
       userService.addUser(add);
       console.log(`Welcome new ${role}!`);
       return add;
