@@ -1,8 +1,7 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect} from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Restaurant } from './restaurant';
 import restaurantService from './restaurant.service';
-import UserContext from '../user.context';
 import { RestaurantState, UserState } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeRestaurant } from '../actions';

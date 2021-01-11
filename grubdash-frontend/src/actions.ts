@@ -7,7 +7,8 @@ export enum RestaurantActions {
 }
 
 export enum UserActions {
-    GetUser = 'GET_USER'
+    GetUser = 'GET_USER',
+    LoginChange = 'CHANGE_LOGIN'
 }
 
 export interface AppAction {
@@ -45,6 +46,14 @@ export function changeRestaurant(rest: Restaurant): RestaurantAction {
 export function getUser(user: User): UserAction {
     const action: UserAction = {
         type: UserActions.GetUser,
+        payload: user
+    }
+    return action;
+}
+
+export function loginAction(user: User): UserAction {
+    const action: UserAction = {
+        type: UserActions.LoginChange,
         payload: user
     }
     return action;

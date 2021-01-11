@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Restaurant } from './restaurant';
-import restaurantService from './restaurant.service';
 import RestRow from './rest-row';
 import {RestaurantState} from '../reducer'
-import { getRestaurants } from '../actions';
 import { thunkGetRestaurants } from '../thunks';
 
 function groupIntoThrees(restaurants: Restaurant[]): Restaurant[][] {

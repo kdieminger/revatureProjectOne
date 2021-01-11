@@ -11,14 +11,16 @@ export interface RestaurantState {
 }
 export interface UserState {
     user: User;
+    loginUser: User;
 }
 export interface AppState extends UserState, RestaurantState { }
 
 // We need to define the initial state of the application and that
 // state should include everything that the application might keep track of.
 
-const initialState: AppState = {
+export const initialState: AppState = {
     user: new User(),
+    loginUser: new User(),
     restaurants: [],
     restaurant: new Restaurant()
 }
@@ -38,6 +40,10 @@ const reducer = (state: AppState = initialState, action: Actions.AppAction): App
             return newState;
         case Actions.UserActions.GetUser:
             newState.user = action.payload as User;
+            newState.loginUser = new User();
+            return newState;
+        case Actions.UserActions.LoginChange:
+            newState.loginUser = action.payload as User;
             return newState;
         default: 
             return state;
