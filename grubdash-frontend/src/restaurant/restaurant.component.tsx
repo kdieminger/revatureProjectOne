@@ -23,9 +23,9 @@ function RestaurantComponent(props: RestaurantProps) {
                 onClick={goToRestaurant}
             />
             <div className='card-body'>
-                <p className=''>{props.data.name}</p>
+                <p className='name'>{props.data.name}</p>
                 <p className='deliverytime'>{props.data.eta}</p>
-                <p className='rating'>{props.data.rating}</p>
+                <p className='rating'>Rating: {props.data.rating} stars</p>
                 <p className='foodtype'>{props.data.type}</p>
                 <Link to={`/restaurants/${props.data.name}`}>
                     {' '}

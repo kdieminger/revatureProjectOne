@@ -1,5 +1,5 @@
-import {Restaurant} from './restaurant/restaurant';
-import {User} from './user/user';
+import {Restaurant} from './../restaurant/restaurant';
+import {User} from './../user/user';
 
 export enum RestaurantActions {
     GetRestaurants = 'GET_RESTAURANTS',

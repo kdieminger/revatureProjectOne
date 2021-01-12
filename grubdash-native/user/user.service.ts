@@ -5,7 +5,7 @@ class UserService {
     private URI: string;
     constructor() {
         // URL of the express server
-        this.URI = process.env.REACT_APP_SERVER_URI+'users';
+        this.URI = 'http://192.168.0.32:3000/users';
     }
     getLogin(): Promise<User> {
         // withCredentials sends our cookies with the request.
@@ -16,7 +16,7 @@ class UserService {
     }
 
     login(user: User): Promise<User> {
-        return axios.post(this.URI, user, {withCredentials: true}).then(result => result.data);
+        return axios.post(this.URI, user, {withCredentials: true}).then(result => result.data).catch(err => err);
     }
     logout(): Promise<null> {
         return axios.delete(this.URI, {withCredentials: true}).then(result => null);

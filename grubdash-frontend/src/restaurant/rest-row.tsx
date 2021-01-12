@@ -2,7 +2,9 @@ import React from 'react';
 import RestaurantComponent from './restaurant.component';
 import { Restaurant } from './restaurant';
 
-function RestRow(props: any) {
+type PropType = { restaurants: Restaurant[]};
+
+function RestRow(props: PropType) {
     //console.log(props);
     return (
         <section className="row border">

@@ -3,11 +3,11 @@ import userService from './user.service';
 import { useHistory } from 'react-router-dom';
 import { UserState } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../actions';
+import { getUser, loginAction } from '../actions';
 
 // Function Component
 function LoginComponent() {
-    const userSelector = (state: UserState) => state.user;
+    const userSelector = (state: UserState) => state.loginUser;
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -19,7 +19,7 @@ function LoginComponent() {
         } else {
             u.password = (e.target as HTMLInputElement).value;
         }
-        dispatch(getUser(u));
+        dispatch(loginAction(u));
     }
     function submitForm() {
         userService.login(user).then((user) => {

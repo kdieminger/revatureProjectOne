@@ -5,6 +5,7 @@ import RouterComponent from './routing.component';
 import userService from './user/user.service';
 import { useDispatch } from 'react-redux';
 import { getUser } from './actions';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
     /* useState: A hook that can create a variable and a 
@@ -23,7 +24,10 @@ function App() {
     return (
             <div className='container'>
                 {/* {'user'+user?.name} */}
-                <RouterComponent></RouterComponent>
+                
+                <BrowserRouter>
+                    <RouterComponent></RouterComponent>
+                </BrowserRouter>
                 {cond ? (
                     <RestaurantClassComponent
                         which={1}

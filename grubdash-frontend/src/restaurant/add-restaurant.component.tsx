@@ -56,6 +56,7 @@ function AddRestaurantComponent(props: PropsFromRedux) {
                     </div>
                 );
             })}
+            {/*(props.restaurant as any)['trombone'].play()*/}
             <button className='btn btn-primary' onClick={submitForm}>
                 Add Restaurant
             </button>

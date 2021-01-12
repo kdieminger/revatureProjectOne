@@ -1,24 +1,12 @@
 import * as Actions from './actions';
-import { Restaurant } from './restaurant/restaurant';
-import { User } from './user/user';
-
-// Define the items that are in our state
-export interface RestaurantState {
-    // The list of all restaurants, loaded from the db.
-    restaurants: Restaurant[];
-    // The specific restaurant we have selected for view, edit, or add
-    restaurant: Restaurant;
-}
-export interface UserState {
-    user: User;
-    loginUser: User;
-}
-export interface AppState extends UserState, RestaurantState { }
+import { Restaurant } from './../restaurant/restaurant';
+import { User } from './../user/user';
+import { GrubState } from './store';
 
 // We need to define the initial state of the application and that
 // state should include everything that the application might keep track of.
 
-export const initialState: AppState = {
+export const initialState: GrubState = {
     user: new User(),
     loginUser: new User(),
     restaurants: [],
@@ -26,8 +14,8 @@ export const initialState: AppState = {
 }
 
 // Make sure that the reducer has a default argument of the inital state or it will not work.
-const reducer = (state: AppState = initialState, action: Actions.AppAction): AppState => {
-    console.log(action);
+const reducer = (state: GrubState = initialState, action: Actions.AppAction): AppState => {
+    //console.log(action);
     // We want to call setState. (redux will do that when we return a new state object from the reducer)
     const newState = {...state}; // If we return this, it will re render the application. (call setState)
 
