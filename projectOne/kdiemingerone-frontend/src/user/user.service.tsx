@@ -24,6 +24,9 @@ class UserService {
     getBySupervisor(username: string): Promise<string[]> {
         return axios.get(this.URI+'/'+username).then(result => result.data);
     }
+    getReqByUsers(user: string): Promise<Request[]> {
+        return axios.get(this.URI + '/requests').then((results) => results.data);
+    }
 }
 
 export default new UserService();

@@ -78,9 +78,11 @@ function calcReimburse(type: string, cost: number) {
     }
 }
 
-export function supervisorRequest(supervisor: string): Promise<Request[]>{
+export async function supervisorRequest(supervisor: string){
+    console.log(supervisor);
     let requests: Request[] = [];
-    userService.getUsersBySupervisor(supervisor).then((results) => {
+    return await userService.getUsersBySupervisor(supervisor).then((results) => {
+        console.log(results);
         if(results){
             results.forEach((username) => {
                 requestService.getRequestByName(username).then((result) => {
@@ -89,6 +91,7 @@ export function supervisorRequest(supervisor: string): Promise<Request[]>{
                     })
                 })
             })
+            console.log(requests);
             return requests;
         } else {
             logger.error('results are empty');

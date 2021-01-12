@@ -27,7 +27,7 @@ export interface RequestAction extends AppAction {
     payload: Request | Request[];
 }
 
-export function getRequest(reqs: Request[]): RequestAction {
+export function getRequests(reqs: Request[]): RequestAction {
     const action: RequestAction = {
         type: RequestActions.GetRequests,
         payload: reqs

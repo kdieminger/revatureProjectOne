@@ -4,6 +4,7 @@ import logger from '../log';
 import publicDir from '../constants';
 import userService from './user.service';
 import { supervisorRequest } from '../request/request';
+import requestService from '../request/request.service';
 
 const router = express.Router();
 
@@ -48,8 +49,16 @@ router.post('/', function (req: any, res, next) {
 });
 
 router.get('/:id', function (req, res, next) {
-  supervisorRequest(req.params.id);
-  res.send(JSON.stringify(req.body));
+  userService.getUsersBySupervisor(req.params.id).then((arr) => {
+    console.log(arr);
+    res.send(JSON.stringify(arr));
+  })
+})
+
+router.get('/:id/requests', function(req, res, next) {
+  requestService.getRequestByName(req.params.id).then((requests) => {
+      res.send(JSON.stringify(requests));
+  })
 })
 
 export default router;

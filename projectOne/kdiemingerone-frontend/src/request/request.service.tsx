@@ -14,6 +14,9 @@ class RequestService {
     getRequest(id: string): Promise<Request> {
         return axios.get(this.URI+'/'+id).then(result=>result.data);
     }
+    getRequestByName(arr: string[]): Promise<Request[]>{
+        return axios.get(this.URI).then(result => result.data);
+    }
     addRequest(r: Request): Promise<null> {
         return axios.post(this.URI, r).then(result => null);
     }

@@ -7,7 +7,7 @@ interface RequestProps {
     data: Request;
 }
 
-function RequestComponent(props: RequestProps) {
+export function RequestComponent(props: RequestProps) {
     const history = useHistory();
 
     function goToRequest() {
