@@ -78,6 +78,28 @@ class RequestService {
             return false;
         });
     }
+
+    async updateRequest(req: Request): Promise<boolean>{
+        const params = {
+            TableName: 'requests',
+            Key: {
+                'requestID': req.requestID
+            },
+            UpdateExpression: 'set #a = :approval, #s = :status',
+            ExpressionAttributeNames: {
+                '#a': 'approval',
+                '#s': 'status'
+            },
+            ReturnValues: 'UPDATED_NEW'
+        };
+        return await this.doc.update(params).promise().then((data) => {
+            logger.debug(data);
+            return true;
+        }).catch(error => {
+            logger.error(error);
+            return false;
+        });
+    }
 }
 
 const requestService = new RequestService();

@@ -1,0 +1,21 @@
+body {
+    background-color: lightseagreen;
+    color: white;
+}
+
+header {
+    background-color: white;
+    color: lightseagreen;
+    text-align: center;
+}
+
+.LoginCard {
+    position: absolute;
+    left: 58%;
+    top: 250px;
+    margin-left: -240px;
+    background-color: white;
+    color: purple;
+    border-style:groove;
+    border-color:purple;
+}

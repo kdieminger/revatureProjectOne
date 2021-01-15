@@ -1,9 +1,30 @@
 body {
+  background-color: lightseagreen;
+  color: white;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 header {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  background-color: rgb(27, 104, 60);
-  color: white;
+  background-color: white(27, 104, 60);
+  color: lightseagreen;
+}
+
+nav {
+	background-color: rgb(70, 22, 116);
+	color: white;
+}
+
+nav > ul > li {
+	display: inline-block;
+}
+
+li > a {
+	color: white;
+}
+
+nav > ul {
+	list-style-type: none;
+	display: flex;
+	justify-content: space-around;
 }

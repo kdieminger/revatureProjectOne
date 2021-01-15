@@ -78,25 +78,25 @@ function calcReimburse(type: string, cost: number) {
     }
 }
 
-export async function supervisorRequest(supervisor: string){
-    console.log(supervisor);
-    let requests: Request[] = [];
-    return await userService.getUsersBySupervisor(supervisor).then((results) => {
-        console.log(results);
-        if(results){
-            results.forEach((username) => {
-                requestService.getRequestByName(username).then((result) => {
-                    result.forEach((req) => {
-                        requests.push(req);
-                    })
-                })
-            })
-            console.log(requests);
-            return requests;
-        } else {
-            logger.error('results are empty');
-            return [];
-        }
-    });
+// export async function supervisorRequest(supervisor: string){
+//     console.log('supervisor: '+JSON.stringify(supervisor));
+//     let userArr: string[]=[];
+//     let reqArr: Request[] = [];
+//     await userService.getUsersBySupervisor(supervisor).then((users) => {
+//         userArr = users;
+//     })
+//     if(userArr.length !== 0){
+//         userArr.forEach((user) => {
+//             requestService.getRequestByName(user).then((requests) => {
+//                 requests.forEach((ind) => {
+//                     reqArr.push(ind);
+//                 })
+//             })
+//         })
+//         console.log(reqArr);
+//         return reqArr;
+//     } else {
+//         return reqArr;
+//     }
     
-}
+// }

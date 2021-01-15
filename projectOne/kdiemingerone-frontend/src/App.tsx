@@ -11,7 +11,6 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     userService.getLogin().then((user) => {
-      console.log(user);
       dispatch(getUser(user));
     });
   }, [dispatch]);

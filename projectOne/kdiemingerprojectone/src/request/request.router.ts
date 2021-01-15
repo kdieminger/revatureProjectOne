@@ -18,4 +18,11 @@ router.post('/', (req, res, next) => {
     res.redirect('/');
 })
 
+router.put('/', (req, res, next) => {
+    logger.debug(req.body);
+    requestService.updateRequest(req.body).then((data) => {
+        res.send(data);
+    })
+})
+
 export default router;

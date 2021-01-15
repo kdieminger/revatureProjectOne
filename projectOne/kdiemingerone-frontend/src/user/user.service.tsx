@@ -21,11 +21,14 @@ class UserService {
     logout(): Promise<null> {
         return axios.delete(this.URI, {withCredentials: true}).then(result => null);
     }
+    getUser(): Promise<User> {
+        return axios.get(this.URI).then(result => result.data);
+    }
     getBySupervisor(username: string): Promise<string[]> {
         return axios.get(this.URI+'/'+username).then(result => result.data);
     }
     getReqByUsers(user: string): Promise<Request[]> {
-        return axios.get(this.URI + '/requests').then((results) => results.data);
+        return axios.get(this.URI + '/supervisor/requests').then((results) => results.data);
     }
 }
 

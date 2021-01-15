@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { UserState } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../actions';
+import './login.css';
 
 // Function Component
 function LoginComponent() {
@@ -22,19 +23,19 @@ function LoginComponent() {
         dispatch(getUser(u));
     }
     function submitForm() {
-        userService.login(user).then((user) => {
-            dispatch(getUser(user));
-            history.push('/');
+        userService.login(user).then((target) => {
+            dispatch(getUser(target));
+            history.push('/users/'+target.username);
         });
     }
     return (
         
-        <div className='col login card'>
+        <div className='LoginCard'>
            Username <input type='text' className='form-control' onChange={handleFormInput} name='username'/>
            <br/>
            Password <input type='password' className='form-control' onChange={handleFormInput} name='password'/>
            <br/>
-           <button className='btn btn-danger' onClick={submitForm}>Login</button>
+           <button className='btn btn' onClick={submitForm}>Login</button>
         </div>
     );
 }

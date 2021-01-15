@@ -2,7 +2,6 @@ import { SyntheticEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { RequestState } from '../reducer';
-import './request.css';
 import requestService from './request.service';
 import { changeRequest } from '../actions';
 import { Request } from './request';
@@ -40,7 +39,7 @@ function AddRequestComponent(props: PropsFromRedux) {
         });
     }
     return (
-        <div className='col request card'>
+        <div className='LoginCard'>
             {FIELDS.map((fieldName) => {
                 return (
                     <div key={'input-field-' + fieldName}>
@@ -56,7 +55,7 @@ function AddRequestComponent(props: PropsFromRedux) {
                     </div>
                 );
             })}
-            <button className='btn btn-primary' onClick={submitForm}>
+            <button className='btn btn' onClick={submitForm}>
                 Make Request
             </button>
         </div>

@@ -8,7 +8,8 @@ export enum RequestActions {
 
 export enum UserActions {
     GetUser = 'GET_USER',
-    GetUsers = 'GET_USERS'
+    GetUsers = 'GET_USERS',
+    ChangeUser = 'CHANGE_USER'
 }
 
 export interface AppAction {
@@ -55,6 +56,14 @@ export function getUsers(users: string[]): UserAction {
     const action: UserAction = {
         type: UserActions.GetUsers,
         payload: users
+    }
+    return action;
+}
+
+export function changeUser(user: User): UserAction {
+    const action: UserAction = {
+        type: UserActions.ChangeUser,
+        payload: user
     }
     return action;
 }

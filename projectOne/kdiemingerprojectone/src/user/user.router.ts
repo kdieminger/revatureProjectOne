@@ -3,7 +3,7 @@ import * as user from './user';
 import logger from '../log';
 import publicDir from '../constants';
 import userService from './user.service';
-import { supervisorRequest } from '../request/request';
+//import { supervisorRequest } from '../request/request';
 import requestService from '../request/request.service';
 
 const router = express.Router();
@@ -57,7 +57,8 @@ router.get('/:id', function (req, res, next) {
 
 router.get('/:id/requests', function(req, res, next) {
   requestService.getRequestByName(req.params.id).then((requests) => {
-      res.send(JSON.stringify(requests));
+    console.log(requests);
+    res.send(JSON.stringify(requests));
   })
 })
 
