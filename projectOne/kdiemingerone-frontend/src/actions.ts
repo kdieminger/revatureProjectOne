@@ -1,9 +1,11 @@
-import {Request} from './request/request';
+import {AppRequest} from './request/request';
 import {User} from './user/user';
+import userService from './user/user.service';
 
 export enum RequestActions {
     GetRequests = 'GET_REQUESTS',
-    ChangeRequest = 'CHANGE_REQUEST'
+    ChangeRequest = 'CHANGE_REQUEST',
+    SwitchRequests = 'SWITCH_REQUESTS'
 }
 
 export enum UserActions {
@@ -25,10 +27,10 @@ export interface UserAction extends AppAction {
 // All of our restaurant actions need to follow this interface.
 export interface RequestAction extends AppAction {
     type: RequestActions;
-    payload: Request | Request[];
+    payload: AppRequest | AppRequest[];
 }
 
-export function getRequests(reqs: Request[]): RequestAction {
+export function getRequests(reqs: AppRequest[]): RequestAction {
     const action: RequestAction = {
         type: RequestActions.GetRequests,
         payload: reqs
@@ -36,7 +38,7 @@ export function getRequests(reqs: Request[]): RequestAction {
     return action;
 }
 
-export function changeRequest(req: Request): RequestAction {
+export function changeRequest(req: AppRequest): RequestAction {
     const action: RequestAction = {
         type: RequestActions.ChangeRequest,
         payload: req
@@ -44,7 +46,25 @@ export function changeRequest(req: Request): RequestAction {
     return action;
 }
 
-export function getUser(user: User): UserAction {
+export function SwitchRequests(req: AppRequest[]): RequestAction {
+    const action: RequestAction = {
+        type: RequestActions.SwitchRequests,
+        payload: req
+    }
+    return action;
+}
+
+export function AsyncRequests(username: string) {
+    console.log(username);
+    return (dispatch:any, getState:any) => {
+        userService.getReqByUsers(username).then((response) => {
+            dispatch(SwitchRequests(response));
+        })
+        console.log(username);
+    }
+}
+
+export function GetUser(user: User): UserAction {
     const action: UserAction = {
         type: UserActions.GetUser,
         payload: user
@@ -52,7 +72,7 @@ export function getUser(user: User): UserAction {
     return action;
 }
 
-export function getUsers(users: string[]): UserAction {
+export function getUsers(users: User[]): UserAction {
     const action: UserAction = {
         type: UserActions.GetUsers,
         payload: users

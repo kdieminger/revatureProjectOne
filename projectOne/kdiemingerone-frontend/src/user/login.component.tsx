@@ -3,7 +3,7 @@ import userService from './user.service';
 import { useHistory } from 'react-router-dom';
 import { UserState } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../actions';
+import { GetUser } from '../actions';
 import './login.css';
 
 // Function Component
@@ -20,12 +20,12 @@ function LoginComponent() {
         } else {
             u.password = (e.target as HTMLInputElement).value;
         }
-        dispatch(getUser(u));
+        dispatch(GetUser(u));
     }
     function submitForm() {
         userService.login(user).then((target) => {
-            dispatch(getUser(target));
-            history.push('/users/'+target.username);
+            dispatch(GetUser(target));
+            history.push('/home');
         });
     }
     return (

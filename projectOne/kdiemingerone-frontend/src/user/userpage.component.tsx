@@ -1,43 +1,38 @@
+import { RequestState, UserState } from '../reducer';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { UserState } from '../reducer';
-import { useSelector } from 'react-redux';
 
 interface UserPageProps {
     match: any;
 }
 
 // Function Component
-export default function UserPageComponent( props: UserPageProps) {
+export default function UserPageComponent() {
+    const reqSelector = (state: RequestState) => state.requests;
+    const reqs = useSelector(reqSelector);
     const userSelector = (state: UserState) => state.user;
     const user = useSelector(userSelector);
+    const dispatch = useDispatch();
     const history = useHistory();
 
-    // useEffect(()=>{
-    //     let userArr: string[] = [];
-    //     let reqArr: any = [];
-    //     console.log(props.match.params.id);
-    //     userService.getBySupervisor(props.match.params.id).then((arr)=> {
-    //         userArr = arr;
-    //     })
-    //     userArr.forEach((user) => {
-    //         requestService.getRequestByName(user).then((reqs) => {
-    //             reqArr = reqs;
-    //         })
-    //     })
-    // });
-    function goToRequests(){
-        history.push('/users/supervisor/requests');
+    function goToRequests() {
+        history.push('/users/' + user.username + '/requests');
+    }
+
+    function goToEmployees() {
+        history.push('/users/' + user.username + '/employees');
     }
 
     return (
-        <div className='col user card'>
-            <nav id='nav'>
-                <ul>
-                    <button className='link' onClick={goToRequests}>
-                        Pending Requests
-                    </button>
-                </ul>
-            </nav>
+        <div>
+            <div>
+                <button className='btn btn' onClick={goToRequests}>View Requests</button>
+            </div>
+            {user.role !== 'Employee' && (
+                <div>
+                    <button className='btn btn' onClick={goToEmployees}>View Your Employees</button>
+                </div>
+            )}
         </div>
     )
 }

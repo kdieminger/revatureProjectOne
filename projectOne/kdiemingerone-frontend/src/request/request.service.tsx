@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Request } from './request';
+import { AppRequest } from './request';
 
 class RequestService {
     private URI: string;
@@ -8,16 +8,16 @@ class RequestService {
         this.URI = 'http://localhost:3000/requests';
     }
 
-    getRequests(): Promise<Request []> {
+    getRequests(): Promise<AppRequest []> {
         return axios.get(this.URI).then(result => result.data);
     }
-    getRequest(id: string): Promise<Request> {
+    getRequest(id: string): Promise<AppRequest> {
         return axios.get(this.URI+'/'+id).then(result=>result.data);
     }
-    addRequest(r: Request): Promise<null> {
+    addRequest(r: AppRequest): Promise<null> {
         return axios.post(this.URI, r).then(result => null);
     }
-    updateRequest(r: Request): Promise<null> {
+    updateRequest(r: AppRequest): Promise<null> {
         return axios.put(this.URI, r).then(result => null);
     }
 }

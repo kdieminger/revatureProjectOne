@@ -4,5 +4,6 @@ export class User {
     role: string = '';
     supervisor: string = '';
     department: string = '';
+    numReqs: number = 0;
     constructor() { };
 }

@@ -1,4 +1,4 @@
-export class Request {
+export class AppRequest {
     requestID: string = '';
     username: string = '';
     type: string = '';
@@ -9,7 +9,7 @@ export class Request {
     cost: number = 0;
     justification: string = '';
     projectedRe: number = 0;
-    approval: string[] = [];
-    status: string ='';
+    approval: boolean[] = [];
+    appStatus: string ='';
     constructor() {};
 }

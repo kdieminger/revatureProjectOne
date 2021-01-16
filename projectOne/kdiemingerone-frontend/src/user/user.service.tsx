@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AppRequest } from '../request/request';
 import { User } from './user';
 
 class UserService {
@@ -21,14 +22,14 @@ class UserService {
     logout(): Promise<null> {
         return axios.delete(this.URI, {withCredentials: true}).then(result => null);
     }
-    getUser(): Promise<User> {
-        return axios.get(this.URI).then(result => result.data);
+    getUser(user: string): Promise<User> {
+        return axios.get(this.URI+'/'+user).then(result => result.data);
     }
-    getBySupervisor(username: string): Promise<string[]> {
+    getBySupervisor(username: string): Promise<User[]> {
         return axios.get(this.URI+'/'+username).then(result => result.data);
     }
-    getReqByUsers(user: string): Promise<Request[]> {
-        return axios.get(this.URI + '/supervisor/requests').then((results) => results.data);
+    getReqByUsers(user: string): Promise<AppRequest[]> {
+        return axios.get(this.URI +'/' + user + '/requests').then((results) => results.data);
     }
 }
 

@@ -85,10 +85,12 @@ class RequestService {
             Key: {
                 'requestID': req.requestID
             },
-            UpdateExpression: 'set #a = :approval, #s = :status',
+            UpdateExpression: 'set #a = :approval',
             ExpressionAttributeNames: {
-                '#a': 'approval',
-                '#s': 'status'
+                '#a': 'approval'
+            },
+            ExpressionAttributeValues: {
+                ':approval': req.approval
             },
             ReturnValues: 'UPDATED_NEW'
         };

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './request.css';
-import { Request } from './request';
+import { AppRequest } from './request';
 
 interface RequestProps {
-    data: Request;
+    data: AppRequest;
 }
 
 export function RequestComponent(props: RequestProps) {
@@ -14,6 +14,8 @@ export function RequestComponent(props: RequestProps) {
         history.push('/request/'+props.data.requestID);
     }
 
+    console.log(props.data.username);
+
     return (
         <div className='col request card'>
             <div className='card-body'>
@@ -22,10 +24,6 @@ export function RequestComponent(props: RequestProps) {
                 <p className='event-date'>{props.data.date}</p>
                 <p className='event-time'>{props.data.time}</p>
                 <p className='event-location'>{props.data.location}</p>
-                <Link to={`/restaurants/${props.data.requestID}`}>
-                    {' '}
-                    See more info{' '}
-                </Link>
             </div>
         </div>
     );

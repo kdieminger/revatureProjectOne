@@ -6,11 +6,11 @@ import requestService from './request.service.js';
 
 export class Request {
     constructor(public requestID: string, public username: string, public type: string, public date: string, public time: string, public location: string,
-        public description: string, public cost: number, public justification: string, public projectedRe: number, public approval: string[], public status: string) {
+        public description: string, public cost: number, public justification: string, public projectedRe: number, public approval: boolean[], public appStatus: string) {
     };
 }
 
-export function makeRequest(username: string, type: string, date: string, time: string, location: string, description: string, cost: number, just: string){
+export function makeRequest(username: string, type: string, date: string, time: string, location: string, description: string, cost: number, just: string) {
     logger.info('makeRequest called');
     let typeOf: string;
     let reim: any = calcReimburse(type, cost);
@@ -18,7 +18,7 @@ export function makeRequest(username: string, type: string, date: string, time: 
         case 'University Course':
             logger.info('Creating a request');
             typeOf = 'University Course';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [],'pending'));
+            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
         case 'Seminar':
             logger.info('Creating a request');
@@ -45,10 +45,20 @@ export function makeRequest(username: string, type: string, date: string, time: 
             typeOf = 'Other';
             requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
-        default :
+        default:
             logger.error('invalid input');
             break;
     }
+    userService.getUser(username).then((user) => {
+        if(user){
+            user.numReqs++;
+            userService.updateUser(user);
+        }
+        else{
+            logger.error('user does not exist');
+            return null;
+        }
+    })
 }
 
 function calcReimburse(type: string, cost: number) {
@@ -98,5 +108,5 @@ function calcReimburse(type: string, cost: number) {
 //     } else {
 //         return reqArr;
 //     }
-    
+
 // }

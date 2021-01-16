@@ -6,25 +6,30 @@ import {
     Link,
     Redirect,
     useHistory,
+    useLocation,
 } from 'react-router-dom';
 import AddRequestComponent from './request/add-request.component';
-import { getUser } from './actions';
+import { GetUser } from './actions';
 import { UserState } from './reducer';
 import LoginComponent from './user/login.component';
 import { User } from './user/user';
 import userService from './user/user.service';
-import RequestBySupervisorComponent from './request/request-by-supervisor.component';
 import UserPageComponent from './user/userpage.component';
+import UserRequestsComponent from './user/user-requests.component';
+import UsersBySupervisorComponent from './user/users-by-supervisor.component';
+import SupReqComponent from './request/sup-requests.component';
+import ErrorBoundaryComponent from './error.component';
 
 
 export default function RouterComponent() {
     const userSelector = (state: UserState) => state.user;
     const user = useSelector(userSelector);
+    const location = useLocation();
     const dispatch = useDispatch();
     const history = useHistory();
     function logout() {
         userService.logout().then(() => {
-            dispatch(getUser(new User()));
+            dispatch(GetUser(new User()));
         });
     }
     return (
@@ -38,7 +43,10 @@ export default function RouterComponent() {
                             <li>
                                 {user.username ? (
                                     <div>
-                                        <button className='link' onClick={logout}>
+                                        <div>
+                                            <Link to={'/home'}>Home</Link>
+                                        </div>
+                                        <button className='btn' onClick={logout}>
                                             Logout
                                         </button>
                                         <div>
@@ -53,11 +61,78 @@ export default function RouterComponent() {
                     </nav>
                 </header>
 
+                <ErrorBoundaryComponent key={location.pathname}>
+                    <Route 
+                        exact
+                        path='/' 
+                        render={() => 
+                            user.username ? (
+                                <LoginComponent />
+                            ) : (
+                                <Redirect to='/login' />
+                            )
+                        }
+                    />
+                    <Route
+                        exact
+                        path='/home'
+                        render={() =>
+                            user.username ? (
+                                <UserPageComponent />
+                            ) : (
+                                <Redirect to='/login' />
+                            )
+                        }
+                    />
+                    <Route
+                        exact
+                        path='/requestform'
+                        render={() => 
+                            user.username ? (
+                                <AddRequestComponent />
+                            ) : (
+                                <Redirect to='/login' />
+                            )
+                        }
+                    />
+                    <Route 
+                        exact
+                        path='/users/:id/requests'
+                        render={() => 
+                            user.username ? (
+                                <UserRequestsComponent />
+                            ) : (
+                                <Redirect to='/login' />
+                            )
+                        }
+                    />
+                    <Route 
+                        exact
+                        path='/users/:id/employees'
+                        render={() => 
+                            user.username && user.role !== 'Employee' ? (
+                                <UsersBySupervisorComponent />
+                            ) : (
+                                <Redirect to='/home'/>
+                            )
+                        }
+                    />
+                    <Route 
+                        exact
+                        path='/users/:id/sup/requests'
+                        render={() => 
+                            user.username && user.role !== 'Employee' ? (
+                                <SupReqComponent />
+                            ) : (
+                                <Redirect to='/home'/>
+                            )
+                        }
+                    />
+                </ErrorBoundaryComponent>
+
                 <Route path='/login' component={LoginComponent} />
-                <Route path='/users/:id' component={UserPageComponent}/>
-                <Route path='/requestform' component={AddRequestComponent} />
-                <Route exact path='/users/supervisor/requests' component={RequestBySupervisorComponent} />
+                <Route exact path='/users/:id/sup/requests' component={SupReqComponent} />
             </div>
-        </BrowserRouter>
+        </BrowserRouter>  
     )
 }
