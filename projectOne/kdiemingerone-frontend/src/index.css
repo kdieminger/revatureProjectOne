@@ -1,18 +1,19 @@
 body {
-  background-color: lightseagreen;
-  color: rgb(41, 95, 62);
+  background-color: rgb(16, 8, 63);
+  color: rgb(164, 186, 226);
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 header {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  background-color: white(27, 104, 60);
-  color: lightseagreen;
+  background-color: white;
+  color: rgb(48, 101, 199);
+  text-align: center;
 }
 
 nav {
-	background-color: rgb(70, 22, 116);
-	color: white;
+	background-color: rgb(233, 157, 58);
+	color: rgb(233, 157, 58);
 }
 
 nav > ul > li {
@@ -27,4 +28,18 @@ nav > ul {
 	list-style-type: none;
 	display: flex;
 	justify-content: space-around;
+}
+
+.myButton {
+	background-color: rgb(73, 99, 184);
+	border: none;
+	color: white;
+	text-align: center;
+	display: inline-flex;
+}
+
+.myTable {
+	background-color: white;
+	border: white;
+	color:rgb(16, 8, 63);
 }

@@ -31,11 +31,13 @@ function LoginComponent() {
     return (
         
         <div className='LoginCard'>
-           Username <input type='text' className='form-control' onChange={handleFormInput} name='username'/>
+            <br/>
+           <div className = 'label'>Username</div> <input type='text' className='myFormControl' onChange={handleFormInput} name='username'/>
+           <br/><br/>
+           <div className='label'>Password</div> <input type='password' className='myFormControl' onChange={handleFormInput} name='password'/>
+           <br/> <br/>
+           <button className='myButton' onClick={submitForm}>Login</button>
            <br/>
-           Password <input type='password' className='form-control' onChange={handleFormInput} name='password'/>
-           <br/>
-           <button className='btn btn' onClick={submitForm}>Login</button>
         </div>
     );
 }

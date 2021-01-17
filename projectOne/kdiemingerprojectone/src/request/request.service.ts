@@ -59,6 +59,7 @@ class RequestService {
 
     //adds a request to the table
     async addRequest(request: Request): Promise<boolean> {
+        logger.debug(request);
         const params = {
             TableName: 'requests',
             Item: request,
@@ -85,12 +86,14 @@ class RequestService {
             Key: {
                 'requestID': req.requestID
             },
-            UpdateExpression: 'set #a = :approval',
+            UpdateExpression: 'set #a = :approval, #s = :appStatus',
             ExpressionAttributeNames: {
-                '#a': 'approval'
+                '#a': 'approval',
+                '#s': 'appStatus'
             },
             ExpressionAttributeValues: {
-                ':approval': req.approval
+                ':approval': req.approval,
+                ':appStatus': req.appStatus
             },
             ReturnValues: 'UPDATED_NEW'
         };

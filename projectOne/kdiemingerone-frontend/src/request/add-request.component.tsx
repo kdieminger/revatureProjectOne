@@ -38,7 +38,7 @@ function AddRequestComponent( props: PropsFromRedux ) {
         requestService.addRequest(props.request).then(() => {
             props.updateRequest(new AppRequest());
             // call the callback function from the parent component so that it will re-render
-            history.push('/users/'+ user.username);
+            history.push('/home');
         });
     }
     return (

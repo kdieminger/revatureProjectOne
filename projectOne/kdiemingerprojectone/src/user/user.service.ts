@@ -109,6 +109,9 @@ class UserService {
             ExpressionAttributeNames: {
                 '#n': 'numReqs'
             },
+            ExpressionAttributeValues: {
+                ':numReqs': user.numReqs
+            },
             ReturnValues: 'UPDATED_NEW'
         };
         return await this.doc.update(params).promise().then((data) => {

@@ -18,6 +18,7 @@ function UsersByDepComponent() {
     useEffect(() => {
         console.log(deptHead.department);
         userService.getByDepartment(deptHead.department).then((arr) => {
+            console.log(arr);
             dispatch(getUsers(arr));
         })
     }, []);

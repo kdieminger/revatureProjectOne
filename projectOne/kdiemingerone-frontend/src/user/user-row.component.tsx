@@ -19,7 +19,7 @@ function UserRow(props: PropType){
 
     return (
         <section className="row border">
-            <table className='table'>
+            <table className='myTable'>
                 <tbody> 
                 <tr>
                     <td>{props.user.username}</td>

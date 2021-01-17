@@ -25,22 +25,22 @@ export default function UserPageComponent() {
     }
     
     function goToDeptEmployees() {
-        history.push('/users/' + user.department + '/employees');
+        history.push('/users/' + user.department + '/dept/employees');
     }
 
     return (
         <div>
             <div>
-                <button className='btn btn' onClick={goToRequests}>View Requests</button>
+                <button className='myButton' onClick={goToRequests}>View Requests</button>
             </div>
             {user.role === 'Supervisor' && (
                 <div>
-                    <button className='btn btn' onClick={goToEmployees}>View Your Employees</button>
+                    <button className='myButton' onClick={goToEmployees}>View Your Employees</button>
                 </div>
             )}
             {user.role === 'Department Head' && (
                 <div>
-                    <button className='btn btn' onClick={goToDeptEmployees}>View Department Employees</button>
+                    <button className='myButton' onClick={goToDeptEmployees}>View Department Employees</button>
                 </div>
             )}
         </div>

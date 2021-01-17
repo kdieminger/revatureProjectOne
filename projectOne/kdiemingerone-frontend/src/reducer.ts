@@ -29,6 +29,7 @@ const initialState: AppState = {
 
 // Make sure that the reducer has a default argument of the inital state or it will not work.
 const reducer = (state: AppState = initialState, action: Actions.AppAction): AppState => {
+    console.log(action);
     // We want to call setState. (redux will do that when we return a new state object from the reducer)
     const newState = {...state}; // If we return this, it will re render the application. (call setState)
     switch (action.type) {    
@@ -49,6 +50,7 @@ const reducer = (state: AppState = initialState, action: Actions.AppAction): App
             return newState;
         case Actions.UserActions.ChangeUser:
             newState.targetUser = action.payload as User;
+            console.log(action.payload as User);  
             return newState;
         default: 
             return state;

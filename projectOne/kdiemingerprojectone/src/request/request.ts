@@ -1,6 +1,4 @@
-import fs from 'fs';
 import logger from '../log.js';
-import { User } from '../user/user.js';
 import userService from '../user/user.service.js';
 import requestService from './request.service.js';
 
@@ -28,32 +26,32 @@ export async function makeRequest(username: string, type: string, date: string, 
     })
     switch (type) {
         case 'University Course':
-            logger.info('Creating a request');
+            logger.info('Creating a request of type '+ type);
             typeOf = 'University Course';
             requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
         case 'Seminar':
-            logger.info('Creating a request');
+            logger.info('Creating a request of type '+ type);
             typeOf = 'Seminar';
             requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
         case 'Certification Prep Course':
-            logger.info('Creating a request');
+            logger.info('Creating a request of type '+ type);
             typeOf = 'Certification Preparation Course';
             requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
         case 'Certification':
-            logger.info('Creating a request');
+            logger.info('Creating a request of type '+ type);
             typeOf = 'Certification';
             requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
         case 'Technical Training':
-            logger.info('Technical Training');
+            logger.info('Creating a request of type '+ type);
             typeOf = 'Technical Training';
             requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
         case 'Other':
-            logger.info('Other');
+            logger.info('Creating a request of type '+ type);
             typeOf = 'Other';
             requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
             break;
