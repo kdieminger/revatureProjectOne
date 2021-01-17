@@ -1,6 +1,7 @@
 import { RequestState, UserState } from '../reducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import React from 'react';
 
 interface UserPageProps {
     match: any;
@@ -22,15 +23,24 @@ export default function UserPageComponent() {
     function goToEmployees() {
         history.push('/users/' + user.username + '/employees');
     }
+    
+    function goToDeptEmployees() {
+        history.push('/users/' + user.department + '/employees');
+    }
 
     return (
         <div>
             <div>
                 <button className='btn btn' onClick={goToRequests}>View Requests</button>
             </div>
-            {user.role !== 'Employee' && (
+            {user.role === 'Supervisor' && (
                 <div>
                     <button className='btn btn' onClick={goToEmployees}>View Your Employees</button>
+                </div>
+            )}
+            {user.role === 'Department Head' && (
+                <div>
+                    <button className='btn btn' onClick={goToDeptEmployees}>View Department Employees</button>
                 </div>
             )}
         </div>

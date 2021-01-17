@@ -17,8 +17,9 @@ import userService from './user/user.service';
 import UserPageComponent from './user/userpage.component';
 import UserRequestsComponent from './user/user-requests.component';
 import UsersBySupervisorComponent from './user/users-by-supervisor.component';
-import SupReqComponent from './request/sup-requests.component';
+import AdminReqComponent from './request/admin-requests.component';
 import ErrorBoundaryComponent from './error.component';
+import UsersByDepComponent from './user/users-by-department';
 
 
 export default function RouterComponent() {
@@ -119,10 +120,21 @@ export default function RouterComponent() {
                     />
                     <Route 
                         exact
-                        path='/users/:id/sup/requests'
+                        path='/users/:id/dept/employees'
+                        render={() =>
+                            user.username && user.role == 'Department Head' ? (
+                                <UsersByDepComponent />
+                            ) : (
+                                <Redirect to='/home'/>
+                            )
+                        }
+                    />
+                    <Route 
+                        exact
+                        path='/users/:id/admin/requests'
                         render={() => 
                             user.username && user.role !== 'Employee' ? (
-                                <SupReqComponent />
+                                <AdminReqComponent />
                             ) : (
                                 <Redirect to='/home'/>
                             )
@@ -131,7 +143,6 @@ export default function RouterComponent() {
                 </ErrorBoundaryComponent>
 
                 <Route path='/login' component={LoginComponent} />
-                <Route exact path='/users/:id/sup/requests' component={SupReqComponent} />
             </div>
         </BrowserRouter>  
     )

@@ -7,15 +7,16 @@ import { User } from './user';
 type PropType = { user: User};
 
 function UserRow(props: PropType){
-    console.log(JSON.stringify(props.user.username));
     const history = useHistory();
     const dispatch = useDispatch();
     const targetSelector = (state: UserState) => state.targetUser;
     const target = useSelector(targetSelector);
+
     function goToRequests(){  
         dispatch(changeUser(props.user));
-        history.push('/users/'+props.user.username+'/sup/requests');
+        history.push('/users/'+props.user.username+'/admin/requests');
     }
+
     return (
         <section className="row border">
             <table className='table'>

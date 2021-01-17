@@ -12,19 +12,20 @@ function UserRequestsComponent() {
     const reqs = useSelector(reqSelector);
     const userSelector = (state: UserState) => state.user;
     const user = useSelector(userSelector);
-    const targetSelector = (state: UserState) => state.targetUser;
-    const target = useSelector(targetSelector);
     const dispatch = useDispatch();
     // const dispatch = useDispatch();
     //use effect to grab the user array
     useEffect(() => {
             dispatch(AsyncRequests(user.username));
-    }, [reqs.length])
-    console.log(reqs);
+    }, [])
 
     // return a render of the reqArrs mapped to Request Components
     return (
         <section>
+            <div>
+                <h2>Available Reimbursement</h2>
+                <p>{user.availableReim}</p>
+            </div>
             {reqs.map((req: AppRequest, index: number) =>
                 <ReqRow key={'req-' + index} request={req}></ReqRow>)}
         </section>

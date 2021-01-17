@@ -44,7 +44,7 @@ function SupReqRow(props: PropType) {
 
     return (
         <section className="row border">
-            {user.role === 'Supervisor' && props.request.approval.length == 0 && (
+            {user.username !== props.request.username && user.role === 'Supervisor' && props.request.approval.length == 0 && (
                 <table className='table'>
                     <tbody>
                         <tr>
@@ -67,7 +67,7 @@ function SupReqRow(props: PropType) {
                     </tbody>
                 </table>
             )}
-            {user.role === 'Department Head' && props.request.approval.length == 1 && props.request.appStatus !== 'denied' && (
+            {user.username !== props.request.username && user.role === 'Department Head' && props.request.approval.length == 1 && props.request.appStatus !== 'denied' && (
                 <table className='table'>
                     <tbody>
                         <tr>
@@ -90,7 +90,7 @@ function SupReqRow(props: PropType) {
                     </tbody>
                 </table>
             )}
-            {user.role === 'BenCo' && props.request.approval.length == 2 && props.request.appStatus !== 'denied' && (
+            {user.username !== props.request.username && user.role === 'BenCo' && props.request.approval.length == 2 && props.request.appStatus !== 'denied' && (
                 <table className='table'>
                     <tbody>
                         <tr>

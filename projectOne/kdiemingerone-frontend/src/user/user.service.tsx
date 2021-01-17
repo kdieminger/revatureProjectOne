@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { resourceLimits } from 'worker_threads';
 import { AppRequest } from '../request/request';
 import { User } from './user';
 
@@ -30,6 +31,10 @@ class UserService {
     }
     getReqByUsers(user: string): Promise<AppRequest[]> {
         return axios.get(this.URI +'/' + user + '/requests').then((results) => results.data);
+    }
+    getByDepartment(dept: string): Promise<User[]> {
+        console.log(dept);
+        return axios.get(this.URI+'/'+dept+'/employees').then(result => result.data);
     }
 }
 

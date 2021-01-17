@@ -5,5 +5,6 @@ export class User {
     supervisor: string = '';
     department: string = '';
     numReqs: number = 0;
+    availableReim: number = 1000;
     constructor() { };
 }

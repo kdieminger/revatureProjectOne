@@ -55,12 +55,10 @@ export function SwitchRequests(req: AppRequest[]): RequestAction {
 }
 
 export function AsyncRequests(username: string) {
-    console.log(username);
     return (dispatch:any, getState:any) => {
         userService.getReqByUsers(username).then((response) => {
             dispatch(SwitchRequests(response));
         })
-        console.log(username);
     }
 }
 

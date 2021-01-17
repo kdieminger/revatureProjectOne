@@ -10,48 +10,15 @@ export class Request {
     };
 }
 
-export function makeRequest(username: string, type: string, date: string, time: string, location: string, description: string, cost: number, just: string) {
+export async function makeRequest(username: string, type: string, date: string, time: string, location: string, description: string, cost: number, just: string) {
     logger.info('makeRequest called');
     let typeOf: string;
     let reim: any = calcReimburse(type, cost);
-    switch (type) {
-        case 'University Course':
-            logger.info('Creating a request');
-            typeOf = 'University Course';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
-            break;
-        case 'Seminar':
-            logger.info('Creating a request');
-            typeOf = 'Seminar';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
-            break;
-        case 'Certification Preparation Course':
-            logger.info('Creating a request');
-            typeOf = 'Certification Preparation Course';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
-            break;
-        case 'Certification':
-            logger.info('Creating a request');
-            typeOf = 'Certification';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
-            break;
-        case 'Technical Training':
-            logger.info('Technical Training');
-            typeOf = 'Technical Training';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
-            break;
-        case 'Other':
-            logger.info('Other');
-            typeOf = 'Other';
-            requestService.addRequest(new Request(username, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
-            break;
-        default:
-            logger.error('invalid input');
-            break;
-    }
-    userService.getUser(username).then((user) => {
+    let reqID: string = '';
+    await userService.getUser(username).then((user) => {
         if(user){
             user.numReqs++;
+            reqID = username + user.numReqs;
             userService.updateUser(user);
         }
         else{
@@ -59,6 +26,41 @@ export function makeRequest(username: string, type: string, date: string, time: 
             return null;
         }
     })
+    switch (type) {
+        case 'University Course':
+            logger.info('Creating a request');
+            typeOf = 'University Course';
+            requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
+            break;
+        case 'Seminar':
+            logger.info('Creating a request');
+            typeOf = 'Seminar';
+            requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
+            break;
+        case 'Certification Prep Course':
+            logger.info('Creating a request');
+            typeOf = 'Certification Preparation Course';
+            requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
+            break;
+        case 'Certification':
+            logger.info('Creating a request');
+            typeOf = 'Certification';
+            requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
+            break;
+        case 'Technical Training':
+            logger.info('Technical Training');
+            typeOf = 'Technical Training';
+            requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
+            break;
+        case 'Other':
+            logger.info('Other');
+            typeOf = 'Other';
+            requestService.addRequest(new Request(reqID, username, typeOf, date, time, location, description, cost, just, reim, [], 'pending'));
+            break;
+        default:
+            logger.error('invalid input');
+            break;
+    }
 }
 
 function calcReimburse(type: string, cost: number) {

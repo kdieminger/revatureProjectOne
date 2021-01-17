@@ -5,7 +5,6 @@ import { User } from './user';
 
 class UserService {
     private doc: DocumentClient;
-    updateUser: any;
     constructor(){
         this.doc = dynamo;
     }
@@ -80,7 +79,27 @@ class UserService {
         })
     }
 
-    async updateRequest(user: User): Promise<boolean>{
+    async getUsersByDept(dept: string): Promise<User[]> {
+        logger.debug(dept);
+        return await this.doc.scan({TableName: 'users'}).promise().then((results) => {
+            const users: User[] = [];
+            if(results && results.Items){
+                results.Items.forEach((user) => {
+                    if(user.department === dept){
+                        users.push(user as User);
+                    }
+                })
+                return users;
+            } else {
+                return [];
+            }
+        }).catch((err) => {
+            logger.error(err);
+            return [];
+        })
+    }
+
+    async updateUser(user: User): Promise<boolean>{
         const params = {
             TableName: 'users',
             Key: {

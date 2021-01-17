@@ -50,15 +50,19 @@ router.post('/', function (req: any, res, next) {
 
 router.get('/:id', function (req, res, next) {
   userService.getUsersBySupervisor(req.params.id).then((arr) => {
-    console.log(arr);
     res.send(JSON.stringify(arr));
   })
 })
 
 router.get('/:id/requests', function(req, res, next) {
   requestService.getRequestByName(req.params.id).then((requests) => {
-    console.log(requests);
     res.send(JSON.stringify(requests));
+  })
+})
+
+router.get('/:id/employees', function(req, res, next) {
+  userService.getUsersByDept(req.params.id).then((arr) => {
+    res.send(JSON.stringify(arr));
   })
 })
 
