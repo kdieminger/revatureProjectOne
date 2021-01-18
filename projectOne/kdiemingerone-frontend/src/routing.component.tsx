@@ -5,7 +5,6 @@ import {
     BrowserRouter,
     Link,
     Redirect,
-    useHistory,
     useLocation,
 } from 'react-router-dom';
 import AddRequestComponent from './request/add-request.component';
@@ -20,6 +19,7 @@ import UsersBySupervisorComponent from './user/users-by-supervisor.component';
 import AdminReqComponent from './request/admin-requests.component';
 import ErrorBoundaryComponent from './error.component';
 import UsersByDepComponent from './user/users-by-department';
+import AllUsersComponent from './user/all-employees.component';
 
 
 export default function RouterComponent() {
@@ -27,7 +27,6 @@ export default function RouterComponent() {
     const user = useSelector(userSelector);
     const location = useLocation();
     const dispatch = useDispatch();
-    const history = useHistory();
     function logout() {
         userService.logout().then(() => {
             dispatch(GetUser(new User()));
@@ -122,7 +121,7 @@ export default function RouterComponent() {
                         exact
                         path='/users/:id/dept/employees'
                         render={() =>
-                            user.username && user.role == 'Department Head' ? (
+                            user.username && user.role === 'Department Head' ? (
                                 <UsersByDepComponent />
                             ) : (
                                 <Redirect to='/home'/>
@@ -135,6 +134,17 @@ export default function RouterComponent() {
                         render={() => 
                             user.username && user.role !== 'Employee' ? (
                                 <AdminReqComponent />
+                            ) : (
+                                <Redirect to='/home'/>
+                            )
+                        }
+                    />
+                    <Route
+                        exact
+                        path='/users/all'
+                        render={() => 
+                            user.username && user.role === 'BenCo' ? (
+                                <AllUsersComponent/>
                             ) : (
                                 <Redirect to='/home'/>
                             )

@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './request.css';
 import { AppRequest } from './request';
 
@@ -8,11 +7,6 @@ interface RequestProps {
 }
 
 export function RequestComponent(props: RequestProps) {
-    const history = useHistory();
-
-    function goToRequest() {
-        history.push('/request/'+props.data.requestID);
-    }
 
     console.log(props.data.username);
 

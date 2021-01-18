@@ -4,28 +4,30 @@ import { UserState } from '../reducer';
 import userService from './user.service';
 import { User } from './user';
 import UserRow from './user-row.component';
-import { getUsers } from '../actions';
+import { changeUsers } from '../actions';
 
 
-function UsersByDepComponent() {
+function AllUsersComponent() {
     const usersSelector = (state: UserState) => state.users;
     const users = useSelector(usersSelector);
     const userSelector = (state: UserState) => state.user;
-    const deptHead = useSelector(userSelector);
+    const benCo = useSelector(userSelector);
     const dispatch = useDispatch();
 
     //use effect to grab the user array
     useEffect(() => {
-        userService.getByDepartment(deptHead.department).then((arr) => {
-            dispatch(getUsers(arr));
+        console.log(users);
+        userService.getUsers().then((userArr) => {
+            console.log(userArr);
+            dispatch(changeUsers(userArr));
         })
-    }, [dispatch, deptHead.department]);
+    }, [dispatch,users]);
 
     // return a render of the reqArrs mapped to Request Components
     return (
         <section>
             <div>
-                <p>Hello {deptHead.username}!</p>
+                <p>Hello {benCo.username}!</p>
             </div>
             {users.map((ind: User, index: number) =>
                 <UserRow key={'ind-' + index} user={ind}></UserRow>)}
@@ -33,4 +35,4 @@ function UsersByDepComponent() {
     )
 }
 
-export default UsersByDepComponent;
+export default AllUsersComponent;

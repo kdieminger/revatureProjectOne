@@ -6,5 +6,5 @@ export class User {
     department: string = '';
     numReqs: number = 0;
     availableReim: number = 1000;
-    constructor() { };
+    numRFI: number = 0;
 }

@@ -3,7 +3,6 @@ import * as user from './user';
 import logger from '../log';
 import publicDir from '../constants';
 import userService from './user.service';
-//import { supervisorRequest } from '../request/request';
 import requestService from '../request/request.service';
 
 const router = express.Router();
@@ -24,6 +23,12 @@ router.get('/', (req: any, res, next) => {
   //delete u.password;
   res.send(JSON.stringify(u));
 });
+
+router.get('/all', (req, res, next) => {
+  userService.getUsers().then((users) => {
+    res.send(JSON.stringify(users));
+  })
+})
 
 // Legacy route, do not use.
 router.get('/logout', (req, res, next) => {
@@ -63,6 +68,12 @@ router.get('/:id/requests', function(req, res, next) {
 router.get('/:id/employees', function(req, res, next) {
   userService.getUsersByDept(req.params.id).then((arr) => {
     res.send(JSON.stringify(arr));
+  })
+})
+
+router.put('/', (req, res, next) => {
+  userService.updateUser(req.body).then((data) => {
+    res.send(data);
   })
 })
 

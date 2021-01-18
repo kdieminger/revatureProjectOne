@@ -19,7 +19,7 @@ function UsersBySupervisorComponent() {
         userService.getBySupervisor(supervisor.username).then((arr) => {
             dispatch(getUsers(arr));
         })
-    }, []);
+    }, [dispatch, supervisor.username]);   
 
     // return a render of the reqArrs mapped to Request Components
     return (

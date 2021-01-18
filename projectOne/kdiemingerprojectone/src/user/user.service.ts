@@ -105,12 +105,14 @@ class UserService {
             Key: {
                 'username': user.username
             },
-            UpdateExpression: 'set #n = :numReqs',
+            UpdateExpression: 'set #n = :numReqs, #a = :availableReim',
             ExpressionAttributeNames: {
-                '#n': 'numReqs'
+                '#n': 'numReqs',
+                '#a': 'availableReim'
             },
             ExpressionAttributeValues: {
-                ':numReqs': user.numReqs
+                ':numReqs': user.numReqs,
+                ':availableReim': user.availableReim
             },
             ReturnValues: 'UPDATED_NEW'
         };

@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { changeUser } from '../actions';
-import { UserState } from '../reducer';
+import { changeTarget } from '../actions';
 import { User } from './user';
 
 type PropType = { user: User};
@@ -9,11 +8,9 @@ type PropType = { user: User};
 function UserRow(props: PropType){
     const history = useHistory();
     const dispatch = useDispatch();
-    const targetSelector = (state: UserState) => state.targetUser;
-    const target = useSelector(targetSelector);
 
     function goToRequests(){  
-        dispatch(changeUser(props.user));
+        dispatch(changeTarget(props.user));
         history.push('/users/'+props.user.username+'/admin/requests');
     }
 

@@ -11,5 +11,14 @@ export class AppRequest {
     projectedRe: number = 0;
     approval: boolean[] = [];
     appStatus: string ='';
-    constructor() {};
+    notes: string = '';
+    //eslint-disable-next-line
+    reqFI: RFI = new RFI();
+}
+
+export class RFI {
+    question: string = '';
+    answer: string = '';
+    user: string = '';
+    from: string = '';
 }

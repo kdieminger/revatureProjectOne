@@ -1,7 +1,7 @@
 import { SyntheticEvent } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect, ConnectedProps, useSelector } from 'react-redux';
-import { RequestState, UserState } from '../reducer';
+import { connect, ConnectedProps } from 'react-redux';
+import { RequestState } from '../reducer';
 import requestService from './request.service';
 import { changeRequest } from '../actions';
 import { AppRequest } from './request';
@@ -22,8 +22,6 @@ const connector = connect(requestProp, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function AddRequestComponent( props: PropsFromRedux ) {
-    const userSelector = (state: UserState) => state.user;
-    const user = useSelector(userSelector);
     const history = useHistory();
     // This function is going to handle my onChange event.
     // SyntheticEvent is how React simulates events.

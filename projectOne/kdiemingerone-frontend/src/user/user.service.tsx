@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { resourceLimits } from 'worker_threads';
 import { AppRequest } from '../request/request';
 import { User } from './user';
 
@@ -26,6 +25,9 @@ class UserService {
     getUser(user: string): Promise<User> {
         return axios.get(this.URI+'/'+user).then(result => result.data);
     }
+    getUsers(): Promise<User[]> {
+        return axios.get(this.URI+'/all').then(result => result.data);
+    }
     getBySupervisor(username: string): Promise<User[]> {
         return axios.get(this.URI+'/'+username).then(result => result.data);
     }
@@ -35,6 +37,9 @@ class UserService {
     getByDepartment(dept: string): Promise<User[]> {
         console.log(dept);
         return axios.get(this.URI+'/'+dept+'/employees').then(result => result.data);
+    }
+    updateUser(u: User): Promise<null> {
+        return axios.put(this.URI, u).then(result => null);
     }
 }
 

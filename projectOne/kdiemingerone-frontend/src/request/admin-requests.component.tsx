@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AsyncRequests } from '../actions';
 import { RequestState, UserState } from '../reducer';
 import { AppRequest } from './request';
-import ReqRow from './request-row';
+import AdminReqRow from './admin-request-row';
 
 
 
@@ -17,13 +17,13 @@ function AdminReqComponent() {
     //use effect to grab the user array
     useEffect(() => {
         dispatch(AsyncRequests(target.username));
-    }, [reqs.length])
+    }, [dispatch, target.username, reqs.length])
 
     // return a render of the reqArrs mapped to Request Components
     return (
         <section>
             {reqs.map((req: AppRequest, index: number) =>
-                <ReqRow key={'req-' + index} request={req}></ReqRow>)}
+                <AdminReqRow key={'req-' + index} request={req}></AdminReqRow>)}
         </section>
     )
 }

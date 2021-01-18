@@ -8,10 +8,12 @@ export enum RequestActions {
     SwitchRequests = 'SWITCH_REQUESTS'
 }
 
+
 export enum UserActions {
     GetUser = 'GET_USER',
     GetUsers = 'GET_USERS',
-    ChangeUser = 'CHANGE_USER'
+    ChangeTarget = 'CHANGE_TARGET',
+    ChangeUsers = "CHANGE_USERS"
 }
 
 export interface AppAction {
@@ -78,10 +80,18 @@ export function getUsers(users: User[]): UserAction {
     return action;
 }
 
-export function changeUser(user: User): UserAction {
+export function changeTarget(user: User): UserAction {
     const action: UserAction = {
-        type: UserActions.ChangeUser,
+        type: UserActions.ChangeTarget,
         payload: user
+    }
+    return action;
+}
+
+export function changeUsers(users: User[]): UserAction {
+    const action: UserAction = {
+        type: UserActions.ChangeUsers,
+        payload: users
     }
     return action;
 }

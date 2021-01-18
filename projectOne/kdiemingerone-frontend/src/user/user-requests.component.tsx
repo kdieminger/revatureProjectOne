@@ -17,7 +17,7 @@ function UserRequestsComponent() {
     //use effect to grab the user array
     useEffect(() => {
             dispatch(AsyncRequests(user.username));
-    }, [])
+    }, [dispatch, user.username]);
 
     // return a render of the reqArrs mapped to Request Components
     return (
