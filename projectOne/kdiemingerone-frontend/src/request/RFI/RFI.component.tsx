@@ -1,4 +1,3 @@
-import '../request.css';
 import { AppRequest } from '../request';
 import { Form } from 'react-bootstrap';
 import { SyntheticEvent, useEffect } from 'react';

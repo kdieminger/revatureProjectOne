@@ -20,11 +20,13 @@ function AdminReqRow(props: PropType) {
     const targetSelector = (state: UserState) => state.targetUser;
     const target = useSelector(targetSelector);
 
-    useEffect(() => {
-        requestService.getRequest(props.request.requestID).then((req) => {
-            dispatch(changeRequest(req));
-        })
-    }, [dispatch, props.request.requestID]);
+    // useEffect(() => {
+    //     requestService.getRequest(props.request.requestID).then((req) => {
+    //         console.log(props.request.requestID);
+    //         console.log(req);
+    //         dispatch(changeRequest(req));
+    //     })  
+    // }, [dispatch, props.request.requestID]);
 
     function handleFormInput(e: SyntheticEvent) {
         let r: any = { ...request };
@@ -35,6 +37,10 @@ function AdminReqRow(props: PropType) {
     }
 
     function approveRequest() {
+        requestService.getRequest(props.request.requestID).then((req) => {
+            dispatch(changeRequest(req));
+        })
+        console.log(request);
         request.approval.push(true);
         if (user.role === 'Department Head' && target.supervisor === user.username) {
             request.approval.push(true);
@@ -54,6 +60,9 @@ function AdminReqRow(props: PropType) {
     }
 
     function approveGrade() {
+        requestService.getRequest(props.request.requestID).then((req) => {
+            dispatch(changeRequest(req));
+        })
         request.approval.push(true);
         request.appStatus = 'approved';
         target.availableReim = target.availableReim - request.projectedRe;
@@ -65,6 +74,9 @@ function AdminReqRow(props: PropType) {
     }
 
     function denyRequest() {
+        requestService.getRequest(props.request.requestID).then((req) => {
+            dispatch(changeRequest(req));
+        })
         request.approval.push(false);
         request.appStatus = 'denied';
         target.numReqs--;
@@ -76,6 +88,9 @@ function AdminReqRow(props: PropType) {
     }
 
     function denyGrade() {
+        requestService.getRequest(props.request.requestID).then((req) => {
+            dispatch(changeRequest(req));
+        })
         request.approval.push(false);
         request.appStatus = 'denied';
         request.notes = 'failing grade';
@@ -87,7 +102,13 @@ function AdminReqRow(props: PropType) {
 
     function goToRequestInfo() {
         request.reqFI = new RFI();
-        history.push('/' + request.requestID + '/reqinfo');
+        requestService.getRequest(props.request.requestID).then((req) => {
+            console.log(props.request.requestID);
+            console.log(req);
+            dispatch(changeRequest(req));
+            console.log(request);
+            history.push('/' + request.requestID + '/reqinfo');
+        })
     }
 
     return (
@@ -108,11 +129,16 @@ function AdminReqRow(props: PropType) {
                             <td>{props.request.appStatus}</td>
                         </tr>
                         {user.username !== props.request.username && (
-                            <tr>
-                                <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
+                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
+                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
+                                </tr>
+                                <tr>
+                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
+                                </tr>
+                            </tbody>
                         )}
                     </table>
                 </section>
@@ -133,11 +159,16 @@ function AdminReqRow(props: PropType) {
                             <td>{props.request.appStatus}</td>
                         </tr>
                         {user.username !== props.request.username && (
-                            <tr>
-                                <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
+                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
+                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
+                                </tr>
+                                <tr>
+                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
+                                </tr>
+                            </tbody>
                         )}
                     </table>
                 </section>
@@ -158,11 +189,16 @@ function AdminReqRow(props: PropType) {
                             <td>{props.request.appStatus}</td>
                         </tr>
                         {user.username !== props.request.username && (
-                            <tr>
-                                <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
+                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
+                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
+                                </tr>
+                                <tr>
+                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
+                                </tr>
+                            </tbody>
                         )}
                     </table>
                 </section>
@@ -190,8 +226,8 @@ function AdminReqRow(props: PropType) {
                                     <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
                                 </tr>
                                 <tr>
-                                        <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
-                                    </tr>
+                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
+                                </tr>
                             </tbody>
                         )}
                         {user.username !== props.request.username && props.request.grade !== '' && (
@@ -221,11 +257,16 @@ function AdminReqRow(props: PropType) {
                                 <td>{props.request.appStatus}</td>
                             </tr>
                             {user.username !== props.request.username && (
-                                <tr>
-                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
+                                        <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
+                                        <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
+                                    </tr>
+                                </tbody>
                             )}
                             {user.username !== props.request.username && props.request.grade !== '' && (
                                 <tr>

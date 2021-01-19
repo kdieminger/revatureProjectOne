@@ -21,7 +21,6 @@ export default function UserPageComponent() {
     function goToRFIs(){
         requestService.getRFIs(user.username).then((arr) => {
             dispatch(ChangeRFIs(arr));
-            console.log(RFIs);
         })
         history.push('/users/' + user.username + '/RFIs');
     }

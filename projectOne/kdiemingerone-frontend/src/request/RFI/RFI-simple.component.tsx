@@ -5,7 +5,7 @@ import { changeTarget } from '../../actions';
 import userService from '../../user/user.service';
 import { UserState } from '../../reducer';
 
-type PropType = { ref: RFI };
+type PropType = { rfi: RFI };
 
 
 function SimpleRFIComponent(props: PropType) {
@@ -15,18 +15,16 @@ function SimpleRFIComponent(props: PropType) {
     const user = useSelector(userSelector);
 
     function goToRespond() {
-        userService.getUser(props.ref.from).then((ind) => {
+        userService.getUser(props.rfi.from).then((ind) => {
             dispatch(changeTarget(ind));
         })
         history.push('/users/'+user.username+'/RFIs/respond');
     }
 
-    console.log(props.ref);
-
     return (
         <div>
                 <div>
-                    <p>From: {props.ref.from}</p>
+                    <p>From: {props.rfi.from}</p>
                     <button onClick={goToRespond}>View and Respond</button>
                 </div>
         </div>

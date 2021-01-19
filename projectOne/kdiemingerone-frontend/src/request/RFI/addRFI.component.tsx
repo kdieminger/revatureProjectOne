@@ -1,4 +1,4 @@
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -23,7 +23,6 @@ function AddRFIComponent() {
         if((e.target as HTMLInputElement).name === 'question') {
             request.reqFI.question = (e.target as HTMLInputElement).value;
             requestService.updateRequest(request);
-            console.log(request);   
         }
     }
 
