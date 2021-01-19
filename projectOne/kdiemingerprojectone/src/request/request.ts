@@ -5,7 +5,7 @@ import requestService from './request.service.js';
 export class Request {
     constructor(public requestID: string, public username: string, public type: string, public date: string, public time: string, public location: string,
         public description: string, public cost: number, public justification: string, public projectedRe: number, public approval: boolean[], 
-        public appStatus: string, public notes: string, public reqFI: RFI) {
+        public appStatus: string, public notes: string, public reqFI: RFI, public grade: string) {
     };
 }
 
@@ -44,27 +44,27 @@ export async function makeRequest(username: string, type: string, date: string, 
     switch (type) {
         case 'University Course':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending','', new RFI('','','','')));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending','', new RFI('','','',''), ''));
             break;
         case 'Seminar':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
             break;
         case 'Certification Prep Course':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
             break;
         case 'Certification':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
             break;
         case 'Technical Training':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
             break;
         case 'Other':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
             break;
         default:
             logger.error('invalid input');
@@ -98,26 +98,3 @@ function calcReimburse(type: string, cost: number) {
             break;
     }
 }
-
-// export async function supervisorRequest(supervisor: string){
-//     console.log('supervisor: '+JSON.stringify(supervisor));
-//     let userArr: string[]=[];
-//     let reqArr: Request[] = [];
-//     await userService.getUsersBySupervisor(supervisor).then((users) => {
-//         userArr = users;
-//     })
-//     if(userArr.length !== 0){
-//         userArr.forEach((user) => {
-//             requestService.getRequestByName(user).then((requests) => {
-//                 requests.forEach((ind) => {
-//                     reqArr.push(ind);
-//                 })
-//             })
-//         })
-//         console.log(reqArr);
-//         return reqArr;
-//     } else {
-//         return reqArr;
-//     }
-
-// }

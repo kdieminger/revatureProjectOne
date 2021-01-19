@@ -86,18 +86,20 @@ class RequestService {
             Key: {
                 'requestID': req.requestID
             },
-            UpdateExpression: 'set #a = :approval, #s = :appStatus, #n = :notes, #r = :reqFI',
+            UpdateExpression: 'set #a = :approval, #s = :appStatus, #n = :notes, #r = :reqFI, #g = :grade',
             ExpressionAttributeNames: {
                 '#a': 'approval',
                 '#s': 'appStatus',
                 '#n': 'notes',
-                '#r': 'reqFI'
+                '#r': 'reqFI',
+                '#g': 'grade'
             },
             ExpressionAttributeValues: {
                 ':approval': req.approval,
                 ':appStatus': req.appStatus,
                 ':notes': req.notes,
-                ':reqFI': req.reqFI
+                ':reqFI': req.reqFI,
+                ':grade': req.grade
             },
             ReturnValues: 'UPDATED_NEW'
         };

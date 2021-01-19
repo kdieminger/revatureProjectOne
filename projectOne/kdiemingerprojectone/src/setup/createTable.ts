@@ -29,8 +29,8 @@ const userSchema = {
         }
     ],
     ProvisionedThroughput: {
-        ReadCapacityUnits: 3,
-        WriteCapacityUnits: 3
+        ReadCapacityUnits: 5,
+        WriteCapacityUnits: 5
     },
     TableName: 'users',
     StreamSpecification: {
@@ -107,10 +107,12 @@ ddb.deleteTable(removeRequests, function(err, data) {
 
 function populateUserTable(){
     userService.addUser({username: 'smccall', password: 'allison', role: 'Employee', supervisor: 'lmartin', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(()=>{});
-    userService.addUser({username: 'lmartin', password: 'ariel', role: 'Supervisor', supervisor: '', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(() => {});
+    userService.addUser({username: 'lmartin', password: 'ariel', role: 'Supervisor', supervisor: 'aargent', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(() => {});
+    userService.addUser({username: 'aargent', password: 'arrow', role: 'Department Head', supervisor: 'kyuki', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(() => {});
+    userService.addUser({username: 'kyuki', password: 'kitsune', role: 'BenCo', supervisor: 'mtate', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(() => {});
 }
 
 function populateRequestTable(){
-    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: 'University Course', date: 'Jan 15th',time: '1:00pm',location: 'Clemson University',description: 'Learn a thing',cost: 100,justification: 'I would like this',projectedRe: 80, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','','')}).then(() => {});
-    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','','')}).then(() => {});
+    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: 'University Course', date: 'Jan 15th',time: '1:00pm',location: 'Clemson University',description: 'Learn a thing',cost: 100,justification: 'I would like this',projectedRe: 80, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','',''), grade: ''}).then(() => {});
+    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','',''), grade: ''}).then(() => {});
 }

@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AsyncRFIs, ChangeRFIs } from '../../actions';
+import { AsyncRFIs } from '../../actions';
 import { RequestState, UserState } from '../../reducer';
 import { RFI } from '../../request/request';
-import requestService from '../request.service';
 import SimpleRFIComponent from './RFI-simple.component';
 
 
@@ -22,10 +21,11 @@ function RFIRow() {
     return (
         <section>
             <div>
-                <h3>Requests for Information</h3>
+                <p>Feature Coming Soon!</p>
+                {/* <h3>Requests for Information</h3> */}
             </div>
-            {RFIs.map((req: RFI, index: number) =>
-                <SimpleRFIComponent key={'req-' + index} ref={req}></SimpleRFIComponent>)}
+            {/* {RFIs.map((req: RFI, index: number) =>
+                <SimpleRFIComponent key={'req-' + index} ref={req}></SimpleRFIComponent>)} */}
         </section>
     )
 }

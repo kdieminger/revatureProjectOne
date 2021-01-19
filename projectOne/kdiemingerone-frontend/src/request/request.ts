@@ -13,6 +13,7 @@ export class AppRequest {
     appStatus: string ='';
     notes: string = '';
     reqFI: RFI = new RFI();
+    grade: string = '';
 }
 
 export class RFI {
