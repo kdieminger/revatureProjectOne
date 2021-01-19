@@ -1,11 +1,14 @@
-import {AppRequest} from './request/request';
+import {AppRequest, RFI} from './request/request';
+import requestService from './request/request.service';
 import {User} from './user/user';
 import userService from './user/user.service';
 
 export enum RequestActions {
     GetRequests = 'GET_REQUESTS',
     ChangeRequest = 'CHANGE_REQUEST',
-    SwitchRequests = 'SWITCH_REQUESTS'
+    SwitchRequests = 'SWITCH_REQUESTS',
+    ChangeRFIs = 'CHANGE_RFIS',
+    ChangeRFI = 'CHANGE_RFI'
 }
 
 
@@ -29,7 +32,7 @@ export interface UserAction extends AppAction {
 // All of our restaurant actions need to follow this interface.
 export interface RequestAction extends AppAction {
     type: RequestActions;
-    payload: AppRequest | AppRequest[];
+    payload: AppRequest | AppRequest[] | RFI[] | RFI;
 }
 
 export function getRequests(reqs: AppRequest[]): RequestAction {
@@ -54,6 +57,30 @@ export function SwitchRequests(req: AppRequest[]): RequestAction {
         payload: req
     }
     return action;
+}
+
+export function ChangeRFIs(rfi: RFI[]): RequestAction {
+    const action: RequestAction = {
+        type: RequestActions.ChangeRFIs,
+        payload: rfi
+    }
+    return action;
+}
+
+export function ChangeRFI(rfi: RFI): RequestAction {
+    const action: RequestAction = {
+        type: RequestActions.ChangeRFI,
+        payload: rfi
+    }
+    return action;
+}
+
+export function AsyncRFIs(username: string) {
+    return (dispatch:any, getState: any) => {
+        requestService.getRFIs(username).then((response) => {
+            dispatch(ChangeRFIs(response));
+        })
+    }
 }
 
 export function AsyncRequests(username: string) {

@@ -20,6 +20,9 @@ import AdminReqComponent from './request/admin-requests.component';
 import ErrorBoundaryComponent from './error.component';
 import UsersByDepComponent from './user/users-by-department';
 import AllUsersComponent from './user/all-employees.component';
+import RFIRow from './request/RFI/RFI-row.component';
+import RFIComponent from './request/RFI/RFI.component';
+import AddRFIComponent from './request/RFI/addRFI.component';
 
 
 export default function RouterComponent() {
@@ -39,38 +42,38 @@ export default function RouterComponent() {
                     <h1>Company Name</h1>
                     <p>Tuition Reimbursement</p>
                     <nav id='nav'>
-                        <ul>
-                            <li>
-                                {user.username ? (
-                                    <div>
-                                        <div>
-                                            <Link to={'/home'}>Home</Link>
-                                        </div>
-                                        <button className='btn' onClick={logout}>
-                                            Logout
+                        {user.username ? (
+                            <ul>
+                                <li>
+                                    <Link to={'/home'}>Home</Link>
+                                </li>
+                                <button className='btn' onClick={logout}>
+                                    Logout
                                         </button>
-                                        <div>
-                                            <Link to='/requestform'>Make a Reimbursement Request</Link>
-                                        </div>
-                                    </div>
-                                ) : (
+                                <li>
+                                    <Link to='/requestform'>Make a Reimbursement Request</Link>
+                                </li>
+                            </ul>
+                        ) : (
+                                <ul>
+                                    <li>
                                         <Link to='/login'>Login</Link>
-                                    )}
-                            </li>
-                        </ul>
+                                    </li>
+                                </ul>
+                            )}
                     </nav>
                 </header>
 
                 <ErrorBoundaryComponent key={location.pathname}>
-                    <Route 
+                    <Route
                         exact
-                        path='/' 
-                        render={() => 
+                        path='/'
+                        render={() =>
                             user.username ? (
                                 <LoginComponent />
                             ) : (
-                                <Redirect to='/login' />
-                            )
+                                    <Redirect to='/login' />
+                                )
                         }
                     />
                     <Route
@@ -80,80 +83,98 @@ export default function RouterComponent() {
                             user.username ? (
                                 <UserPageComponent />
                             ) : (
-                                <Redirect to='/login' />
-                            )
+                                    <Redirect to='/login' />
+                                )
                         }
                     />
                     <Route
                         exact
                         path='/requestform'
-                        render={() => 
+                        render={() =>
                             user.username ? (
                                 <AddRequestComponent />
                             ) : (
-                                <Redirect to='/login' />
-                            )
+                                    <Redirect to='/login' />
+                                )
                         }
                     />
-                    <Route 
+                    <Route
                         exact
                         path='/users/:id/requests'
-                        render={() => 
+                        render={() =>
                             user.username ? (
                                 <UserRequestsComponent />
                             ) : (
-                                <Redirect to='/login' />
-                            )
+                                    <Redirect to='/login' />
+                                )
                         }
                     />
-                    <Route 
+                    <Route
                         exact
                         path='/users/:id/employees'
-                        render={() => 
+                        render={() =>
                             user.username && user.role !== 'Employee' ? (
                                 <UsersBySupervisorComponent />
                             ) : (
-                                <Redirect to='/home'/>
-                            )
+                                    <Redirect to='/home' />
+                                )
                         }
                     />
-                    <Route 
+                    <Route
                         exact
                         path='/users/:id/dept/employees'
                         render={() =>
                             user.username && user.role === 'Department Head' ? (
                                 <UsersByDepComponent />
                             ) : (
-                                <Redirect to='/home'/>
-                            )
+                                    <Redirect to='/home' />
+                                )
                         }
                     />
-                    <Route 
+                    <Route
                         exact
                         path='/users/:id/admin/requests'
-                        render={() => 
+                        render={() =>
                             user.username && user.role !== 'Employee' ? (
                                 <AdminReqComponent />
                             ) : (
-                                <Redirect to='/home'/>
-                            )
+                                    <Redirect to='/home' />
+                                )
                         }
                     />
                     <Route
                         exact
                         path='/users/all'
-                        render={() => 
+                        render={() =>
                             user.username && user.role === 'BenCo' ? (
-                                <AllUsersComponent/>
+                                <AllUsersComponent />
                             ) : (
-                                <Redirect to='/home'/>
-                            )
+                                    <Redirect to='/home' />
+                                )
                         }
                     />
-                </ErrorBoundaryComponent>
+                    <Route
+                        exact path='/users/:id/RFIs'
+                        render={() => user.username ? (
+                            <RFIRow />
+                        ) : <Redirect to='/home' />}
+                    />
+                    <Route
+                        exact path='/users/:id/RFIs/respond'
+                        render={() => user.username ? (
+                            <RFIComponent />
+                        ) : (<Redirect to='/home' />)}
+                    />
+                    <Route
+                        exact path='/:id/reqinfo'
+                        render={() => user.username ? (
+                            <AddRFIComponent />
+                        ) : (<Redirect to='/home' />)}
+                    />
+            </ErrorBoundaryComponent>
 
                 <Route path='/login' component={LoginComponent} />
             </div>
-        </BrowserRouter>  
+        </BrowserRouter >
     )
 }

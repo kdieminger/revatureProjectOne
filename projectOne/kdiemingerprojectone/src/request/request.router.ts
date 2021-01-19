@@ -1,7 +1,7 @@
 import Express, { request } from 'express';
 import logger from '../log';
 import requestService from '../request/request.service';
-import { makeRequest } from './request';
+import { getRFIByUser, makeRequest } from './request';
 
 const router = Express.Router();
 
@@ -9,6 +9,12 @@ router.get('/:id', function(req, res, next) {
     requestService.getRequest(req.params.id).then((request) => {
         res.send(JSON.stringify(request));
     });
+})
+
+router.get('/:id/RFI', (req, res, next) => {
+    getRFIByUser(req.params.id).then((RFIs) => {
+        res.send(JSON.stringify(RFIs));
+    })
 })
 
 router.post('/', (req, res, next) => {

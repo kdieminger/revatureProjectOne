@@ -1,6 +1,7 @@
 import * as AWS from 'aws-sdk';
 import userService from '../user/user.service';
 import requestService from '../request/request.service';
+import { RFI } from '../request/request';
 
 AWS.config.update({ region: 'us-west-2' });
 
@@ -110,6 +111,6 @@ function populateUserTable(){
 }
 
 function populateRequestTable(){
-    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: 'University Course', date: 'Jan 15th',time: '1:00pm',location: 'Clemson University',description: 'Learn a thing',cost: 100,justification: 'I would like this',projectedRe: 80, approval: [], appStatus: 'pending', notes: ''}).then(() => {});
-    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: [], appStatus: 'pending', notes: ''}).then(() => {});
+    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: 'University Course', date: 'Jan 15th',time: '1:00pm',location: 'Clemson University',description: 'Learn a thing',cost: 100,justification: 'I would like this',projectedRe: 80, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','','')}).then(() => {});
+    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','','')}).then(() => {});
 }

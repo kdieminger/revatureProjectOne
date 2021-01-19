@@ -53,7 +53,13 @@ router.post('/', function (req: any, res, next) {
   });
 });
 
-router.get('/:id', function (req, res, next) {
+router.get('/:id', (req, res, next) => {
+  userService.getUser(req.params.id).then((user) => {
+    res.send(JSON.stringify(user));
+  })
+})
+
+router.get('/:id/sup', function (req, res, next) {
   userService.getUsersBySupervisor(req.params.id).then((arr) => {
     res.send(JSON.stringify(arr));
   })
@@ -72,6 +78,7 @@ router.get('/:id/employees', function(req, res, next) {
 })
 
 router.put('/', (req, res, next) => {
+  logger.debug(req.body);
   userService.updateUser(req.body).then((data) => {
     res.send(data);
   })

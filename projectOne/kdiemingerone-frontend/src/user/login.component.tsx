@@ -36,7 +36,7 @@ function LoginComponent() {
            <br/><br/>
            <div className='label'>Password</div> <input type='password' className='myFormControl' onChange={handleFormInput} name='password'/>
            <br/> <br/>
-           <button className='myButton' onClick={submitForm}>Login</button>
+           <button className='loginButton' onClick={submitForm}>Login</button>
            <br/>
         </div>
     );

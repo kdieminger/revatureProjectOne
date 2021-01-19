@@ -1,13 +1,13 @@
 import * as Actions from './actions';
-import { AppRequest } from './request/request';
+import { AppRequest, RFI } from './request/request';
 import { User } from './user/user';
 
 // Define the items that are in our state
 export interface RequestState {
-    // The list of all restaurants, loaded from the db.
     requests: AppRequest[];
-    // The specific restaurant we have selected for view, edit, or add
     request: AppRequest;
+    RFIs: RFI[];
+    rfi: RFI;
 }
 export interface UserState {
     user: User;
@@ -24,7 +24,9 @@ const initialState: AppState = {
     users: [],
     targetUser: new User(),
     requests: [],
-    request: new AppRequest()
+    request: new AppRequest(),
+    RFIs: [],
+    rfi: new RFI()
 }
 
 // Make sure that the reducer has a default argument of the inital state or it will not work.
@@ -52,6 +54,12 @@ const reducer = (state: AppState = initialState, action: Actions.AppAction): App
             return newState;
         case Actions.UserActions.ChangeUsers:
             newState.users = action.payload as User[];
+            return newState;
+        case Actions.RequestActions.ChangeRFIs:
+            newState.RFIs = action.payload as RFI[];
+            return newState;
+        case Actions.RequestActions.ChangeRFI:
+            newState.rfi = action.payload as RFI;
             return newState;
         default: 
             return state;

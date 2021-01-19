@@ -5,13 +5,25 @@ import requestService from './request.service.js';
 export class Request {
     constructor(public requestID: string, public username: string, public type: string, public date: string, public time: string, public location: string,
         public description: string, public cost: number, public justification: string, public projectedRe: number, public approval: boolean[], 
-        public appStatus: string, public notes: string, public reqFI?: RFI) {
+        public appStatus: string, public notes: string, public reqFI: RFI) {
     };
 }
 
 export class RFI {
     constructor(public question: string, public response: string, public user: string, public from: string){
     };
+}
+
+export async function getRFIByUser(username: string): Promise<RFI[]>{
+    let RFIarr: RFI[] = [];
+    await requestService.getRequests().then((arr) => {
+        arr.forEach((req) => {
+            if(req.reqFI.user === username){
+                RFIarr.push(req.reqFI);
+            }
+        })
+    })
+    return RFIarr;
 }
 
 export async function makeRequest(username: string, type: string, date: string, time: string, location: string, description: string, cost: number, just: string) {
@@ -32,27 +44,27 @@ export async function makeRequest(username: string, type: string, date: string, 
     switch (type) {
         case 'University Course':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending',''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending','', new RFI('','','','')));
             break;
         case 'Seminar':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
             break;
         case 'Certification Prep Course':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
             break;
         case 'Certification':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
             break;
         case 'Technical Training':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
             break;
         case 'Other':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','','')));
             break;
         default:
             logger.error('invalid input');

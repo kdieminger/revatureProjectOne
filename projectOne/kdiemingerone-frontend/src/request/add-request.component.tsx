@@ -32,6 +32,7 @@ function AddRequestComponent( props: PropsFromRedux ) {
         ] = (e.target as HTMLInputElement).value;
         props.updateRequest(r);
     }
+
     function submitForm() {
         requestService.addRequest(props.request).then(() => {
             props.updateRequest(new AppRequest());
@@ -46,7 +47,6 @@ function AddRequestComponent( props: PropsFromRedux ) {
                 <Form.Control
                     type="text"
                     name='username'
-                    value={(props.request).username}
                     onChange={handleFormInput}
                 />
             </div>
@@ -67,7 +67,6 @@ function AddRequestComponent( props: PropsFromRedux ) {
                 <Form.Control
                     type="date"
                     name='date'
-                    value={(props.request).date}
                     onChange={handleFormInput}
                 />
             </div>
@@ -76,7 +75,6 @@ function AddRequestComponent( props: PropsFromRedux ) {
                 <Form.Control
                     type="time"
                     name='time'
-                    value={(props.request).time}
                     onChange={handleFormInput}
                 />
             </div>
@@ -85,7 +83,6 @@ function AddRequestComponent( props: PropsFromRedux ) {
                 <Form.Control
                     type="text"
                     name='location'
-                    value={(props.request).location}
                     onChange={handleFormInput}
                 />
             </div>
@@ -94,7 +91,6 @@ function AddRequestComponent( props: PropsFromRedux ) {
                 <Form.Control
                     type="number"
                     name='cost'
-                    value={(props.request).cost}
                     onChange={handleFormInput}
                 />
             </div>
@@ -103,7 +99,6 @@ function AddRequestComponent( props: PropsFromRedux ) {
                 <Form.Control
                     type="text"
                     name='description'
-                    value={(props.request).description}
                     onChange={handleFormInput}
                 />
             </div>
@@ -112,7 +107,6 @@ function AddRequestComponent( props: PropsFromRedux ) {
                 <Form.Control
                     type="text"
                     name='justification'
-                    value={(props.request).justification}
                     onChange={handleFormInput}
                 />
             </div>

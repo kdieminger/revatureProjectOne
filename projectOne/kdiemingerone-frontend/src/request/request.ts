@@ -12,7 +12,6 @@ export class AppRequest {
     approval: boolean[] = [];
     appStatus: string ='';
     notes: string = '';
-    //eslint-disable-next-line
     reqFI: RFI = new RFI();
 }
 

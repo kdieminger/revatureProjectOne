@@ -29,7 +29,7 @@ class UserService {
         return axios.get(this.URI+'/all').then(result => result.data);
     }
     getBySupervisor(username: string): Promise<User[]> {
-        return axios.get(this.URI+'/'+username).then(result => result.data);
+        return axios.get(this.URI+'/'+username +'/sup').then(result => result.data);
     }
     getReqByUsers(user: string): Promise<AppRequest[]> {
         return axios.get(this.URI +'/' + user + '/requests').then((results) => results.data);

@@ -1,4 +1,4 @@
-import { AppRequest } from './request';
+import { AppRequest, RFI } from './request';
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestState, UserState } from '../reducer';
 import { useHistory } from 'react-router-dom';
@@ -66,6 +66,7 @@ function AdminReqRow(props: PropType) {
     }
 
     function goToRequestInfo() {
+        request.reqFI = new RFI();
         history.push('/' + request.requestID + '/reqinfo');
     }
 
@@ -75,7 +76,6 @@ function AdminReqRow(props: PropType) {
             {user.role === 'Supervisor' && props.request.approval.length === 0 && (
                 <section className="row border">
                     <table className='myTable'>
-                        <tbody>
                             <tr>
                                 <td>{props.request.requestID}</td>
                                 <td>{props.request.username}</td>
@@ -95,14 +95,12 @@ function AdminReqRow(props: PropType) {
                                     <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
                                 </tr>
                             )}
-                        </tbody>
                     </table>
                 </section>
             )}
             {user.role === 'Department Head' && target.supervisor === user.username && props.request.approval.length === 0 && (
                 <section className="row border">
                     <table className='myTable'>
-                        <tbody>
                             <tr>
                                 <td>{props.request.requestID}</td>
                                 <td>{props.request.username}</td>
@@ -122,14 +120,12 @@ function AdminReqRow(props: PropType) {
                                     <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
                                 </tr>
                             )}
-                        </tbody>
                     </table>
                 </section>
             )}
             {user.role === 'Department Head' && target.supervisor !== user.username && props.request.approval.length === 1 && props.request.appStatus !== 'denied' && (
                 <section className="row border">
                     <table className='myTable'>
-                        <tbody>
                             <tr>
                                 <td>{props.request.requestID}</td>
                                 <td>{props.request.username}</td>
@@ -149,14 +145,12 @@ function AdminReqRow(props: PropType) {
                                     <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
                                 </tr>
                             )}
-                        </tbody>
                     </table>
                 </section>
             )}
             {user.role === 'BenCo' && target.supervisor !== user.username && props.request.approval.length === 2 && props.request.appStatus !== 'denied' && (
                 <section className="row border">
                     <table className='myTable'>
-                        <tbody>
                             <tr>
                                 <td>{props.request.requestID}</td>
                                 <td>{props.request.username}</td>
@@ -181,7 +175,6 @@ function AdminReqRow(props: PropType) {
                                     </tr>
                                 </tbody>
                             )}
-                        </tbody>
                     </table>
                 </section>
             )}

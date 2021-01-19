@@ -16,9 +16,7 @@ function AllUsersComponent() {
 
     //use effect to grab the user array
     useEffect(() => {
-        console.log(users);
         userService.getUsers().then((userArr) => {
-            console.log(userArr);
             dispatch(changeUsers(userArr));
         })
     }, [dispatch,users]);

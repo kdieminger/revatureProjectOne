@@ -1,10 +1,11 @@
 import { AppRequest } from './request';
 import { useDispatch, useSelector } from 'react-redux';
-import { RequestState, UserState } from '../reducer';
+import { RequestState } from '../reducer';
 import { useHistory } from 'react-router-dom';
-import requestService from './request.service';
-import { changeRequest } from '../actions';
-import { useEffect } from 'react';
+// import requestService from './request.service';
+// import { changeRequest } from '../actions';
+// import { useEffect } from 'react';
+import './requests.css';
 
 type PropType = { request: AppRequest };
 
@@ -12,16 +13,16 @@ type PropType = { request: AppRequest };
 function ReqRow(props: PropType) {
     const history = useHistory();
     const dispatch = useDispatch();
-    const userSelector = (state: UserState) => state.user;
-    const user = useSelector(userSelector);
     const requestSelector = (state: RequestState) => state.request;
     const request = useSelector(requestSelector);
 
-    useEffect(() => {
-        requestService.getRequest(props.request.requestID).then((req) => {
-            dispatch(changeRequest(req));
-        })
-    }, [dispatch, props.request.requestID]);
+    console.log(props.request);
+
+    // useEffect(() => {
+    //     requestService.getRequest(props.request.requestID).then((req) => {
+    //         dispatch(changeRequest(req));
+    //     })
+    // }, [dispatch, props.request.requestID]);
 
     function goToRequestInfo() {
         history.push('/' + request.requestID + '/reqinfo');
@@ -29,9 +30,8 @@ function ReqRow(props: PropType) {
 
     return (
         <div>
-            <h2>Requests Awaiting Approval for {user.username}:</h2>
             <section className="row border">
-                <table className='myTable'>
+                <table className="requestsTable">
                     <tbody>
                         <tr>
                             <td>{props.request.requestID}</td>
