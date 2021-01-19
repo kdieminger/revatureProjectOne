@@ -16,16 +16,17 @@ function RFIRow() {
     
     useEffect(() => {
         dispatch(AsyncRFIs(user.username));
+        console.log(RFIs);
     }, [dispatch, user.username]);
 
     return (
         <section>
             <div>
                 <p>Feature Coming Soon!</p>
-                {/* <h3>Requests for Information</h3> */}
+                <h3>Requests for Information</h3>
             </div>
-            {/* {RFIs.map((req: RFI, index: number) =>
-                <SimpleRFIComponent key={'req-' + index} ref={req}></SimpleRFIComponent>)} */}
+            {RFIs.map((req: RFI, index: number) =>
+                <SimpleRFIComponent key={'req-' + index} ref={req}></SimpleRFIComponent>)}
         </section>
     )
 }

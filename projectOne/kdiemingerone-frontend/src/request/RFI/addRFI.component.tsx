@@ -1,11 +1,11 @@
-import { SyntheticEvent, useEffect } from "react";
+import { SyntheticEvent } from "react";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { changeRequest, changeTarget } from "../../actions";
 import { RequestState, UserState } from "../../reducer";
 import userService from "../../user/user.service";
-import { AppRequest, RFI } from "../request";
+import { AppRequest } from "../request";
 import requestService from "../request.service";
 
 

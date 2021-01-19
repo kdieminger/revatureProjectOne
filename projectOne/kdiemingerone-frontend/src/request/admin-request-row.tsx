@@ -43,6 +43,7 @@ function AdminReqRow(props: PropType) {
             if (target.supervisor === user.username) {
                 request.approval.push(true, true);
             }
+            target.numReqs--;
             request.appStatus = 'approved';
         }
         userService.updateUser(target).then(() => {
@@ -66,6 +67,8 @@ function AdminReqRow(props: PropType) {
     function denyRequest() {
         request.approval.push(false);
         request.appStatus = 'denied';
+        target.numReqs--;
+        userService.updateUser(target);
         requestService.updateRequest(request).then(() => {
             dispatch(changeRequest(new AppRequest()));
             history.push('/home');
@@ -89,7 +92,6 @@ function AdminReqRow(props: PropType) {
 
     return (
         <div>
-            <h2>Requests Awaiting Approval for {target.username}:</h2>
             {user.role === 'Supervisor' && props.request.approval.length === 0 && (
                 <section className="row border">
                     <table className='myTable'>
@@ -187,9 +189,9 @@ function AdminReqRow(props: PropType) {
                                     <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
                                     <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
                                 </tr>
-                                {/* <tr>
+                                <tr>
                                         <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
-                                    </tr> */}
+                                    </tr>
                             </tbody>
                         )}
                         {user.username !== props.request.username && props.request.grade !== '' && (
@@ -223,6 +225,13 @@ function AdminReqRow(props: PropType) {
                                     <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
                                     <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
                                     <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
+                                </tr>
+                            )}
+                            {user.username !== props.request.username && props.request.grade !== '' && (
+                                <tr>
+                                    <td>{props.request.grade}</td>
+                                    <td><button className='btn btn' onClick={approveGrade}>Pass</button></td>
+                                    <td><button className='btn btn' onClick={denyGrade}>Fail</button></td>
                                 </tr>
                             )}
                         </tbody>

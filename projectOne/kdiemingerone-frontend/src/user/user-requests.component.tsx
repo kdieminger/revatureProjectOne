@@ -14,7 +14,7 @@ function UserRequestsComponent() {
     const user = useSelector(userSelector);
     const dispatch = useDispatch();
 
-    
+
     useEffect(() => {
             dispatch(AsyncRequests(user.username));
     }, [dispatch, user.username]);
@@ -26,7 +26,7 @@ function UserRequestsComponent() {
                 <h2>Available Reimbursement</h2>
                 <p>{user.availableReim}</p>
             </div>
-            <h2>Requests Awaiting Approval for {user.username}:</h2>
+            <h2>Requests for {user.username}:</h2>
             {reqs.map((req: AppRequest, index: number) =>
                 <ReqRow key={'req-' + index} request={req}></ReqRow>)}
         </section>
