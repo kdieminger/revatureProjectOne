@@ -18,14 +18,15 @@ export function RFIComponent() {
     const request = useSelector(reqSelector);
     const targetSelector = (state: UserState) => state.targetUser;
     const target = useSelector(targetSelector);
-    let RFI = request.reqFI;
+    const RFISelector = (state: RequestState) => state.rfi;
+    const rfi = useSelector(RFISelector);
 
     useEffect(() => {
-        console.log(RFI.from);
-        userService.getUser(RFI.from).then((from) => {
+        console.log(rfi.from);
+        userService.getUser(rfi.from).then((from) => {
             dispatch(changeTarget(from));
         })
-    }, [dispatch, RFI.from]);
+    }, [dispatch, rfi.from]);
 
     function handleFormInput(e: SyntheticEvent){
         if((e.target as HTMLInputElement).name === 'answer') {
@@ -50,9 +51,9 @@ export function RFIComponent() {
 
     return (
         <div>
-            <h4>From: {request.reqFI.from}</h4>
+            <h4>From: {rfi.from}</h4>
             <h4>Message:</h4>
-            <p>{request.reqFI.question}</p>
+            <p>{rfi.question}</p>
             <Form className='add-form'>
                 <Form.Label>Response:</Form.Label>
                 <Form.Control

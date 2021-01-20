@@ -1,4 +1,4 @@
-import { AppRequest, RFI } from './request';
+import { AppRequest } from './request';
 import { useDispatch, useSelector } from 'react-redux';
 import { RequestState, UserState } from '../reducer';
 import { useHistory } from 'react-router-dom';
@@ -20,13 +20,13 @@ function AdminReqRow(props: PropType) {
     const targetSelector = (state: UserState) => state.targetUser;
     const target = useSelector(targetSelector);
 
-    // useEffect(() => {
-    //     requestService.getRequest(props.request.requestID).then((req) => {
-    //         console.log(props.request.requestID);
-    //         console.log(req);
-    //         dispatch(changeRequest(req));
-    //     })  
-    // }, [dispatch, props.request.requestID]);
+    useEffect(() => {
+        requestService.getRequest(props.request.requestID).then((req) => {
+            console.log(props.request.requestID);
+            console.log(req);
+            dispatch(changeRequest(req));
+        })
+    }, [dispatch, props.request.requestID]);
 
     function handleFormInput(e: SyntheticEvent) {
         let r: any = { ...request };
@@ -38,77 +38,71 @@ function AdminReqRow(props: PropType) {
 
     function approveRequest() {
         requestService.getRequest(props.request.requestID).then((req) => {
-            dispatch(changeRequest(req));
-        })
-        console.log(request);
-        request.approval.push(true);
-        if (user.role === 'Department Head' && target.supervisor === user.username) {
-            request.approval.push(true);
-        }
-        else if (user.role === 'BenCo') {
-            if (target.supervisor === user.username) {
-                request.approval.push(true, true);
+            console.log(req);
+            req.approval.push(true);
+            if (user.role === 'Department Head' && target.supervisor === user.username) {
+                req.approval.push(true);
             }
-            target.numReqs--;
-            request.appStatus = 'approved';
-        }
-        userService.updateUser(target).then(() => {
-        })
-        requestService.updateRequest(request).then(() => {
-            history.push('/home');
+            else if (user.role === 'BenCo') {
+                if (target.supervisor === user.username) {
+                    req.approval.push(true, true);
+                }
+                target.numReqs--;
+                req.appStatus = 'approved';
+            }
+            userService.updateUser(target).then(() => {
+            })
+            requestService.updateRequest(req).then(() => {
+                history.push('/home');
+            })
+            dispatch(changeRequest(req));
         })
     }
 
     function approveGrade() {
+        //target.availableReim = target.availableReim - request.projectedRe;
+        userService.updateUser(target);
         requestService.getRequest(props.request.requestID).then((req) => {
             dispatch(changeRequest(req));
+            req.approval.push(true);
+            req.appStatus = 'approved';
+            requestService.updateRequest(req).then(() => {
+                history.push('/home');
+            })
         })
-        request.approval.push(true);
-        request.appStatus = 'approved';
-        target.availableReim = target.availableReim - request.projectedRe;
-        userService.updateUser(target);
-        requestService.updateRequest(request).then(() => {
-            history.push('/home');
-        })
-
     }
 
     function denyRequest() {
         requestService.getRequest(props.request.requestID).then((req) => {
-            dispatch(changeRequest(req));
-        })
-        request.approval.push(false);
-        request.appStatus = 'denied';
-        target.numReqs--;
-        userService.updateUser(target);
-        requestService.updateRequest(request).then(() => {
-            dispatch(changeRequest(new AppRequest()));
-            history.push('/home');
+            req.approval.push(false);
+            req.appStatus = 'denied';
+            target.numReqs--;
+            userService.updateUser(target);
+            requestService.updateRequest(req).then(() => {
+                dispatch(changeRequest(new AppRequest()));
+                history.push('/home');
+            })
         })
     }
 
     function denyGrade() {
         requestService.getRequest(props.request.requestID).then((req) => {
-            dispatch(changeRequest(req));
-        })
-        request.approval.push(false);
-        request.appStatus = 'denied';
-        request.notes = 'failing grade';
-        requestService.updateRequest(request).then(() => {
-            dispatch(changeRequest(new AppRequest()));
-            history.push('/home');
+            req.approval.push(false);
+            req.appStatus = 'denied';
+            req.notes = 'failing grade';
+            requestService.updateRequest(req).then(() => {
+                dispatch(changeRequest(new AppRequest()));
+                history.push('/home');
+            })
         })
     }
 
     function goToRequestInfo() {
-        request.reqFI = new RFI();
         requestService.getRequest(props.request.requestID).then((req) => {
-            console.log(props.request.requestID);
             console.log(req);
             dispatch(changeRequest(req));
-            console.log(request);
-            history.push('/' + request.requestID + '/reqinfo');
         })
+        history.push('/' + request.requestID + '/reqinfo');
     }
 
     return (

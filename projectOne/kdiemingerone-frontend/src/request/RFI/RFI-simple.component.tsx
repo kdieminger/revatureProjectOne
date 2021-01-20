@@ -1,7 +1,7 @@
 import { RFI } from '../request';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { changeTarget } from '../../actions';
+import { ChangeRFI, changeTarget } from '../../actions';
 import userService from '../../user/user.service';
 import { UserState } from '../../reducer';
 
@@ -18,6 +18,7 @@ function SimpleRFIComponent(props: PropType) {
         userService.getUser(props.rfi.from).then((ind) => {
             dispatch(changeTarget(ind));
         })
+        dispatch(ChangeRFI(props.rfi));
         history.push('/users/'+user.username+'/RFIs/respond');
     }
 

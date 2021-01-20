@@ -9,8 +9,6 @@ import { ChangeRFIs } from '../actions';
 export default function UserPageComponent() {
     const userSelector = (state: UserState) => state.user;
     const user = useSelector(userSelector);
-    const RFISelector = (state: RequestState) => state.RFIs;
-    const RFIs = useSelector(RFISelector);
     const history = useHistory();
     const dispatch = useDispatch();
 

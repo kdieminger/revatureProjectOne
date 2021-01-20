@@ -108,8 +108,8 @@ ddb.deleteTable(removeRequests, function(err, data) {
 function populateUserTable(){
     userService.addUser({username: 'smccall', password: 'allison', role: 'Employee', supervisor: 'lmartin', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(()=>{});
     userService.addUser({username: 'lmartin', password: 'ariel', role: 'Supervisor', supervisor: 'aargent', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(() => {});
-    userService.addUser({username: 'aargent', password: 'arrow', role: 'Department Head', supervisor: 'kyuki', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(() => {});
-    userService.addUser({username: 'kyuki', password: 'kitsune', role: 'BenCo', supervisor: 'mtate', department: 'dummy', numReqs: 1, availableReim: 1000, numRFI: 0}).then(() => {});
+    userService.addUser({username: 'aargent', password: 'arrow', role: 'Department Head', supervisor: 'kyuki', department: 'dummy', numReqs: 0, availableReim: 1000, numRFI: 0}).then(() => {});
+    userService.addUser({username: 'kyuki', password: 'kitsune', role: 'BenCo', supervisor: 'mtate', department: 'dummy', numReqs: 0, availableReim: 1000, numRFI: 0}).then(() => {});
 }
 
 function populateRequestTable(){

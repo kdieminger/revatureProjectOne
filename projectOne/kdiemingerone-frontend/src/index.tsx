@@ -7,11 +7,12 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import reducer, {AppState} from './reducer';
 import {AppAction} from './actions';
 
-const store: Store<AppState, AppAction> = createStore(reducer, applyMiddleware(thunk));
+const store: Store<AppState, AppAction> = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
