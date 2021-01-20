@@ -31,6 +31,7 @@ function ReqRow(props: PropType) {
         request.approval.splice(2, 1);
         request.appStatus = 'pending';
         requestService.updateRequest(request);
+        history.push('/home');
     }
 
     function goToRequestInfo() {
@@ -52,7 +53,7 @@ function ReqRow(props: PropType) {
                 </div>
             )}
             {props.request.appStatus === 'approved' && (
-                <div>
+                <div className='requestCard'>
                     <h3>{props.request.requestID}</h3>
                     <p>Status: {props.request.appStatus}</p>
                     <p>Type: {props.request.type}</p>
@@ -62,9 +63,9 @@ function ReqRow(props: PropType) {
                     <p>Cost: ${props.request.cost}</p>
                     <p>Projected Reimbursement: ${props.request.projectedRe}</p>
                     {props.request.grade === '' && (
-                        <div>
+                        <div className='requestCard'>
                             <p>Grade: <input type='text' className='myFormControl' onChange={handleFormInput} name='grade' /></p>
-                            <button className='viewButtons' onClick={uploadGrade}>Upload Grade</button>
+                            <button className='submitButton' onClick={uploadGrade}>Upload Grade</button>
                         </div>
                     )}
                 </div>

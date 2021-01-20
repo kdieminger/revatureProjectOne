@@ -109,8 +109,8 @@ function AddRequestComponent( props: PropsFromRedux ) {
                     name='justification'
                     onChange={handleFormInput}
                 />
-            </div>
-           <button className='btn btn' onClick={submitForm}>Submit Request</button>
+            </div><br/>
+           <button className='viewButtons' onClick={submitForm}>Submit Request</button>
         </div>
     );
 }

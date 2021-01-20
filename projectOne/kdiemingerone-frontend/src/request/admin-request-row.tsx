@@ -47,7 +47,6 @@ function AdminReqRow(props: PropType) {
                 if (target.supervisor === user.username) {
                     req.approval.push(true, true);
                 }
-                target.numReqs--;
                 req.appStatus = 'approved';
             }
             userService.updateUser(target).then(() => {
@@ -76,7 +75,6 @@ function AdminReqRow(props: PropType) {
         requestService.getRequest(props.request.requestID).then((req) => {
             req.approval.push(false);
             req.appStatus = 'denied';
-            target.numReqs--;
             userService.updateUser(target);
             requestService.updateRequest(req).then(() => {
                 dispatch(changeRequest(new AppRequest()));
@@ -181,7 +179,7 @@ function AdminReqRow(props: PropType) {
                         <p>Justification: {props.request.justification}</p>
                         <p>Cost: ${props.request.cost}</p>
                         <p>Projected Reimbursement: ${props.request.projectedRe}</p>
-                        {user.username !== props.request.username && (
+                        {user.username !== props.request.username &&  props.request.grade === '' && (
                             <div className='requestCard'>
                                 <p><button className='submitButton' onClick={approveRequest}>Approve</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyRequest}>Deny</button></p>
                                 <p>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></p>
@@ -208,7 +206,7 @@ function AdminReqRow(props: PropType) {
                         <p>Justification: {props.request.justification}</p>
                         <p>Cost: ${props.request.cost}</p>
                         <p>Projected Reimbursement: ${props.request.projectedRe}</p>
-                        {user.username !== props.request.username && (
+                        {user.username !== props.request.username &&  props.request.grade === '' && (
                             <div className='requestCard'>
                                 <p><button className='submitButton' onClick={approveRequest}>Approve</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyRequest}>Deny</button></p>
                                 <p>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></p>
