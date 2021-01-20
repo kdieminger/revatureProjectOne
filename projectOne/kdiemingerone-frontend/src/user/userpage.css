@@ -7,5 +7,18 @@
     text-align: center;
     width: 150px;
     position: relative;
-    left: 43%;
+    left: 40%;
+}
+.page {
+    text-align: center;
+}
+
+.submitButton {
+    background-color: rgb(16, 8, 63);
+    border: none;
+    border-radius: 4px;
+	color: rgb(164, 186, 226);
+    padding: 10px 10px;
+    text-align: center;
+    width: 150px;
 }

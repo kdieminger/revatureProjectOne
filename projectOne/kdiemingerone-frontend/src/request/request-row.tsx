@@ -19,14 +19,6 @@ function ReqRow(props: PropType) {
     const requestSelector = (state: RequestState) => state.request;
     const request = useSelector(requestSelector);
 
-    console.log(props.request);
-
-    // useEffect(() => {
-    //     requestService.getRequest(props.request.requestID).then((req) => {
-    //         dispatch(changeRequest(req));
-    //     })
-    // }, [dispatch, props.request.requestID]);
-
     function handleFormInput(e: SyntheticEvent) {
         let r: any = { ...props.request };
         r[
@@ -46,50 +38,38 @@ function ReqRow(props: PropType) {
     }
 
     return (
-        <div>
-            <section className="row border">
-                {props.request.appStatus !== 'approved' && (
-                    <table className="requestsTable">
-                        <tbody>
-                            <tr>
-
-                                <td>{props.request.appStatus}</td>
-                                <td>{props.request.requestID}</td>
-                                <td>{props.request.username}</td>
-                                <td>{props.request.type}</td>
-                                <td>{props.request.date}</td>
-                                <td>{props.request.time}</td>
-                                <td>{props.request.location}</td>
-                                <td>{props.request.description}</td>
-                                <td>{props.request.cost}</td>
-                                <td>{props.request.justification}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                )}
-                {props.request.appStatus === 'approved' && (
-                    <table className="requestsTable">
-                        <tbody>
-                            <tr>
-                                <td>{props.request.appStatus}</td>
-                                <td>{props.request.requestID}</td>
-                                <td>{props.request.username}</td>
-                                <td>{props.request.type}</td>
-                                <td>{props.request.date}</td>
-                                <td>{props.request.time}</td>
-                                <td>{props.request.location}</td>
-                            </tr>
-                            {props.request.grade === '' && (
-                                <tr>
-                                    <td>Grade: <input type='text' className='myFormControl' onChange={handleFormInput} name='grade' /></td>
-                                    <button className='viewButtons' onClick={uploadGrade}>Upload Grade</button>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                )}
-            </section>
-        </div>
+        <section>
+            {props.request.appStatus !== 'approved' && (
+                <div className='requestCard'>
+                    <h3>{props.request.requestID}</h3>
+                    <p>Status: {props.request.appStatus}</p>
+                    <p>Type: {props.request.type}</p>
+                    <p>Date: {props.request.date}</p>
+                    <p>Time: {props.request.time}</p>
+                    <p>Location: {props.request.location}</p>
+                    <p>Cost: ${props.request.cost}</p>
+                    <p>Projected Reimbursement: ${props.request.projectedRe}</p>
+                </div>
+            )}
+            {props.request.appStatus === 'approved' && (
+                <div>
+                    <h3>{props.request.requestID}</h3>
+                    <p>Status: {props.request.appStatus}</p>
+                    <p>Type: {props.request.type}</p>
+                    <p>Date: {props.request.date}</p>
+                    <p>Time: {props.request.time}</p>
+                    <p>Location: {props.request.location}</p>
+                    <p>Cost: ${props.request.cost}</p>
+                    <p>Projected Reimbursement: ${props.request.projectedRe}</p>
+                    {props.request.grade === '' && (
+                        <div>
+                            <p>Grade: <input type='text' className='myFormControl' onChange={handleFormInput} name='grade' /></p>
+                            <button className='viewButtons' onClick={uploadGrade}>Upload Grade</button>
+                        </div>
+                    )}
+                </div>
+            )}
+        </section>
     )
 }
 

@@ -2,3 +2,20 @@
     background-color: rgb(109, 78, 243);
     color: white;
 }
+
+.requestCard {
+    text-align: center;
+    color:rgb(16, 8, 63);
+    background-color: rgb(164, 186, 226);
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 4px;
+}
+
+.requestCard h3 {
+    text-decoration: underline;
+}
+
+.detailText {
+    text-align:center;
+}

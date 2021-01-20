@@ -39,25 +39,27 @@ export default function RouterComponent() {
         <BrowserRouter>
             <div>
                 <header>
-                    <h1>Company Name</h1>
-                    <p>Tuition Reimbursement</p>
+                    <h1>Tuition Reimbursement System</h1><br />
                     <nav id='nav'>
                         {user.username ? (
                             <ul>
                                 <li>
-                                    <Link to={'/home'}>Home</Link>
+                                    <Link className='link' to={'/home'}>Home</Link>
                                 </li>
-                                <button className='btn' onClick={logout}>
-                                    Logout
-                                        </button>
                                 <li>
-                                    <Link to='/requestform'>Make a Reimbursement Request</Link>
+                                    <Link className='link' to='/requestform'>Make a Reimbursement Request</Link>
                                 </li>
+                                <li>
+                                    <button className='logoutButton' onClick={logout}>
+                                        Logout
+                                    </button>
+                                </li>
+                                <li />
                             </ul>
                         ) : (
                                 <ul>
                                     <li>
-                                        <Link to='/login'>Login</Link>
+                                        <Link className='link' to='/login'>Login</Link>
                                     </li>
                                 </ul>
                             )}
@@ -171,7 +173,7 @@ export default function RouterComponent() {
                             <AddRFIComponent />
                         ) : (<Redirect to='/home' />)}
                     />
-            </ErrorBoundaryComponent>
+                </ErrorBoundaryComponent>
 
                 <Route path='/login' component={LoginComponent} />
             </div>

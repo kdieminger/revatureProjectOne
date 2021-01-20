@@ -22,25 +22,26 @@ export function RFIComponent() {
     const rfi = useSelector(RFISelector);
 
     useEffect(() => {
-        console.log(rfi.from);
         userService.getUser(rfi.from).then((from) => {
             dispatch(changeTarget(from));
         })
+        requestService.getRequest(rfi.reqID).then((req) => {
+            dispatch(changeRequest(req));
+        })
     }, [dispatch, rfi.from]);
 
-    function handleFormInput(e: SyntheticEvent){
-        if((e.target as HTMLInputElement).name === 'answer') {
+    function handleFormInput(e: SyntheticEvent) {
+        if ((e.target as HTMLInputElement).name === 'answer') {
             request.reqFI.answer = (e.target as HTMLInputElement).value;
             requestService.updateRequest(request);
-            console.log(request);   
         }
     }
 
     function submitForm() {
         user.numRFI--;
         target.numRFI++;
-        userService.updateUser(user).then(() => {});
-        userService.updateUser(target).then(() => {});
+        userService.updateUser(user).then(() => { });
+        userService.updateUser(target).then(() => { });
         request.reqFI.user = target.username;
         request.reqFI.from = user.username;
         requestService.updateRequest(request).then(() => {
@@ -51,18 +52,34 @@ export function RFIComponent() {
 
     return (
         <div>
-            <h4>From: {rfi.from}</h4>
-            <h4>Message:</h4>
-            <p>{rfi.question}</p>
-            <Form className='add-form'>
-                <Form.Label>Response:</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="answer"
-                    onChange={handleFormInput}
-                />
-            </Form>
-            <button onClick={submitForm}>Submit Response</button>
+            <div>
+                {rfi.answer !== '' && (
+                    <div className='detailText'>
+                        <br /><br />
+                        <h4>From: {rfi.from}</h4><br />
+                        <h4>Message: {rfi.question}</h4>
+                        <h4>Response: {rfi.answer}</h4>
+                    </div>
+                )}
+                {rfi.answer === '' && (
+                    <div className='detailText'>
+                        <div>
+                            <br /><br />
+                            <h4>From: {rfi.from}</h4><br />
+                            <h4>Message: {rfi.question}</h4>
+                            <Form className='add-form'>
+                                <Form.Label>Response:</Form.Label>
+                                <Form.Control className='input'
+                                    type="text"
+                                    name="answer"
+                                    onChange={handleFormInput}
+                                />
+                            </Form><br />
+                        </div>
+                        <button className='viewButtons' onClick={submitForm}>Submit Response</button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

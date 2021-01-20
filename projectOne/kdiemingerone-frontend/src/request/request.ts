@@ -21,4 +21,5 @@ export class RFI {
     answer: string = '';
     user: string = '';
     from: string = '';
+    reqID: string = '';
 }

@@ -113,6 +113,6 @@ function populateUserTable(){
 }
 
 function populateRequestTable(){
-    requestService.addRequest({requestID: 'smccall01', username: 'smccall',type: 'University Course', date: 'Jan 15th',time: '1:00pm',location: 'Clemson University',description: 'Learn a thing',cost: 100,justification: 'I would like this',projectedRe: 80, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','',''), grade: ''}).then(() => {});
-    requestService.addRequest({requestID: 'lmartin01', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','',''), grade: ''}).then(() => {});
+    requestService.addRequest({requestID: 'smccall1', username: 'smccall',type: 'University Course', date: 'Jan 15th',time: '1:00pm',location: 'Clemson University',description: 'Learn a thing',cost: 100,justification: 'I would like this',projectedRe: 80, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','','','smccall1'), grade: ''}).then(() => {});
+    requestService.addRequest({requestID: 'lmartin1', username: 'lmartin',type: '', date: '',time: '',location: '',description: '',cost: 150,justification: '',projectedRe: 0, approval: [], appStatus: 'pending', notes: '', reqFI: new RFI('','','','','lmartin1'), grade: ''}).then(() => {});
 }

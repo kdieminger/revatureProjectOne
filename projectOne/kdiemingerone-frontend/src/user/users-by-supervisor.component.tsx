@@ -24,8 +24,9 @@ function UsersBySupervisorComponent() {
     // return a render of the reqArrs mapped to Request Components
     return (
         <section>
-            <div>
-                <p>Hello {supervisor.username}</p>
+            <br/><br/>
+            <div className='detailText'>
+                <p>Hello {supervisor.username}!</p>
             </div>
             {users.map((ind: User, index: number) =>
                 <UserRow key={'ind-' + index} user={ind}></UserRow>)}

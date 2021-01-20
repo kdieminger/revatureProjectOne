@@ -16,7 +16,7 @@ export default function UserPageComponent() {
         history.push('/users/' + user.username + '/requests');
     }
 
-    function goToRFIs(){
+    function goToRFIs() {
         requestService.getRFIs(user.username).then((arr) => {
             dispatch(ChangeRFIs(arr));
         })
@@ -36,31 +36,35 @@ export default function UserPageComponent() {
     }
 
     return (
-        <div>
+        <div><br/><br/><br/>
+            <div className='page'>
+                <h2>Welcome {user.username}!</h2><br/>
+                <p>You have {user.numReqs} pending request(s) and {user.numRFI} RFIs.</p><br/>
+            </div>  
             <div>
                 <button className='viewButtons' onClick={goToRequests}>View Requests</button>
             </div>
             {user.numRFI !== 0 && (
                 <div>
-                    <br/>
+                    <br />
                     <button className='viewButtons' onClick={goToRFIs}>Requests for Information</button>
                 </div>
             )}
             {user.role === 'Supervisor' && (
                 <div>
-                    <br/>
+                    <br />
                     <button className='viewButtons' onClick={goToEmployees}>View Your Employees</button>
                 </div>
             )}
             {user.role === 'Department Head' && (
                 <div>
-                    <br/>
+                    <br />
                     <button className='viewButtons' onClick={goToDeptEmployees}>View Department Employees</button>
                 </div>
             )}
             {user.role === 'BenCo' && (
                 <div>
-                    <br/>
+                    <br />
                     <button className='viewButtons' onClick={goToAllEmployees}>View Employees</button>
                 </div>
             )}

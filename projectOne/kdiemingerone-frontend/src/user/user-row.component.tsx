@@ -15,16 +15,12 @@ function UserRow(props: PropType){
     }
 
     return (
-        <section className="row border">
-            <table className='myTable'>
-                <tbody> 
-                <tr>
-                    <td>{props.user.username}</td>
-                    <td>{props.user.numReqs}</td>
-                    <td><button className='btn'onClick={goToRequests}>View Requests</button></td>
-                </tr>
-                </tbody>
-            </table>
+        <section>
+            <br/>
+            <div className='detailText'>
+                <p>{props.user.username}: <br/>{props.user.numReqs} Pending Request(s)</p>
+            </div>
+            <p><button className='viewButtons'onClick={goToRequests}>View Requests</button></p>
         </section>
     )
 }

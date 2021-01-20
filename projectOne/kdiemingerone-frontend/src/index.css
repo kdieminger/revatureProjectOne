@@ -9,27 +9,28 @@ header {
   background-color: rgb(164, 186, 226);
   color: rgb(16, 8, 63);
   text-align: center;
+  border-radius: 4px;
 }
 
 nav {
 	background-color: rgb(164, 186, 226);
 	color: rgb(16, 8, 63);
+	border-radius: 4px;
 }
 
 nav > ul > li {
 	display: inline-block;
 	margin: auto;
     left: 50%;
-}
-
-li > a {
-	color: white;
+	border-radius: 4px;
+	padding-bottom: 15px;
 }
 
 nav > ul {
 	list-style-type: none;
 	display: flex;
 	justify-content: space-around;
+	border-radius: 4px;
 }
 
 .myButton {
@@ -44,4 +45,25 @@ nav > ul {
 	background-color: white;
 	border: white;
 	color:rgb(16, 8, 63);
+}
+
+.link{
+	color:rgb(16, 8, 63);
+	text-decoration: none ;
+}
+
+.link:hover{
+	color:white;
+	text-decoration:yellowgreen;
+}
+
+.logoutButton {
+	color:rgb(16, 8, 63);
+	background-color: rgb(164, 186, 226);
+	border:transparent;
+	border-radius: 4px;
+}
+
+.logoutButton:hover {
+	color:white;
 }

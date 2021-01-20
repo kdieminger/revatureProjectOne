@@ -20,7 +20,8 @@ function RFIRow() {
 
     return (
         <section>
-            <div>
+            <br/><br/>
+            <div className='detailText'>
                 {/* <p>Feature Coming Soon!</p> */}
                 <h3>Requests for Information</h3>
             </div>

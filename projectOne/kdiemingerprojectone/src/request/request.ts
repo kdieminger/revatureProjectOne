@@ -10,7 +10,7 @@ export class Request {
 }
 
 export class RFI {
-    constructor(public question: string, public response: string, public user: string, public from: string){
+    constructor(public question: string, public response: string, public user: string, public from: string, public reqID: string){
     };
 }
 
@@ -44,27 +44,33 @@ export async function makeRequest(username: string, type: string, date: string, 
     switch (type) {
         case 'University Course':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending','', new RFI('','','',''), ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, 
+                cost, just, reim, [], 'pending','', new RFI('','','','',reqID), ''));
             break;
         case 'Seminar':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, 
+                cost, just, reim, [], 'pending', '', new RFI('','','','',reqID), ''));
             break;
         case 'Certification Prep Course':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, 
+                cost, just, reim, [], 'pending', '', new RFI('','','','',reqID), ''));
             break;
         case 'Certification':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, 
+                cost, just, reim, [], 'pending', '', new RFI('','','','',reqID), ''));
             break;
         case 'Technical Training':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, 
+                cost, just, reim, [], 'pending', '', new RFI('','','','',reqID), ''));
             break;
         case 'Other':
             logger.info('Creating a request of type '+ type);
-            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, cost, just, reim, [], 'pending', '', new RFI('','','',''), ''));
+            requestService.addRequest(new Request(reqID, username, type, date, time, location, description, 
+                cost, just, reim, [], 'pending', '', new RFI('','','','',reqID), ''));
             break;
         default:
             logger.error('invalid input');

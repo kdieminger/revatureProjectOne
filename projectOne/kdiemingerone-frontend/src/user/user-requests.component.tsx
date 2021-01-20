@@ -22,11 +22,13 @@ function UserRequestsComponent() {
     // return a render of the reqArrs mapped to Request Components
     return (
         <section>
-            <div>
+            <div className= 'detailText'>
                 <h2>Available Reimbursement</h2>
                 <p>{user.availableReim}</p>
             </div>
-            <h2>Requests for {user.username}:</h2>
+            <div className= 'detailText'>
+                <h2>Requests for {user.username}:</h2>
+            </div>
             {reqs.map((req: AppRequest, index: number) =>
                 <ReqRow key={'req-' + index} request={req}></ReqRow>)}
         </section>

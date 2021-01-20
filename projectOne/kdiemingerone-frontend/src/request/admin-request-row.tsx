@@ -108,172 +108,123 @@ function AdminReqRow(props: PropType) {
     return (
         <div>
             {user.role === 'Supervisor' && props.request.approval.length === 0 && (
-                <section className="row border">
-                    <table className='myTable'>
-                        <tr>
-                            <td>{props.request.requestID}</td>
-                            <td>{props.request.username}</td>
-                            <td>{props.request.type}</td>
-                            <td>{props.request.date}</td>
-                            <td>{props.request.time}</td>
-                            <td>{props.request.location}</td>
-                            <td>{props.request.description}</td>
-                            <td>{props.request.cost}</td>
-                            <td>{props.request.justification}</td>
-                            <td>{props.request.appStatus}</td>
-                        </tr>
+                <section>
+                    <div className='requestCard'>
+                        <h3>{props.request.requestID}</h3>
+                        <p>Status: {props.request.appStatus}</p>
+                        <p>Type and Location: {props.request.type} at {props.request.location}</p>
+                        <p>Date and Time: {props.request.date} at {props.request.time}</p>
+                        <p>Description: {props.request.description}</p>
+                        <p>Justification: {props.request.justification}</p>
+                        <p>Cost: ${props.request.cost}</p>
+                        <p>Projected Reimbursement: ${props.request.projectedRe}</p>
                         {user.username !== props.request.username && (
-                            <tbody>
-                                <tr>
-                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                                </tr>
-                                <tr>
-                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
-                                </tr>
-                            </tbody>
+                            <div className='requestCard'>
+                                <p><button className='submitButton' onClick={approveRequest}>Approve</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyRequest}>Deny</button></p>
+                                <p>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></p>
+                                <p><button className='submitButton' onClick={goToRequestInfo}>Request More Information</button></p>
+                            </div>
                         )}
-                    </table>
+                    </div>
                 </section>
             )}
             {user.role === 'Department Head' && target.supervisor === user.username && props.request.approval.length === 0 && (
-                <section className="row border">
-                    <table className='myTable'>
-                        <tr>
-                            <td>{props.request.requestID}</td>
-                            <td>{props.request.username}</td>
-                            <td>{props.request.type}</td>
-                            <td>{props.request.date}</td>
-                            <td>{props.request.time}</td>
-                            <td>{props.request.location}</td>
-                            <td>{props.request.description}</td>
-                            <td>{props.request.cost}</td>
-                            <td>{props.request.justification}</td>
-                            <td>{props.request.appStatus}</td>
-                        </tr>
+                <section>
+                    <div className='requestCard'>
+                        <h3>{props.request.requestID}</h3>
+                        <p>Status: {props.request.appStatus}</p>
+                        <p>Type and Location: {props.request.type} at {props.request.location}</p>
+                        <p>Date and Time: {props.request.date} at {props.request.time}</p>
+                        <p>Description: {props.request.description}</p>
+                        <p>Justification: {props.request.justification}</p>
+                        <p>Cost: ${props.request.cost}</p>
+                        <p>Projected Reimbursement: ${props.request.projectedRe}</p>
                         {user.username !== props.request.username && (
-                            <tbody>
-                                <tr>
-                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                                </tr>
-                                <tr>
-                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
-                                </tr>
-                            </tbody>
+                            <div className='requestCard'>
+                                <p><button className='submitButton' onClick={approveRequest}>Approve</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyRequest}>Deny</button></p>
+                                <p>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></p>
+                                <p><button className='submitButton' onClick={goToRequestInfo}>Request More Information</button></p>
+                            </div>
                         )}
-                    </table>
+                    </div>
                 </section>
             )}
             {user.role === 'Department Head' && target.supervisor !== user.username && props.request.approval.length === 1 && props.request.appStatus !== 'denied' && (
-                <section className="row border">
-                    <table className='myTable'>
-                        <tr>
-                            <td>{props.request.requestID}</td>
-                            <td>{props.request.username}</td>
-                            <td>{props.request.type}</td>
-                            <td>{props.request.date}</td>
-                            <td>{props.request.time}</td>
-                            <td>{props.request.location}</td>
-                            <td>{props.request.description}</td>
-                            <td>{props.request.cost}</td>
-                            <td>{props.request.justification}</td>
-                            <td>{props.request.appStatus}</td>
-                        </tr>
+                <section>
+                    <div className='requestCard'>
+                        <h3>{props.request.requestID}</h3>
+                        <p>Status: {props.request.appStatus}</p>
+                        <p>Type and Location: {props.request.type} at {props.request.location}</p>
+                        <p>Date and Time: {props.request.date} at {props.request.time}</p>
+                        <p>Description: {props.request.description}</p>
+                        <p>Justification: {props.request.justification}</p>
+                        <p>Cost: ${props.request.cost}</p>
+                        <p>Projected Reimbursement: ${props.request.projectedRe}</p>
                         {user.username !== props.request.username && (
-                            <tbody>
-                                <tr>
-                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                                </tr>
-                                <tr>
-                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
-                                </tr>
-                            </tbody>
+                            <div className='requestCard'>
+                                <p><button className='submitButton' onClick={approveRequest}>Approve</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyRequest}>Deny</button></p>
+                                <p>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></p>
+                                <p><button className='submitButton' onClick={goToRequestInfo}>Request More Information</button></p>
+                            </div>
                         )}
-                    </table>
+                    </div>
                 </section>
             )}
             {user.role === 'BenCo' && target.supervisor !== user.username && props.request.approval.length === 2 && props.request.appStatus !== 'denied' && (
-                <section className="row border">
-                    <table className='myTable'>
-                        <tr>
-                            <td>{props.request.requestID}</td>
-                            <td>{props.request.username}</td>
-                            <td>{props.request.type}</td>
-                            <td>{props.request.date}</td>
-                            <td>{props.request.time}</td>
-                            <td>{props.request.location}</td>
-                            <td>{props.request.description}</td>
-                            <td>{props.request.cost}</td>
-                            <td>{props.request.justification}</td>
-                            <td>{props.request.appStatus}</td>
-                        </tr>
-                        {user.username !== props.request.username && props.request.grade === '' && (
-                            <tbody>
-                                <tr>
-                                    <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                    <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                    <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                                </tr>
-                                <tr>
-                                    <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
-                                </tr>
-                            </tbody>
+                <section>
+                    <div className='requestCard'>
+                        <h3>{props.request.requestID}</h3>
+                        <p>Status: {props.request.appStatus}</p>
+                        <p>Type and Location: {props.request.type} at {props.request.location}</p>
+                        <p>Date and Time: {props.request.date} at {props.request.time}</p>
+                        <p>Description: {props.request.description}</p>
+                        <p>Justification: {props.request.justification}</p>
+                        <p>Cost: ${props.request.cost}</p>
+                        <p>Projected Reimbursement: ${props.request.projectedRe}</p>
+                        {user.username !== props.request.username && (
+                            <div className='requestCard'>
+                                <p><button className='submitButton' onClick={approveRequest}>Approve</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyRequest}>Deny</button></p>
+                                <p>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></p>
+                                <p><button className='submitButton' onClick={goToRequestInfo}>Request More Information</button></p>
+                            </div>
                         )}
-                        {user.username !== props.request.username && props.request.grade !== '' && (
-                            <tr>
-                                <td>{props.request.grade}</td>
-                                <td><button className='btn btn' onClick={approveGrade}>Pass</button></td>
-                                <td><button className='btn btn' onClick={denyGrade}>Fail</button></td>
-                            </tr>
-                        )}
-                    </table>
+                    </div>
                 </section>
+            )}
+            {user.username !== props.request.username && props.request.grade !== '' && (
+                <div>
+                    <p>Grade Recieved: {props.request.grade}</p>
+                    <p><button className='btn btn' onClick={approveGrade}>Pass</button>&nbsp;&nbsp;&nbsp;<button className='btn btn' onClick={denyGrade}>Fail</button></p>
+                </div>
             )}
             {user.role === 'BenCo' && target.supervisor === user.username && props.request.approval.length === 0 && (
-                <section className="row border">
-                    <table className='myTable'>
-                        <tbody>
-                            <tr>
-                                <td>{props.request.requestID}</td>
-                                <td>{props.request.username}</td>
-                                <td>{props.request.type}</td>
-                                <td>{props.request.date}</td>
-                                <td>{props.request.time}</td>
-                                <td>{props.request.location}</td>
-                                <td>{props.request.description}</td>
-                                <td>{props.request.cost}</td>
-                                <td>{props.request.justification}</td>
-                                <td>{props.request.appStatus}</td>
-                            </tr>
-                            {user.username !== props.request.username && (
-                                <tbody>
-                                    <tr>
-                                        <td><button className='btn btn' onClick={approveRequest}>Approve</button></td>
-                                        <td><button className='btn btn' onClick={denyRequest}>Deny</button></td>
-                                        <td>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><button className='myButton' onClick={goToRequestInfo}>Request More Information</button></td>
-                                    </tr>
-                                </tbody>
-                            )}
-                            {user.username !== props.request.username && props.request.grade !== '' && (
-                                <tr>
-                                    <td>{props.request.grade}</td>
-                                    <td><button className='btn btn' onClick={approveGrade}>Pass</button></td>
-                                    <td><button className='btn btn' onClick={denyGrade}>Fail</button></td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                <section>
+                    <div className='requestCard'>
+                        <h3>{props.request.requestID}</h3>
+                        <p>Status: {props.request.appStatus}</p>
+                        <p>Type and Location: {props.request.type} at {props.request.location}</p>
+                        <p>Date and Time: {props.request.date} at {props.request.time}</p>
+                        <p>Description: {props.request.description}</p>
+                        <p>Justification: {props.request.justification}</p>
+                        <p>Cost: ${props.request.cost}</p>
+                        <p>Projected Reimbursement: ${props.request.projectedRe}</p>
+                        {user.username !== props.request.username && (
+                            <div className='requestCard'>
+                                <p><button className='submitButton' onClick={approveRequest}>Approve</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyRequest}>Deny</button></p>
+                                <p>Reason for Denial: <input type='text' className='myFormControl' onChange={handleFormInput} name='notes' /></p>
+                                <p><button className='submitButton' onClick={goToRequestInfo}>Request More Information</button></p>
+                            </div>
+                        )}
+                    </div>
                 </section>
             )}
-        </div>
+            {user.username !== props.request.username && props.request.grade !== '' && (
+                <div className='requestCard'>
+                    <p>Grade Recieved: {props.request.grade}</p>
+                    <p><button className='submitButton' onClick={approveGrade}>Pass</button>&nbsp;&nbsp;&nbsp;<button className='submitButton' onClick={denyGrade}>Fail</button></p>
+                </div>
+            )}
+        </div >
     )
 }
 

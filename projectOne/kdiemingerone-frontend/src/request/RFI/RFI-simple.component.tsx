@@ -19,15 +19,16 @@ function SimpleRFIComponent(props: PropType) {
             dispatch(changeTarget(ind));
         })
         dispatch(ChangeRFI(props.rfi));
-        history.push('/users/'+user.username+'/RFIs/respond');
+        history.push('/users/' + user.username + '/RFIs/respond');
     }
 
     return (
         <div>
-                <div>
-                    <p>From: {props.rfi.from}</p>
-                    <button onClick={goToRespond}>View and Respond</button>
-                </div>
+            <br/><br/>
+            <div className='detailText'>
+                <p>From: {props.rfi.from}</p>
+            </div>
+            <button className='viewButtons' onClick={goToRespond}>View and Respond</button>
         </div>
     )
 }
